@@ -54,41 +54,29 @@
         }
         .action-btn.primary { background: var(--accent-color); color: black; border: none; font-weight: 700; }
 
-        /* --- NAVIGATION (EVO STYLE) --- */
-        .navigation {
-            position: fixed; bottom: 20px; left: 50%;
-            transform: translateX(-50%);
-            width: 90%; height: 70px;
-            background: var(--nav-bg);
-            border-radius: 35px;
-            display: flex; justify-content: space-around; align-items: center;
-            padding: 0 10px; box-sizing: border-box;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-        .nav-item {
-            position: relative;
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center;
-            width: 60px; height: 100%;
-            color: var(--text-gray);
-            transition: 0.3s; z-index: 2;
-        }
+        /* --- PROFILE PAGE --- */
+        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .profile-username { font-size: 14px; color: var(--text-gray); }
+
+        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
+        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .accordion-title { font-size: 14px; font-weight: 600; }
+        .accordion-arrow { width: 12px; height: 12px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; margin-bottom: 5px; }
+        .accordion.open .accordion-arrow { transform: rotate(-135deg); margin-bottom: -5px; }
+        .accordion-content { display: none; padding: 0 18px 18px 18px; }
+        .accordion.open .accordion-content { display: block; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
+        .info-row:last-child { border-bottom: none; }
+
+        /* --- NAVIGATION --- */
+        .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; }
+        .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
         .nav-item.active { color: var(--accent-color); }
         .nav-item span { font-size: 9px; margin-top: 4px; font-weight: 500; }
-        
-        /* Индикатор (Кружок) */
-        .nav-indicator {
-            position: absolute; top: 50%; left: 10px;
-            transform: translateY(-50%);
-            width: 50px; height: 50px;
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 50%;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1;
-        }
-
+        .nav-indicator { position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(212, 175, 55, 0.1); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
         .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
 
         /* --- GAME --- */
@@ -136,10 +124,36 @@
     </div>
 
     <div id="page-profile" class="page">
-        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ПРОФИЛЬ</h2>
-        <div class="info-card">
-            <div style="display: flex; justify-content: space-between;">
-                <span class="info-label">Статус</span><span style="color: var(--accent-color); font-weight: 700;">PREMIUM</span>
+        <div class="profile-header">
+            <div class="profile-avatar" id="user-photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="width: 40px; color: #404040;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div class="profile-name" id="display-name">Пользователь</div>
+            <div class="profile-username" id="username-text">@username</div>
+        </div>
+
+        <div class="accordion" id="infoAccordion">
+            <div class="accordion-header" onclick="toggleAccordion()">
+                <div class="accordion-title">Информация об аккаунте</div>
+                <div class="accordion-arrow"></div>
+            </div>
+            <div class="accordion-content">
+                <div class="info-row">
+                    <span class="info-label">Telegram ID</span>
+                    <span class="info-value" id="info-id">...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Имя пользователя</span>
+                    <span class="info-value" id="info-username">...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Имя</span>
+                    <span class="info-value" id="info-name">...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Дата регистрации</span>
+                    <span class="info-value">29.05.2026</span>
+                </div>
             </div>
         </div>
     </div>
@@ -155,34 +169,13 @@
         </div>
     </div>
 
-    <!-- МЕНЮ (EVO STYLE) -->
     <div class="navigation">
         <div class="nav-indicator" id="navIndicator"></div>
-        
-        <div class="nav-item active" onclick="showPage('home', this, 0)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Главная</span>
-        </div>
-        
-        <div class="nav-item" onclick="showPage('subs', this, 1)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            <span>Подписка</span>
-        </div>
-        
-        <div class="nav-item" onclick="showPage('balance', this, 2)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-            <span>Баланс</span>
-        </div>
-        
-        <div class="nav-item" onclick="showPage('profile', this, 3)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            <span>Профиль</span>
-        </div>
-        
-        <div class="nav-item" onclick="showPage('game', this, 4)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-            <span>Игра</span>
-        </div>
+        <div class="nav-item active" onclick="showPage('home', this, 0)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Главная</span></div>
+        <div class="nav-item" onclick="showPage('subs', this, 1)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>Подписка</span></div>
+        <div class="nav-item" onclick="showPage('balance', this, 2)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg><span>Баланс</span></div>
+        <div class="nav-item" onclick="showPage('profile', this, 3)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Профиль</span></div>
+        <div class="nav-item" onclick="showPage('game', this, 4)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span>Игра</span></div>
     </div>
 
     <script>
@@ -193,12 +186,15 @@
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
             el.classList.add('active');
-            
-            // Двигаем индикатор
             const indicator = document.getElementById('navIndicator');
             const step = (document.querySelector('.navigation').offsetWidth - 20) / 5;
             indicator.style.left = (10 + (step * index) + (step/2 - 25)) + 'px';
-            
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function toggleAccordion() {
+            const acc = document.getElementById('infoAccordion');
+            acc.classList.toggle('open');
             tg.HapticFeedback.impactOccurred('light');
         }
 
@@ -208,10 +204,23 @@
             tg.HapticFeedback.notificationOccurred(btn.classList.contains('active') ? 'success' : 'warning');
         }
 
-        // Инициализация позиции индикатора
         window.onload = () => {
             const step = (document.querySelector('.navigation').offsetWidth - 20) / 5;
             document.getElementById('navIndicator').style.left = (10 + (step * 0) + (step/2 - 25)) + 'px';
+            
+            // Загрузка данных пользователя
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('display-name').innerText = (user.first_name + ' ' + (user.last_name || '')).trim();
+                document.getElementById('username-text').innerText = user.username ? '@' + user.username : '';
+                document.getElementById('info-id').innerText = user.id;
+                document.getElementById('info-username').innerText = user.username ? '@' + user.username : 'нет';
+                document.getElementById('info-name').innerText = user.first_name;
+                
+                if (user.photo_url) {
+                    document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}">`;
+                }
+            }
         };
 
         tg.expand();
