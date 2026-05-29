@@ -10,7 +10,6 @@
             --bg-color: #0a0a0a;
             --card-bg: #141414;
             --accent-color: #c2a379; 
-            --sand-light: #d9c5a3;
             --text-main: #e5e5e5;
             --text-gray: #737373;
             --nav-bg: #111111;
@@ -27,36 +26,36 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- SAND ANIMATION FIX --- */
+        /* --- LOGO & SHOVEL --- */
         .logo-area { 
-            height: 180px; 
+            height: 150px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             position: relative;
-            margin-top: 20px;
+            margin-top: 40px;
         }
 
         .shovel-svg {
             position: absolute;
-            top: 0;
+            top: -20px;
             left: 50%;
-            transform: translateX(-130px);
+            transform: translateX(-120px);
             z-index: 100;
-            animation: shovelArc 5s forwards cubic-bezier(0.4, 0, 0.2, 1);
+            animation: shovelPourS 4s forwards cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes shovelArc {
-            0% { transform: translate(-160px, -40px) rotate(0deg); opacity: 0; }
-            15% { transform: translate(-130px, 10px) rotate(0deg); opacity: 1; }
-            25% { transform: translate(-130px, 10px) rotate(-60deg); }
-            85% { transform: translate(70px, 10px) rotate(-60deg); opacity: 1; }
-            100% { transform: translate(100px, -20px) rotate(-60deg); opacity: 0; }
+        @keyframes shovelPourS {
+            0% { transform: translate(-150px, -50px) rotate(0deg); opacity: 0; }
+            20% { transform: translate(-120px, 0px) rotate(0deg); opacity: 1; }
+            30% { transform: translate(-120px, 0px) rotate(-50deg); } /* Наклон над S */
+            80% { transform: translate(-120px, 0px) rotate(-50deg); opacity: 1; }
+            100% { transform: translate(-120px, -30px) rotate(-50deg); opacity: 0; }
         }
 
         .sand-svg-logo {
             width: 260px;
-            filter: url(#sand-grain-filter);
+            overflow: visible;
         }
 
         .sand-path {
@@ -65,21 +64,22 @@
             stroke-width: 10;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
             animation: drawLetter 1.5s forwards;
+            filter: drop-shadow(0 0 2px rgba(194, 163, 121, 0.5));
         }
 
-        .s-path { animation-delay: 1.5s; }
-        .v-path { animation-delay: 2.2s; }
-        .o-path { animation-delay: 2.9s; }
-        .y-path { animation-delay: 3.6s; }
+        .s-path { animation-delay: 1s; }
+        .v-path { animation-delay: 1.8s; }
+        .o-path { animation-delay: 2.4s; }
+        .y-path { animation-delay: 3s; }
 
         @keyframes drawLetter {
             to { stroke-dashoffset: 0; }
         }
 
-        /* --- BUTTONS POSITION (RESTORED) --- */
+        /* --- LAYOUT ADJUSTMENTS --- */
         .home-content {
             display: flex;
             flex-direction: column;
@@ -87,11 +87,19 @@
         }
         .spacer { flex-grow: 1; }
 
+        .info-grid {
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-top: auto; /* Прижимаем к низу */
+            margin-bottom: 20px;
+        }
+
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
-            margin-bottom: 15px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             transition: 0.3s; display: flex; align-items: center; justify-content: center;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
@@ -120,13 +128,6 @@
 </head>
 <body>
 
-    <svg style="display: none;">
-        <filter id="sand-grain-filter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
-        </filter>
-    </svg>
-
     <div id="page-home" class="page active">
         <div class="home-content">
             <div class="logo-area">
@@ -145,7 +146,9 @@
                 </svg>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+            <div class="spacer"></div>
+
+            <div class="info-grid">
                 <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
                     <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Подписка до</div>
                     <div style="font-size: 14px; font-weight: 600;">12.06.2026</div>
@@ -156,13 +159,12 @@
                 </div>
             </div>
 
-            <div class="spacer"></div>
-
             <button class="bubble-btn primary">Продлить доступ</button>
-            <button class="bubble-btn" style="margin-bottom: 80px;">Подключить устройство</button>
+            <button class="bubble-btn" style="margin-bottom: 85px;">Подключить устройство</button>
         </div>
     </div>
 
+    <!-- ОСТАЛЬНЫЕ СТРАНИЦЫ (БЕЗ ИЗМЕНЕНИЙ) -->
     <div id="page-profile" class="page">
         <div class="profile-header">
             <div class="profile-avatar" id="user-photo">
