@@ -26,9 +26,9 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- NEW LOGO AREA --- */
+        /* --- PREMIUM SAND LOGO --- */
         .logo-stage {
-            height: 350px;
+            height: 320px;
             width: 100%;
             display: flex;
             align-items: center;
@@ -37,75 +37,75 @@
             overflow: visible;
         }
 
-        .sand-canvas-svg {
-            width: 360px;
-            height: 150px;
+        .sand-svg-premium {
+            width: 340px;
+            height: 140px;
             overflow: visible;
+            filter: url(#premium-sand-filter); /* Эффект помех и песка */
         }
 
         .sand-letter {
             fill: none;
             stroke: var(--accent-color);
-            stroke-width: 18;
+            stroke-width: 14;
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
-            animation: drawSandLetter 3s forwards, sandWave 5s infinite ease-in-out 3s;
+            animation: 
+                drawLetter 3s forwards, 
+                waveMotion 6s infinite ease-in-out 3s,
+                sandVibration 0.2s infinite alternate; /* Двойная анимация */
         }
 
-        .s-path { animation-delay: 0.5s, 3.5s; }
-        .v-path { animation-delay: 2.5s, 5.5s; }
-        .o-path { animation-delay: 4.5s, 7.5s; }
-        .y-path { animation-delay: 6.5s, 9.5s; }
+        .s-path { animation-delay: 0.5s, 3.5s, 0s; }
+        .v-path { animation-delay: 2.5s, 5.5s, 0s; }
+        .o-path { animation-delay: 4.5s, 7.5s, 0s; }
+        .y-path { animation-delay: 6.5s, 9.5s, 0s; }
 
-        @keyframes drawSandLetter {
+        @keyframes drawLetter {
             0% { stroke-dashoffset: 1000; opacity: 0; }
-            10% { opacity: 1; }
+            20% { opacity: 1; }
             100% { stroke-dashoffset: 0; opacity: 1; }
         }
 
-        @keyframes sandWave {
-            0%, 100% { transform: scale(1) rotate(0deg) translateY(0); }
-            33% { transform: scale(1.02) rotate(1deg) translateY(-2px); }
-            66% { transform: scale(0.98) rotate(-1deg) translateY(2px); }
+        /* Плавная волна */
+        @keyframes waveMotion {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(2px, -3px) rotate(0.5deg); }
         }
 
-        /* --- DISNEY STAR WITH SPARKLE TRAIL --- */
+        /* Мелкая вибрация песка (помехи) */
+        @keyframes sandVibration {
+            from { stroke-width: 14; }
+            to { stroke-width: 14.5; }
+        }
+
+        /* --- DISNEY STAR --- */
         .disney-magic {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
         }
-
         .magic-star {
             position: absolute;
-            width: 8px; height: 8px;
+            width: 6px; height: 6px;
             background: #fff;
             border-radius: 50%;
-            box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
+            box-shadow: 0 0 15px 4px #fff, 0 0 30px 10px var(--accent-color);
             opacity: 0;
-            offset-path: path("M -60 250 Q 180 -150 420 250");
-            animation: starFlightMagic 4s cubic-bezier(0.4, 0, 0.2, 1) forwards 10s;
+            offset-path: path("M -60 220 Q 170 -100 400 220");
+            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 10s;
         }
-
-        /* Искры шлейфа */
-        .magic-star::before {
+        .magic-star::after {
             content: '✨';
             position: absolute;
-            font-size: 12px;
-            left: -10px;
-            top: -5px;
-            animation: sparkleRotate 1s infinite linear;
+            font-size: 10px;
+            left: -8px; top: -6px;
+            animation: sparkleFade 0.5s infinite alternate;
         }
-
-        @keyframes sparkleRotate {
-            from { transform: rotate(0deg) scale(1); opacity: 1; }
-            to { transform: rotate(360deg) scale(0.5); opacity: 0; }
-        }
-
-        @keyframes starFlightMagic {
+        @keyframes sparkleFade { from { opacity: 1; } to { opacity: 0.3; } }
+        @keyframes starFlight {
             0% { opacity: 0; offset-distance: 0%; }
             10% { opacity: 1; }
             90% { opacity: 1; }
@@ -115,7 +115,6 @@
         /* --- BUTTONS --- */
         .bottom-section { margin-top: auto; padding-bottom: 80px; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
@@ -125,26 +124,9 @@
             animation: bubbleBreath 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
+        @keyframes bubbleBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        @keyframes bubbleBreath {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
-
-        /* --- PROFILE & NAV (RESTORED) --- */
-        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
-        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .profile-username { font-size: 14px; color: var(--text-gray); }
-        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
-        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .accordion-arrow { width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
-        .accordion.open .accordion-arrow { transform: rotate(-135deg); }
-        .accordion-content { display: none; padding: 0 18px 18px 18px; }
-        .accordion.open .accordion-content { display: block; }
-        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
-
+        /* --- NAV & PROFILE (UNCHANGED) --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
         .nav-item.active { color: var(--accent-color); }
@@ -155,6 +137,15 @@
 </head>
 <body>
 
+    <!-- PREMIUM SAND FILTER (NOISE & GRAIN) -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="premium-sand-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" />
+            <feComposite in="SourceGraphic" in2="noise" operator="arithmetic" k1="0.3" k2="0.7" />
+        </filter>
+    </svg>
+
     <div id="page-home" class="page active">
         <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
             <div class="logo-stage">
@@ -162,15 +153,15 @@
                     <div class="magic-star"></div>
                 </div>
                 
-                <svg class="sand-canvas-svg" viewBox="0 0 240 100">
-                    <!-- S -->
-                    <path class="sand-letter s-path" d="M40,30 c-20,0 -20,20 0,20 s20,20 0,20" />
+                <svg class="sand-svg-premium" viewBox="0 0 240 100">
+                    <!-- S (Ровная и строгая) -->
+                    <path class="sand-letter s-path" d="M45,25 c-20,0 -25,15 -5,25 s15,25 -5,25" />
                     <!-- V -->
-                    <path class="sand-letter v-path" d="M75,30 l15,40 l15,-40" />
+                    <path class="sand-letter v-path" d="M80,25 l15,50 l15,-50" />
                     <!-- O -->
-                    <path class="sand-letter o-path" d="M130,50 a15,20 0 1,0 30,0 a15,20 0 1,0 -30,0" />
+                    <path class="sand-letter o-path" d="M135,50 a15,25 0 1,0 30,0 a15,25 0 1,0 -30,0" />
                     <!-- Y -->
-                    <path class="sand-letter y-path" d="M185,30 l15,20 l15,-20 M200,50 l0,20" />
+                    <path class="sand-letter y-path" d="M190,25 l15,25 l15,-25 M205,50 l0,25" />
                 </svg>
             </div>
 
