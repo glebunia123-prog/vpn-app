@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SVOY VPN PREMIUM</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #020617;
+            --card-bg: rgba(30, 41, 59, 0.9);
+            --accent-color: #38bdf8;
+            --gold-color: #fbbf24;
+            --text-main: #f8fafc;
+            --lego-yellow: #facc15;
+            --cap-color: #d6d3d1;
+        }
+
+        body {
+            font-family: -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            overflow: hidden; user-select: none;
+        }
+
+        .page { display: none; padding: 15px; height: calc(100vh - 80px); overflow-y: auto; box-sizing: border-box; }
+        .page.active { display: block; }
+
+        /* --- PIXAR LEGO MAN --- */
+        .lego-figure { position: relative; width: 30px; height: 50px; display: inline-block; }
+        .lego-head { position: absolute; top: 5px; left: 7px; width: 14px; height: 14px; background: radial-gradient(circle at 30% 30%, var(--lego-yellow), #ca8a04); border-radius: 5px; z-index: 10; }
+        .lego-cap { position: absolute; top: -3px; left: 4px; width: 18px; height: 9px; background: var(--cap-color); border-radius: 10px 10px 2px 2px; z-index: 11; }
+        .lego-cap::after { content: ''; position: absolute; top: 4px; right: -5px; width: 8px; height: 4px; background: var(--cap-color); border-radius: 0 5px 5px 0; }
+        .lego-body { position: absolute; top: 18px; left: 4px; width: 20px; height: 22px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 5px; z-index: 5; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: white; }
+        .lego-limb { position: absolute; background: #2563eb; border-radius: 4px; transform-origin: top center; }
+        .arm { width: 6px; height: 16px; top: 20px; left: 12px; z-index: 6; }
+        .arm.back { background: #1e3a8a; z-index: 4; left: 10px; opacity: 0.7; }
+        .leg { width: 9px; height: 18px; top: 38px; left: 10px; z-index: 6; }
+        .leg.back { background: #172554; z-index: 4; left: 8px; opacity: 0.7; }
+
+        .running .leg.front { animation: runCycle 0.4s infinite alternate ease-in-out; }
+        .running .leg.back { animation: runCycle 0.4s infinite alternate-reverse ease-in-out; }
+        .running .arm.front { animation: runCycle 0.4s infinite alternate-reverse ease-in-out; }
+        .running .arm.back { animation: runCycle 0.4s infinite alternate ease-in-out; }
+        .running { animation: bodyBounce 0.2s infinite alternate ease-in-out; }
+        .walking .leg.front { animation: runCycle 1.2s infinite alternate ease-in-out; }
+        .walking .leg.back { animation: runCycle 1.2s infinite alternate-reverse ease-in-out; }
+        
+        @keyframes runCycle { from { transform: rotate(-40deg); } to { transform: rotate(40deg); } }
+        @keyframes bodyBounce { from { transform: translateY(0); } to { transform: translateY(-2px); } }
+
+        /* --- CONTAINERS --- */
+        .card { background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; padding: 15px; }
+        
+        #stairs { 
+            display: flex; align-items: flex-end; height: 130px; margin: 15px 0; 
+            position: relative; justify-content: space-between; padding: 0 5px;
+        }
+
+        #game-container {
+            width: 100%; height: 150px;
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
+            border-radius: 20px; position: relative; overflow: hidden;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        .stars {
+            position: absolute; width: 200%; height: 100%;
+            background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+                              radial-gradient(2px 2px at 50px 80px, #fff, rgba(0,0,0,0));
+            background-size: 150px 150px; animation: starScroll 20s linear infinite;
+        }
+        @keyframes starScroll { from { left: 0; } to { left: -100%; } }
+        .horizon { position: absolute; bottom: 0; width: 100%; height: 2px; background: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); }
+
+        /* --- ULTRA BRIGHT ICONS --- */
+        .app-icon-wrap { display: flex; flex-direction: column; align-items: center; position: relative; width: 9%; }
+        .app-icon { 
+            width: 32px; height: 32px; border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8); transition: 0.4s;
+            background-size: 85%; background-position: center; background-repeat: no-repeat;
+            background-color: #ffffff !important; /* ПРИНУДИТЕЛЬНО БЕЛЫЙ */
+            border: 2px solid #ffffff;
+            opacity: 1 !important; /* ПРИНУДИТЕЛЬНО 100% ЯРКОСТЬ ДЛЯ ВСЕХ */
+        }
+        /* Только для закрытых уровней делаем чуть темнее саму картинку, но не прозрачность */
+        .app-icon.locked { filter: brightness(0.5); border-color: #666; background-color: #888 !important; }
+        
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); display: flex; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        .nav-item { flex: 1; text-align: center; color: #64748b; font-size: 10px; }
+        .nav-item.active { color: var(--accent-color); }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+
+    <div id="page-home" class="page active">
+        <h2 style="text-align: center; letter-spacing: 1px; font-weight: 900; margin: 10px 0;">SVOY VPN</h2>
+        <div class="card" style="text-align: center; padding: 40px 20px;">
+            <button id="powerBtn" style="width:120px; height:120px; border-radius:50%; border:none; background: #1e293b; color:#475569; font-size:45px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer;">⏻</button>
+            <div id="statusText" style="margin-top:15px; font-weight:900; font-size:20px;">DISCONNECTED</div>
+        </div>
+    </div>
+
+    <div id="page-status" class="page">
+        <h2 style="font-weight: 900;">Network</h2>
+        <div class="card">
+            <div style="color: #94a3b8; font-size: 13px;">Current Speed:</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                <div id="speedVal" style="font-size: 28px; font-weight: 900; color: #ef4444;">64 kbps</div>
+                <div id="speedBadge" style="font-size: 11px; font-weight: 900; padding: 3px 8px; border-radius: 6px; background: rgba(239, 68, 68, 0.1); color: #ef4444;">● LIMITED</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-game" class="page">
+        <div class="card" style="border: 1px solid var(--gold-color); padding: 12px;">
+            <div style="font-weight: 900; color: var(--gold-color); font-size: 14px;">SVOY VPN GAME CASH</div>
+            <div id="stairs">
+                <div id="stair-man-container" style="position: absolute; bottom: 0; left: 0; transition: 0.8s; z-index: 20;">
+                    <div class="lego-figure walking">
+                        <div class="lego-cap"></div><div class="lego-head"></div><div class="lego-body">S</div>
+                        <div class="lego-limb arm back"></div><div class="lego-limb arm front"></div>
+                        <div class="lego-limb leg back"></div><div class="lego-limb leg front"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 16px; font-weight: 900; color: var(--gold-color);"><span id="ref-count">0</span> / 10</div>
+            </div>
+        </div>
+
+        <div class="card" style="padding: 12px;">
+            <div style="font-weight: 900; font-size: 14px; margin-bottom: 8px;">SVOY VPN GAME LEGO</div>
+            <div id="game-container" onclick="jump()">
+                <div class="stars"></div><div class="horizon"></div>
+                <div id="lego-man-container" style="position: absolute; bottom: 10px; left: 20px; z-index: 10;">
+                    <div id="lego-man-figure" class="lego-figure">
+                        <div class="lego-cap"></div><div class="lego-head"></div><div class="lego-body">S</div>
+                        <div class="lego-limb arm back"></div><div class="lego-limb arm front"></div>
+                        <div class="lego-limb leg back"></div><div class="lego-limb leg front"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                <span style="font-weight: 900; color: var(--gold-color); font-size: 18px;"><span id="game-balance">0.00</span> ₽</span>
+                <button id="startBtn" onclick="startGame()" style="background: var(--gold-color); border: none; padding: 8px 20px; border-radius: 10px; font-weight: 900; cursor: pointer;">PLAY</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="showPage('home', this)"><span class="nav-icon">🛡</span>Home</div>
+        <div class="nav-item" onclick="showPage('status', this)"><span class="nav-icon">📊</span>Status</div>
+        <div class="nav-item" onclick="showPage('game', this)"><span class="nav-icon">🎮</span>Game</div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        const params = new URLSearchParams(window.location.search);
+        
+        function showPage(pageId, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            el.classList.add('active');
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        const appList = [
+            {n:'YT', i:'https://cdn-icons-png.flaticon.com/512/1384/1384060.png'},
+            {n:'IG', i:'https://cdn-icons-png.flaticon.com/512/2111/2111463.png'},
+            {n:'TG', i:'https://cdn-icons-png.flaticon.com/512/2111/2111646.png'},
+            {n:'TK', i:'https://cdn-icons-png.flaticon.com/512/3046/3046121.png'},
+            {n:'NF', i:'https://cdn-icons-png.flaticon.com/512/732/732228.png'},
+            {n:'SP', i:'https://cdn-icons-png.flaticon.com/512/174/174872.png'},
+            {n:'WA', i:'https://cdn-icons-png.flaticon.com/512/733/733585.png'},
+            {n:'X', i:'https://cdn-icons-png.flaticon.com/512/5968/5968830.png'},
+            {n:'GPT', i:'https://cdn-icons-png.flaticon.com/512/12222/12222588.png'},
+            {n:'🎁', i:'https://cdn-icons-png.flaticon.com/512/679/679821.png'}
+        ];
+
+        const refs = Math.min(parseInt(params.get('ref')) || 0, 10);
+        const stairs = document.getElementById('stairs');
+        
+        appList.forEach((app, i) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'app-icon-wrap';
+            wrap.style.bottom = (i * 10) + 'px';
+            
+            if(i === 9) {
+                const prize = document.createElement('div');
+                prize.style.cssText = `font-size:7px; font-weight:900; color:gold; position:absolute; top:-12px; width:40px; text-align:center;`;
+                prize.innerText = "400 РУБ";
+                wrap.appendChild(prize);
+            }
+            
+            const div = document.createElement('div');
+            div.className = `app-icon ${i < refs ? '' : 'locked'}`;
+            div.style.backgroundImage = `url('${app.i}')`;
+            
+            const label = document.createElement('div');
+            label.style.cssText = `font-size:7px; font-weight:900; color:#64748b; margin-top:2px;`;
+            label.innerText = app.n;
+
+            wrap.appendChild(div);
+            wrap.appendChild(label);
+            stairs.appendChild(wrap);
+        });
+
+        setTimeout(() => {
+            const man = document.getElementById('stair-man-container');
+            const iconsList = document.querySelectorAll('.app-icon');
+            const target = iconsList[Math.max(0, refs - 1)];
+            man.style.left = target.parentElement.offsetLeft + 'px';
+            man.style.bottom = (parseInt(target.parentElement.style.bottom) + 35) + 'px';
+        }, 500);
+        document.getElementById('ref-count').innerText = refs;
+
+        // LEGO GAME
+        const legoCont = document.getElementById("lego-man-container");
+        const legoFig = document.getElementById("lego-man-figure");
+        const gameBox = document.getElementById("game-container");
+        let isJumping = false; let isGameOver = true; let score = 0;
+        let phrase = "SVOYVPNGAME".split("");
+        let letterIndex = 0;
+
+        function jump() {
+            if (isGameOver || isJumping) return;
+            isJumping = true;
+            legoCont.style.transition = "bottom 0.3s ease-out";
+            legoCont.style.bottom = "85px";
+            tg.HapticFeedback.impactOccurred('medium');
+            setTimeout(() => {
+                legoCont.style.bottom = "10px";
+                setTimeout(() => isJumping = false, 300);
+            }, 300);
+        }
+
+        function startGame() {
+            if (!isGameOver) return;
+            isGameOver = false; score = 0;
+            legoFig.classList.add("running");
+            document.getElementById("startBtn").style.display = "none";
+            let spawn = setInterval(() => { if (isGameOver) clearInterval(spawn); else createLetter(); }, 1500);
+            let timer = setInterval(() => { if (isGameOver) clearInterval(timer); else { score += 0.01; document.getElementById("game-balance").innerText = score.toFixed(2); } }, 100);
+        }
+
+        function createLetter() {
+            const el = document.createElement("div");
+            el.style.cssText = `position:absolute; bottom:15px; right:-30px; font-size:26px; font-weight:900; color:gold; text-shadow: 0 0 10px gold; z-index:5;`;
+            el.innerText = phrase[letterIndex];
+            letterIndex = (letterIndex + 1) % phrase.length;
+            gameBox.appendChild(el);
+            let pos = 110;
+            let move = setInterval(() => {
+                if (isGameOver) { clearInterval(move); el.remove(); return; }
+                pos -= 2; el.style.left = pos + "%";
+                let mR = legoCont.getBoundingClientRect(); let eR = el.getBoundingClientRect();
+                if (eR.left < mR.right - 10 && eR.right > mR.left + 10 && eR.top < mR.bottom - 5 && !isJumping) {
+                    isGameOver = true; legoFig.classList.remove("running");
+                    tg.HapticFeedback.notificationOccurred('error');
+                    alert("GAME OVER! Score: " + score.toFixed(2));
+                    document.getElementById("startBtn").style.display = "block";
+                }
+                if (pos < -15) { clearInterval(move); el.remove(); }
+            }, 20);
+        }
+
+        const powerBtn = document.getElementById('powerBtn');
+        let pActive = false;
+        powerBtn.onclick = () => {
+            pActive = !pActive;
+            powerBtn.style.color = pActive ? 'var(--accent-color)' : '#475569';
+            powerBtn.style.boxShadow = pActive ? '0 0 35px rgba(56, 189, 248, 0.4)' : 'none';
+            document.getElementById('statusText').innerText = pActive ? 'CONNECTED' : 'DISCONNECTED';
+            document.getElementById('statusText').style.color = pActive ? 'var(--accent-color)' : '#f8fafc';
+            tg.HapticFeedback.notificationOccurred(pActive ? 'success' : 'warning');
+        };
+    </script>
+</body>
+</html>
