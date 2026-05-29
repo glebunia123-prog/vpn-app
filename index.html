@@ -26,109 +26,96 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- SAND LOGO ANIMATION --- */
+        /* --- SAND LOGO AREA --- */
         .logo-area { 
-            height: 180px; 
+            height: 250px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: center; 
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
         }
 
+        /* Настоящая лопата */
         .shovel {
             position: absolute;
-            top: -50px;
-            left: calc(50% - 60px);
-            font-size: 30px;
-            animation: shovelPour 2.5s forwards cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            top: 20px;
+            left: calc(50% - 40px);
+            width: 80px;
+            height: 80px;
             z-index: 10;
-            filter: drop-shadow(0 0 10px var(--accent-color));
-        }
-
-        @keyframes shovelPour {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { transform: translateY(70px) rotate(-20deg); opacity: 1; }
-            40% { transform: translateY(70px) rotate(-45deg); }
-            80% { transform: translateY(70px) rotate(-45deg); opacity: 1; }
-            100% { transform: translateY(70px) rotate(-45deg); opacity: 0; }
-        }
-
-        .sand-logo {
-            font-size: 60px;
-            font-weight: 900;
-            letter-spacing: 12px;
-            color: var(--accent-color);
-            filter: url(#sand-texture); /* Применяем фильтр песка */
             opacity: 0;
-            animation: logoAppear 2s forwards 1.5s;
-            text-shadow: 0 0 2px rgba(0,0,0,0.5);
+            transform: rotate(0deg);
+            animation: shovelAction 3s forwards ease-in-out;
         }
 
-        @keyframes logoAppear {
-            from { opacity: 0; transform: scale(0.9); filter: url(#sand-texture) blur(5px); }
-            to { opacity: 1; transform: scale(1); filter: url(#sand-texture) blur(0); }
+        @keyframes shovelAction {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            20% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            40% { transform: rotate(-50deg); } /* Наклон лопаты */
+            80% { transform: rotate(-50deg); opacity: 1; }
+            100% { transform: rotate(-50deg) translateY(20px); opacity: 0; }
+        }
+
+        /* Эффект сыплющегося песка */
+        .sand-fall {
+            position: absolute;
+            top: 80px;
+            width: 4px;
+            height: 0;
+            background: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            opacity: 0;
+            animation: sandPour 1.5s forwards 1.2s;
+        }
+
+        @keyframes sandPour {
+            0% { height: 0; opacity: 1; }
+            50% { height: 100px; opacity: 1; }
+            100% { height: 100px; opacity: 0; }
+        }
+
+        /* Огромный песочный логотип */
+        .sand-logo {
+            font-size: 85px; /* Увеличен размер */
+            font-weight: 900;
+            letter-spacing: 15px;
+            color: var(--accent-color);
+            filter: url(#sand-grain); /* Фильтр крупинок песка */
+            opacity: 0;
+            animation: logoFadeIn 2.5s forwards 2s;
+            text-align: center;
+            margin-left: 15px;
+        }
+
+        @keyframes logoFadeIn {
+            from { opacity: 0; transform: scale(0.8); filter: url(#sand-grain) blur(10px); }
+            to { opacity: 1; transform: scale(1); filter: url(#sand-grain) blur(0); }
         }
 
         /* --- BUBBLE BUTTONS --- */
         .bubble-btn {
-            width: 100%;
-            padding: 18px;
-            border-radius: 30px; /* Форма пузыря */
-            border: none;
+            width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 1px;
+            color: var(--text-main); font-weight: 600; font-size: 14px;
+            margin-bottom: 15px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: 0.3s; display: flex; align-items: center; justify-content: center;
             animation: bubblePulse 3s infinite ease-in-out;
         }
+        .bubble-btn.primary { background: var(--accent-color); color: #000; animation: bubblePulsePrimary 3s infinite ease-in-out; }
 
-        .bubble-btn.primary {
-            background: var(--accent-color);
-            color: #000;
-            animation: bubblePulsePrimary 3s infinite ease-in-out;
-        }
+        @keyframes bubblePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        @keyframes bubblePulsePrimary { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        @keyframes bubblePulse {
-            0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-            50% { transform: scale(1.02); box-shadow: 0 12px 25px rgba(212, 175, 55, 0.1); }
-            100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        }
-
-        @keyframes bubblePulsePrimary {
-            0% { transform: scale(1); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); }
-            50% { transform: scale(1.03); box-shadow: 0 12px 30px rgba(212, 175, 55, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); }
-        }
-
-        /* --- POWER BUTTON --- */
-        .power-container { display: flex; justify-content: center; margin: 20px 0; }
-        .power-btn { 
-            width: 130px; height: 130px; border-radius: 50%; 
-            background: #141414; border: 1px solid #262626;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 45px; color: #333; cursor: pointer; transition: 0.5s;
-            box-shadow: inset 5px 5px 10px #0a0a0a, inset -5px -5px 10px #1e1e1e;
-        }
-        .power-btn.active { color: var(--accent-color); border-color: var(--accent-color); box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
-
-        /* --- REST OF STYLES (UNCHANGED) --- */
+        /* --- INFO CARDS --- */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .info-card { background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626; }
         .info-label { font-size: 10px; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; }
         .info-value { font-size: 14px; font-weight: 600; }
 
+        /* --- PROFILE (UNCHANGED) --- */
         .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -140,6 +127,7 @@
         .accordion.open .accordion-content { display: block; }
         .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
 
+        /* --- NAVIGATION (UNCHANGED) --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
         .nav-item.active { color: var(--accent-color); }
@@ -150,12 +138,12 @@
 </head>
 <body>
 
-    <!-- SVG FILTER FOR SAND TEXTURE -->
+    <!-- SVG ФИЛЬТР ДЛЯ ЭФФЕКТА КРУПИНОК ПЕСКА -->
     <svg style="display: none;">
-        <filter id="sand-texture">
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" />
-            <feDiffuseLighting in="noise" lighting-color="#d4af37" surfaceScale="2">
-                <feDistantLight azimuth="45" elevation="60" />
+        <filter id="sand-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" result="noise" />
+            <feDiffuseLighting in="noise" lighting-color="#d4af37" surfaceScale="3">
+                <feDistantLight azimuth="45" elevation="50" />
             </feDiffuseLighting>
             <feComposite operator="in" in2="SourceGraphic" />
         </filter>
@@ -164,12 +152,12 @@
     <!-- ГЛАВНАЯ -->
     <div id="page-home" class="page active">
         <div class="logo-area">
-            <div class="shovel">📂</div> <!-- Иконка лопаты/папки -->
+            <!-- Иконка лопаты -->
+            <svg class="shovel" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 22l6-6M9 15l5 5 8-8-5-5-8 8zM9 15l2 2M13 11l2 2"/>
+            </svg>
+            <div class="sand-fall"></div>
             <div class="sand-logo">SVOY</div>
-        </div>
-
-        <div class="power-container">
-            <div class="power-btn" id="powerBtn" onclick="toggleConnect()">⏻</div>
         </div>
 
         <div class="info-grid">
@@ -268,12 +256,6 @@
         function toggleAccordion() {
             document.getElementById('infoAccordion').classList.toggle('open');
             tg.HapticFeedback.impactOccurred('light');
-        }
-
-        function toggleConnect() {
-            const btn = document.getElementById('powerBtn');
-            btn.classList.toggle('active');
-            tg.HapticFeedback.notificationOccurred(btn.classList.contains('active') ? 'success' : 'warning');
         }
 
         window.onload = () => {
