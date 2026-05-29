@@ -28,59 +28,64 @@
 
         /* --- SAND LOGO & WAVE ANIMATION --- */
         .logo-container {
-            height: 300px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            margin-top: 0px;
-            overflow: visible;
+            margin-top: 20px;
+            overflow: visible; /* Убираем рамки/обрезку */
         }
 
         .sand-svg {
-            width: 340px;
+            width: 320px;
             overflow: visible;
             filter: url(#sand-wave-filter);
+            transform: translateX(-10px); /* Центровка */
         }
 
         .letter-path {
             fill: none;
             stroke: var(--accent-color);
-            stroke-width: 16;
+            stroke-width: 15;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 800;
-            stroke-dashoffset: 800;
-            animation: sandPourDown 3s forwards;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            opacity: 1; /* Убираем прозрачность */
+            animation: sandDraw 2.5s forwards;
         }
 
         .s-path { animation-delay: 0.5s; }
-        .v-path { animation-delay: 3s; }
-        .o-path { animation-delay: 5.5s; }
-        .y-path { animation-delay: 8s; }
+        .v-path { animation-delay: 2.5s; }
+        .o-path { animation-delay: 4.5s; }
+        .y-path { animation-delay: 6.5s; }
 
-        @keyframes sandPourDown {
-            0% { stroke-dashoffset: 800; opacity: 0; transform: translateY(-10px); }
-            20% { opacity: 1; }
-            100% { stroke-dashoffset: 0; transform: translateY(0); }
+        @keyframes sandDraw {
+            to { stroke-dashoffset: 0; }
         }
 
-        /* --- DISNEY STAR (PERFECT ARC) --- */
-        .disney-star-container {
+        /* --- DISNEY STAR (ENHANCED) --- */
+        .star-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 20;
+            pointer-events: none; z-index: 100;
         }
 
-        .star {
+        .disney-star {
             position: absolute;
-            width: 6px; height: 6px;
+            width: 4px; height: 4px;
             background: #fff;
             border-radius: 50%;
-            box-shadow: 0 0 15px 3px #fff, 0 0 30px 8px var(--accent-color);
+            /* Искрящийся шлейф */
+            box-shadow: 
+                0 0 10px 2px #fff, 
+                0 0 20px 5px var(--accent-color),
+                -5px 2px 10px rgba(255,255,255,0.4),
+                -12px 5px 15px rgba(194, 163, 121, 0.3);
             opacity: 0;
-            offset-path: path("M -50 200 Q 170 -100 390 200"); /* Высокая дуга через весь экран */
-            animation: starFlight 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards 11s;
+            offset-path: path("M -20 180 Q 160 -120 340 180");
+            animation: starFlight 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards 9.5s;
         }
 
         @keyframes starFlight {
@@ -90,7 +95,7 @@
             100% { opacity: 0; offset-distance: 100%; }
         }
 
-        /* --- BUBBLE BUTTONS (ENHANCED) --- */
+        /* --- BUBBLE BUTTONS --- */
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
@@ -99,18 +104,11 @@
             transition: 0.3s; display: flex; align-items: center; justify-content: center;
             animation: bubbleBreath 4s infinite ease-in-out;
         }
-        .bubble-btn.primary { 
-            background: var(--accent-color); color: #000; 
-            animation: bubbleBreathPrimary 4s infinite ease-in-out;
-        }
+        .bubble-btn.primary { background: var(--accent-color); color: #000; }
 
         @keyframes bubbleBreath {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-            50% { transform: scale(1.04); box-shadow: 0 12px 25px rgba(0,0,0,0.5); }
-        }
-        @keyframes bubbleBreathPrimary {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(194, 163, 121, 0.2); }
-            50% { transform: scale(1.05); box-shadow: 0 12px 30px rgba(194, 163, 121, 0.4); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
         }
 
         /* --- LAYOUT --- */
@@ -142,35 +140,36 @@
 </head>
 <body>
 
-    <!-- ADVANCED SAND WAVE FILTER -->
+    <!-- SAND WAVE FILTER -->
     <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="sand-wave-filter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="2" seed="5">
-                <animate attributeName="baseFrequency" dur="10s" values="0.02 0.05; 0.02 0.07; 0.02 0.05" repeatCount="indefinite" />
+        <filter id="sand-wave-filter" x="-50%" y="-50%" width="200%" height="200%">
+            <!-- Эффект волны на ветру -->
+            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.03" numOctaves="2" seed="1">
+                <animate attributeName="baseFrequency" dur="8s" values="0.01 0.03; 0.02 0.05; 0.01 0.03" repeatCount="indefinite" />
             </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" scale="15" />
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" result="grain" />
-            <feComposite in="SourceGraphic" in2="grain" operator="arithmetic" k1="0.5" k2="0.5" />
+            <feDisplacementMap in="SourceGraphic" scale="12" />
+            <!-- Песочная текстура -->
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="grain" />
+            <feComposite in="SourceGraphic" in2="grain" operator="arithmetic" k1="0.4" k2="0.6" />
         </filter>
     </svg>
 
     <div id="page-home" class="page active">
         <div class="home-content">
             <div class="logo-container">
-                <!-- Disney Star -->
-                <div class="disney-star-container">
-                    <div class="star"></div>
+                <div class="star-container">
+                    <div class="disney-star"></div>
                 </div>
                 
-                <svg class="sand-svg" viewBox="0 0 200 80">
+                <svg class="sand-svg" viewBox="0 0 220 100">
                     <!-- S -->
-                    <path class="letter-path s-path" d="M40,20 c-20,0 -20,20 0,20 s20,20 0,20" />
+                    <path class="letter-path s-path" d="M40,30 c-20,0 -20,20 0,20 s20,20 0,20" />
                     <!-- V -->
-                    <path class="letter-path v-path" d="M65,20 l15,40 l15,-40" />
+                    <path class="letter-path v-path" d="M70,30 l15,40 l15,-40" />
                     <!-- O -->
-                    <path class="letter-path o-path" d="M115,40 a15,20 0 1,0 30,0 a15,20 0 1,0 -30,0" />
+                    <path class="letter-path o-path" d="M120,50 a15,20 0 1,0 30,0 a15,20 0 1,0 -30,0" />
                     <!-- Y -->
-                    <path class="letter-path y-path" d="M165,20 l15,20 l15,-20 M180,40 l0,20" />
+                    <path class="letter-path y-path" d="M170,30 l15,20 l15,-20 M185,50 l0,20" />
                 </svg>
             </div>
 
