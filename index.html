@@ -26,85 +26,106 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- PREMIUM SAND LOGO --- */
-        .logo-stage {
-            height: 320px;
-            width: 100%;
+        /* --- PREMIUM 3D LOGO --- */
+        .logo-container {
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: visible;
+            perspective: 1000px;
         }
 
-        .sand-svg-premium {
-            width: 340px;
-            height: 140px;
-            overflow: visible;
-            filter: url(#premium-sand-filter); /* Эффект помех и песка */
+        .premium-text {
+            font-family: "Times New Roman", Times, serif; /* Строгий дорогой шрифт */
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: var(--accent-color);
+            display: flex;
+            position: relative;
+            z-index: 5;
         }
 
-        .sand-letter {
-            fill: none;
-            stroke: var(--accent-color);
-            stroke-width: 14;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: 
-                drawLetter 3s forwards, 
-                waveMotion 6s infinite ease-in-out 3s,
-                sandVibration 0.2s infinite alternate; /* Двойная анимация */
+        .premium-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotateX(-90deg);
+            animation: revealLetter 1s forwards, wave 4s infinite ease-in-out;
+            /* 3D Эффект объема */
+            text-shadow: 
+                0 1px 0 #9e835d, 
+                0 2px 0 #8a7251, 
+                0 3px 0 #756145, 
+                0 4px 0 #615039,
+                0 10px 20px rgba(0,0,0,0.8);
+            position: relative;
         }
 
-        .s-path { animation-delay: 0.5s, 3.5s, 0s; }
-        .v-path { animation-delay: 2.5s, 5.5s, 0s; }
-        .o-path { animation-delay: 4.5s, 7.5s, 0s; }
-        .y-path { animation-delay: 6.5s, 9.5s, 0s; }
-
-        @keyframes drawLetter {
-            0% { stroke-dashoffset: 1000; opacity: 0; }
-            20% { opacity: 1; }
-            100% { stroke-dashoffset: 0; opacity: 1; }
+        /* Эффект зернистости/песка внутри букв */
+        .premium-text span::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            color: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 150px;
+            -webkit-background-clip: text;
+            opacity: 0.4;
+            pointer-events: none;
+            animation: sandGrain 0.2s infinite;
         }
 
-        /* Плавная волна */
-        @keyframes waveMotion {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(2px, -3px) rotate(0.5deg); }
+        @keyframes revealLetter {
+            to { opacity: 1; transform: translateY(0) rotateX(0deg); }
         }
 
-        /* Мелкая вибрация песка (помехи) */
-        @keyframes sandVibration {
-            from { stroke-width: 14; }
-            to { stroke-width: 14.5; }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
         }
+
+        @keyframes sandGrain {
+            from { background-position: 0 0; }
+            to { background-position: 10px 10px; }
+        }
+
+        /* Задержки для букв */
+        .premium-text span:nth-child(1) { animation-delay: 0.5s, 1.5s; }
+        .premium-text span:nth-child(2) { animation-delay: 1.0s, 2.0s; }
+        .premium-text span:nth-child(3) { animation-delay: 1.5s, 2.5s; }
+        .premium-text span:nth-child(4) { animation-delay: 2.0s, 3.0s; }
 
         /* --- DISNEY STAR --- */
-        .disney-magic {
+        .star-arc {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
             pointer-events: none;
+            z-index: 10;
         }
+
         .magic-star {
             position: absolute;
             width: 6px; height: 6px;
             background: #fff;
             border-radius: 50%;
-            box-shadow: 0 0 15px 4px #fff, 0 0 30px 10px var(--accent-color);
+            box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
             opacity: 0;
-            offset-path: path("M -60 220 Q 170 -100 400 220");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 10s;
+            offset-path: path("M -50 200 Q 180 -150 410 200");
+            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 4s;
         }
-        .magic-star::after {
-            content: '✨';
+
+        .magic-star::before {
+            content: '';
             position: absolute;
-            font-size: 10px;
-            left: -8px; top: -6px;
-            animation: sparkleFade 0.5s infinite alternate;
+            width: 60px; height: 2px;
+            background: linear-gradient(to left, #fff, transparent);
+            right: 5px; top: 2px;
+            filter: blur(1px);
         }
-        @keyframes sparkleFade { from { opacity: 1; } to { opacity: 0.3; } }
+
         @keyframes starFlight {
             0% { opacity: 0; offset-distance: 0%; }
             10% { opacity: 1; }
@@ -137,32 +158,19 @@
 </head>
 <body>
 
-    <!-- PREMIUM SAND FILTER (NOISE & GRAIN) -->
-    <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="premium-sand-filter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" />
-            <feComposite in="SourceGraphic" in2="noise" operator="arithmetic" k1="0.3" k2="0.7" />
-        </filter>
-    </svg>
-
     <div id="page-home" class="page active">
         <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
-            <div class="logo-stage">
-                <div class="disney-magic">
+            <div class="logo-container">
+                <div class="star-arc">
                     <div class="magic-star"></div>
                 </div>
                 
-                <svg class="sand-svg-premium" viewBox="0 0 240 100">
-                    <!-- S (Ровная и строгая) -->
-                    <path class="sand-letter s-path" d="M45,25 c-20,0 -25,15 -5,25 s15,25 -5,25" />
-                    <!-- V -->
-                    <path class="sand-letter v-path" d="M80,25 l15,50 l15,-50" />
-                    <!-- O -->
-                    <path class="sand-letter o-path" d="M135,50 a15,25 0 1,0 30,0 a15,25 0 1,0 -30,0" />
-                    <!-- Y -->
-                    <path class="sand-letter y-path" d="M190,25 l15,25 l15,-25 M205,50 l0,25" />
-                </svg>
+                <div class="premium-text">
+                    <span data-text="S">S</span>
+                    <span data-text="V">V</span>
+                    <span data-text="O">O</span>
+                    <span data-text="Y">Y</span>
+                </div>
             </div>
 
             <div class="bottom-section">
