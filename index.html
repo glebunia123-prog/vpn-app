@@ -10,8 +10,7 @@
             --bg-color: #0a0a0a;
             --card-bg: #141414;
             --accent-color: #d4af37;
-            --sand-light: #e6c98a;
-            --sand-dark: #b38b4d;
+            --sand-grain: #e6c98a;
             --text-main: #e5e5e5;
             --text-gray: #737373;
             --nav-bg: #111111;
@@ -28,9 +27,9 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- REALISTIC SAND LOGO --- */
+        /* --- REAL SAND ANIMATION --- */
         .logo-area { 
-            height: 220px; 
+            height: 240px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -38,72 +37,75 @@
             margin-bottom: 20px;
         }
 
-        /* Детализированная лопата */
-        .shovel-anim {
+        /* Реалистичная лопата */
+        .shovel-container {
             position: absolute;
-            top: -20px;
+            top: 0;
             left: 50%;
-            transform: translateX(-120px);
+            transform: translateX(-140px);
             z-index: 100;
-            animation: shovelPouring 4.5s forwards ease-in-out;
+            animation: shovelSequence 5s forwards ease-in-out;
         }
 
-        @keyframes shovelPouring {
-            0% { transform: translate(-150px, -50px) rotate(0deg); opacity: 0; }
-            15% { transform: translate(-120px, 20px) rotate(0deg); opacity: 1; }
-            30% { transform: translate(-120px, 20px) rotate(-50deg); }
-            85% { transform: translate(80px, 20px) rotate(-50deg); opacity: 1; }
-            100% { transform: translate(100px, 0px) rotate(-50deg); opacity: 0; }
+        @keyframes shovelSequence {
+            0% { transform: translate(-180px, -100px) rotate(0deg); opacity: 0; }
+            10% { transform: translate(-140px, 20px) rotate(0deg); opacity: 1; }
+            20% { transform: translate(-140px, 20px) rotate(-45deg); } /* Наклон над S */
+            80% { transform: translate(60px, 20px) rotate(-45deg); } /* Движение к Y */
+            100% { transform: translate(100px, -20px) rotate(-45deg); opacity: 0; }
         }
 
-        /* Поток песка */
-        .sand-flow-effect {
+        /* Поток песка (частицы) */
+        .sand-particles-stream {
             position: absolute;
             top: 40px;
             left: 0;
-            width: 40px;
-            height: 120px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="100"><filter id="f"><feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="5"/></filter><rect width="100%" height="100%" filter="url(%23f)" fill="%23d4af37" opacity="0.6"/></svg>');
+            width: 30px;
+            height: 140px;
+            background: 
+                radial-gradient(circle, var(--accent-color) 1px, transparent 1px),
+                radial-gradient(circle, var(--sand-grain) 1px, transparent 1px);
+            background-size: 6px 8px, 4px 10px;
             opacity: 0;
-            animation: flowMove 2.5s forwards 1.2s;
-            filter: blur(1px);
+            animation: sandPouring 3.5s forwards 1s;
+            filter: contrast(150%) brightness(120%);
         }
 
-        @keyframes flowMove {
-            0% { opacity: 0; height: 0; transform: translateX(-110px); }
-            20% { opacity: 1; height: 100px; transform: translateX(-110px); }
-            80% { opacity: 1; height: 100px; transform: translateX(80px); }
-            100% { opacity: 0; height: 50px; transform: translateX(100px); }
+        @keyframes sandPouring {
+            0% { height: 0; opacity: 0; transform: translateX(-130px); }
+            10% { height: 120px; opacity: 1; transform: translateX(-130px); }
+            85% { height: 120px; opacity: 1; transform: translateX(70px); }
+            100% { height: 0; opacity: 0; transform: translateX(90px); }
         }
 
-        /* Песочные буквы с неровными краями */
-        .sand-text-wrap {
+        /* Песочные буквы */
+        .sand-logo-wrap {
             display: flex;
-            gap: 5px;
-            filter: url(#sand-filter);
+            gap: 12px;
+            filter: url(#sand-effect); /* Главный фильтр бесформенности */
         }
 
-        .sand-char {
-            font-size: 95px;
+        .sand-b {
+            font-size: 100px;
             font-weight: 900;
             color: var(--accent-color);
             opacity: 0;
             display: inline-block;
-            position: relative;
-            /* Эффект зернистости через градиент */
-            background: radial-gradient(circle, var(--sand-light) 10%, var(--accent-color) 60%, var(--sand-dark) 100%);
+            background: linear-gradient(to bottom, var(--sand-grain), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .sand-char:nth-child(1) { animation: buildSand 0.8s forwards 1.4s; }
-        .sand-char:nth-child(2) { animation: buildSand 0.8s forwards 1.8s; }
-        .sand-char:nth-child(3) { animation: buildSand 0.8s forwards 2.2s; }
-        .sand-char:nth-child(4) { animation: buildSand 0.8s forwards 2.6s; }
+        /* Последовательное насыпание */
+        .sand-b:nth-child(1) { animation: fillLetter 1s forwards 1.2s; }
+        .sand-b:nth-child(2) { animation: fillLetter 1s forwards 1.8s; }
+        .sand-b:nth-child(3) { animation: fillLetter 1s forwards 2.4s; }
+        .sand-b:nth-child(4) { animation: fillLetter 1s forwards 3.0s; }
 
-        @keyframes buildSand {
-            0% { opacity: 0; transform: scale(1.1); filter: blur(8px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        @keyframes fillLetter {
+            0% { opacity: 0; transform: scale(0.9) translateY(10px); filter: blur(15px); }
+            50% { opacity: 0.5; filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
         /* --- BUBBLE BUTTONS --- */
@@ -119,18 +121,6 @@
         @keyframes bubblePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         @keyframes bubblePulsePrimary { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        /* --- PROFILE & ACCORDION --- */
-        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
-        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
-        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .accordion-arrow { width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
-        .accordion.open .accordion-arrow { transform: rotate(-135deg); }
-        .accordion-content { display: none; padding: 0 18px 18px 18px; }
-        .accordion.open .accordion-content { display: block; }
-        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
-
         /* --- NAVIGATION --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
@@ -142,50 +132,37 @@
 </head>
 <body>
 
-    <!-- СЛОЖНЫЙ ФИЛЬТР ДЛЯ ТЕКСТУРЫ ПЕСКА -->
+    <!-- ФИЛЬТР ДЛЯ БЕСФОРМЕННОГО ПЕСКА -->
     <svg style="display: none;">
-        <filter id="sand-filter">
-            <!-- Создаем базовую "рыхлость" -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="8" result="noise"/>
-            <!-- Делаем края неровными (эффект рассыпанного песка) -->
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" />
-            <!-- Добавляем крупинки и блики -->
-            <feSpecularLighting in="noise" lighting-color="#d4af37" surfaceScale="5" specularExponent="30" result="grain">
-                <feDistantLight azimuth="225" elevation="60" />
-            </feSpecularLighting>
-            <feComposite in="grain" in2="SourceGraphic" operator="in" />
+        <filter id="sand-effect">
+            <!-- Создаем сильную зернистость -->
+            <feTurbulence type="fractalNoise" baseFrequency="0.98" numOctaves="10" result="noise"/>
+            <!-- Размываем края букв, делая их "кучными" -->
+            <feMorphology operator="dilate" radius="1" in="SourceGraphic" result="spread"/>
+            <feDisplacementMap in="spread" in2="noise" scale="8" result="distorted"/>
+            <!-- Накладываем текстуру крупинок -->
+            <feComposite in="distorted" in2="noise" operator="arithmetic" k1="0.5" k2="0.5" k3="0" k4="0"/>
         </filter>
     </svg>
 
     <!-- ГЛАВНАЯ -->
     <div id="page-home" class="page active">
         <div class="logo-area">
-            <!-- Реалистичная лопата -->
-            <div class="shovel-anim">
-                <svg width="70" height="70" viewBox="0 0 24 24">
-                    <defs>
-                        <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#888;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#444;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#222;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Черенок -->
-                    <path d="M18 2l-4 4" stroke="#5c4033" stroke-width="2.5" stroke-linecap="round"/>
-                    <!-- Ковш лопаты -->
-                    <path d="M14 6l-9 9 4 4 9-9-4-4z" fill="url(#metal)"/>
-                    <path d="M5 15l-3 6 6-3 9-9-4-4-8 10z" fill="#333"/>
-                    <!-- Песок внутри лопаты -->
-                    <path d="M6 16l2 2 3-3-2-2-3 3z" fill="#d4af37" opacity="0.8"/>
+            <div class="shovel-container">
+                <svg width="80" height="80" viewBox="0 0 24 24">
+                    <path d="M19 3l-4 4" stroke="#5c4033" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M15 7l-10 10 3 3 10-10-3-3z" fill="#444"/>
+                    <path d="M5 17l-2 4 4-2 10-10-3-3-9 11z" fill="#666"/>
+                    <path d="M6 18l2 2 2-2-2-2-2 2z" fill="#d4af37"/>
                 </svg>
-                <div class="sand-flow-effect"></div>
+                <div class="sand-particles-stream"></div>
             </div>
 
-            <div class="sand-text-wrap">
-                <span class="sand-char">S</span>
-                <span class="sand-char">V</span>
-                <span class="sand-char">O</span>
-                <span class="sand-char">Y</span>
+            <div class="sand-logo-wrap">
+                <span class="sand-b">S</span>
+                <span class="sand-b">V</span>
+                <span class="sand-b">O</span>
+                <span class="sand-b">Y</span>
             </div>
         </div>
 
@@ -204,7 +181,7 @@
         <button class="bubble-btn">Подключить устройство</button>
     </div>
 
-    <!-- ПРОФИЛЬ (ВОЗВРАЩЕН К ВАРИАНТУ С АВАТАРОМ) -->
+    <!-- ПРОФИЛЬ -->
     <div id="page-profile" class="page">
         <div class="profile-header">
             <div class="profile-avatar" id="user-photo">
