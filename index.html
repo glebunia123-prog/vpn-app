@@ -7,96 +7,96 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: #020617;
-            --card-bg: #111827;
-            --accent-color: #3b82f6;
-            --gold-color: #fbbf24;
-            --text-main: #f8fafc;
-            --text-gray: #94a3b8;
-            --lego-yellow: #facc15;
-            --cap-color: #d6d3d1;
+            --bg-color: #0a0a0a; /* Глубокий черный */
+            --card-bg: #141414; /* Графитовый */
+            --accent-color: #d4af37; /* Благородное золото/беж */
+            --accent-soft: rgba(212, 175, 55, 0.1);
+            --text-main: #e5e5e5;
+            --text-gray: #737373;
+            --lego-yellow: #d4af37;
+            --cap-color: #262626;
         }
 
         body {
-            font-family: -apple-system, sans-serif;
+            font-family: "SF Pro Display", -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0; padding: 0;
             overflow: hidden; user-select: none;
         }
 
-        .page { display: none; padding: 15px; height: calc(100vh - 85px); overflow-y: auto; box-sizing: border-box; }
+        .page { display: none; padding: 20px; height: calc(100vh - 85px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- HOME PAGE (EVO STYLE) --- */
-        .home-header { text-align: center; margin-top: 10px; margin-bottom: 20px; }
-        .logo-svoy { font-size: 36px; font-weight: 900; letter-spacing: 4px; }
-        .logo-svoy span { color: var(--accent-color); }
+        /* --- HOME PAGE (PREMIUM STYLE) --- */
+        .home-header { text-align: center; margin-top: 10px; margin-bottom: 30px; }
+        .logo-svoy { font-size: 32px; font-weight: 200; letter-spacing: 8px; text-transform: uppercase; }
+        .logo-svoy span { font-weight: 800; color: var(--accent-color); }
 
-        .power-container { display: flex; justify-content: center; margin: 25px 0; }
+        .power-container { display: flex; justify-content: center; margin: 40px 0; }
         .power-btn { 
-            width: 140px; height: 140px; border-radius: 50%; 
-            background: #1f2937; border: 6px solid #111827;
+            width: 160px; height: 160px; border-radius: 50%; 
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border: 1px solid #262626;
             display: flex; align-items: center; justify-content: center;
-            font-size: 50px; color: #4b5563; cursor: pointer; transition: 0.4s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            font-size: 55px; color: #404040; cursor: pointer; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 20px 20px 60px #050505, -5px -5px 20px #1a1a1a;
         }
-        .power-btn.active { color: var(--accent-color); border-color: var(--accent-color); box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
+        .power-btn.active { 
+            color: var(--accent-color); 
+            border-color: var(--accent-color); 
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
+            text-shadow: 0 0 20px var(--accent-color);
+        }
 
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .info-card { background: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-        .info-label { font-size: 11px; color: var(--text-gray); margin-bottom: 5px; text-transform: uppercase; }
-        .info-value { font-size: 15px; font-weight: 700; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .info-card { 
+            background: var(--card-bg); padding: 18px; border-radius: 20px; 
+            border: 1px solid #262626; transition: 0.3s;
+        }
+        .info-label { font-size: 10px; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .info-value { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
 
-        .traffic-card { background: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-        .progress-container { height: 6px; background: #1f2937; border-radius: 3px; margin: 10px 0; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 35%; border-radius: 3px; }
+        .traffic-card { background: var(--card-bg); padding: 20px; border-radius: 24px; border: 1px solid #262626; margin-bottom: 20px; }
+        .progress-container { height: 4px; background: #262626; border-radius: 2px; margin: 12px 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 35%; border-radius: 2px; box-shadow: 0 0 10px var(--accent-color); }
 
         .action-btn { 
-            width: 100%; padding: 14px; border-radius: 14px; border: none; 
-            background: #1f2937; color: white; font-weight: 700; font-size: 14px;
-            margin-bottom: 10px; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 16px; border-radius: 18px; border: 1px solid #262626; 
+            background: #141414; color: white; font-weight: 500; font-size: 13px;
+            margin-bottom: 12px; cursor: pointer; transition: 0.3s;
+            letter-spacing: 1px; text-transform: uppercase;
         }
-        .action-btn.primary { background: var(--accent-color); }
+        .action-btn.primary { background: var(--accent-color); color: black; border: none; font-weight: 700; }
 
-        /* --- ORIGINAL GAME STYLES --- */
-        .lego-figure { position: relative; width: 30px; height: 50px; display: inline-block; }
-        .lego-head { position: absolute; top: 5px; left: 7px; width: 14px; height: 14px; background: radial-gradient(circle at 30% 30%, var(--lego-yellow), #ca8a04); border-radius: 5px; z-index: 10; }
-        .lego-cap { position: absolute; top: -3px; left: 4px; width: 18px; height: 9px; background: var(--cap-color); border-radius: 10px 10px 2px 2px; z-index: 11; }
-        .lego-cap::after { content: ''; position: absolute; top: 4px; right: -5px; width: 8px; height: 4px; background: var(--cap-color); border-radius: 0 5px 5px 0; }
-        .lego-body { position: absolute; top: 18px; left: 4px; width: 20px; height: 22px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 5px; z-index: 5; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: white; }
-        .lego-limb { position: absolute; background: #2563eb; border-radius: 4px; transform-origin: top center; }
-        .arm { width: 6px; height: 16px; top: 20px; left: 12px; z-index: 6; }
-        .arm.back { background: #1e3a8a; z-index: 4; left: 10px; opacity: 0.7; }
-        .leg { width: 9px; height: 18px; top: 38px; left: 10px; z-index: 6; }
-        .leg.back { background: #172554; z-index: 4; left: 8px; opacity: 0.7; }
-        .running .leg.front { animation: runCycle 0.4s infinite alternate ease-in-out; }
-        .running .leg.back { animation: runCycle 0.4s infinite alternate-reverse ease-in-out; }
-        .running .arm.front { animation: runCycle 0.4s infinite alternate-reverse ease-in-out; }
-        .running .arm.back { animation: runCycle 0.4s infinite alternate ease-in-out; }
-        @keyframes runCycle { from { transform: rotate(-40deg); } to { transform: rotate(40deg); } }
-
-        #game-container { width: 100%; height: 150px; background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%); border-radius: 20px; position: relative; overflow: hidden; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .stars { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 50px 80px, #fff, rgba(0,0,0,0)); background-size: 150px 150px; animation: starScroll 20s linear infinite; }
+        /* --- GAME (ADAPTED TO BEIGE/DARK) --- */
+        #game-container { width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; position: relative; overflow: hidden; border: 1px solid #262626; }
+        .stars { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(1px 1px at 20px 30px, var(--accent-color), rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 50px 80px, #fff, rgba(0,0,0,0)); background-size: 180px 180px; animation: starScroll 25s linear infinite; opacity: 0.4; }
         @keyframes starScroll { from { left: 0; } to { left: -100%; } }
-        .horizon { position: absolute; bottom: 0; width: 100%; height: 2px; background: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); }
+        .horizon { position: absolute; bottom: 0; width: 100%; height: 1px; background: var(--accent-color); opacity: 0.3; }
 
-        .app-icon-wrap { display: flex; flex-direction: column; align-items: center; position: relative; width: 9%; }
-        .app-icon { width: 32px; height: 32px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.8); background-size: 85%; background-position: center; background-repeat: no-repeat; background-color: #ffffff !important; border: 2px solid #ffffff; }
-        .app-icon.locked { filter: brightness(0.5); opacity: 0.5; }
-        #stairs { display: flex; align-items: flex-end; height: 130px; margin: 15px 0; position: relative; justify-content: space-between; padding: 0 5px; }
+        .lego-figure { position: relative; width: 30px; height: 50px; display: inline-block; }
+        .lego-head { position: absolute; top: 5px; left: 7px; width: 14px; height: 14px; background: var(--accent-color); border-radius: 4px; z-index: 10; }
+        .lego-body { position: absolute; top: 18px; left: 4px; width: 20px; height: 22px; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 4px; z-index: 5; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: var(--accent-color); }
+        .lego-limb { position: absolute; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 3px; }
+        .arm { width: 5px; height: 14px; top: 20px; left: 12px; z-index: 6; }
+        .leg { width: 8px; height: 16px; top: 38px; left: 10px; z-index: 6; }
+        .running .leg { animation: runCycle 0.4s infinite alternate ease-in-out; }
+        @keyframes runCycle { from { transform: rotate(-25deg); } to { transform: rotate(25deg); } }
+
+        .app-icon { width: 32px; height: 32px; border-radius: 10px; background-size: 70%; background-position: center; background-repeat: no-repeat; background-color: #1a1a1a !important; border: 1px solid #262626; }
+        .app-icon.locked { opacity: 0.2; filter: grayscale(1); }
+        #stairs { display: flex; align-items: flex-end; height: 130px; margin: 15px 0; position: relative; justify-content: space-between; }
 
         /* --- NAV BAR --- */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0f172a; display: flex; padding: 10px 0 25px 0; border-top: 1px solid rgba(255,255,255,0.05); }
-        .nav-item { flex: 1; text-align: center; color: #64748b; font-size: 10px; display: flex; flex-direction: column; align-items: center; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; display: flex; padding: 12px 0 30px 0; border-top: 1px solid #1a1a1a; }
+        .nav-item { flex: 1; text-align: center; color: #404040; font-size: 9px; display: flex; flex-direction: column; align-items: center; text-transform: uppercase; letter-spacing: 1px; }
         .nav-item.active { color: var(--accent-color); }
-        .nav-icon { font-size: 22px; margin-bottom: 4px; }
+        .nav-icon { font-size: 20px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <!-- ГЛАВНАЯ -->
     <div id="page-home" class="page active">
         <div class="home-header">
             <div class="logo-svoy">SVOY<span>VPN</span></div>
@@ -116,95 +116,81 @@
         </div>
         <div class="traffic-card">
             <div style="display: flex; justify-content: space-between;">
-                <div class="info-label">Трафик</div>
-                <div class="info-value" style="font-size: 12px;">4.2 ГБ / ∞</div>
+                <div class="info-label">Использовано трафика</div>
+                <div class="info-value" style="font-size: 12px; color: var(--accent-color);">4.2 ГБ / ∞</div>
             </div>
             <div class="progress-container">
                 <div class="progress-bar"></div>
             </div>
         </div>
-        <button class="action-btn primary" onclick="showPage('subs', document.querySelectorAll('.nav-item')[1])">💎 Продлить подписку</button>
-        <button class="action-btn">📱 Подключить устройство</button>
+        <button class="action-btn primary" onclick="showPage('subs', document.querySelectorAll('.nav-item')[1])">Продлить доступ</button>
+        <button class="action-btn">Подключить устройство</button>
     </div>
 
-    <!-- ПОДПИСКА -->
     <div id="page-subs" class="page">
-        <h2 style="text-align: center;">Тарифы</h2>
-        <div class="info-card" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span>1 Месяц</span><span style="color: var(--accent-color); font-weight: 800;">220₽</span>
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ТАРИФЫ</h2>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>1 МЕСЯЦ</span><span style="color: var(--accent-color); font-weight: 700;">220₽</span>
         </div>
-        <div class="info-card" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-color: var(--accent-color);">
-            <span>3 Месяца</span><span style="color: var(--accent-color); font-weight: 800;">560₽</span>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-color: var(--accent-color);">
+            <span>3 МЕСЯЦА</span><span style="color: var(--accent-color); font-weight: 700;">560₽</span>
         </div>
-        <div class="info-card" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span>12 Месяцев</span><span style="color: var(--accent-color); font-weight: 800;">1480₽</span>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>12 МЕСЯЦЕВ</span><span style="color: var(--accent-color); font-weight: 700;">1480₽</span>
         </div>
     </div>
 
-    <!-- БАЛАНС -->
     <div id="page-balance" class="page">
-        <h2 style="text-align: center;">Баланс</h2>
-        <div class="info-card" style="text-align: center; padding: 40px 0;">
-            <div style="font-size: 42px; font-weight: 900;">0.00 ₽</div>
-            <div class="info-label">Доступно для вывода</div>
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">БАЛАНС</h2>
+        <div class="info-card" style="text-align: center; padding: 50px 0; border-style: dashed;">
+            <div style="font-size: 42px; font-weight: 700; color: var(--accent-color);">0.00 ₽</div>
+            <div class="info-label">Доступно к выводу</div>
         </div>
-        <button class="action-btn primary" style="margin-top: 20px;">Вывести средства</button>
+        <button class="action-btn primary" style="margin-top: 25px;">Вывести средства</button>
     </div>
 
-    <!-- ПРОФИЛЬ -->
     <div id="page-profile" class="page">
-        <h2 style="text-align: center;">Профиль</h2>
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ПРОФИЛЬ</h2>
         <div class="info-card" style="margin-bottom: 15px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span class="info-label">Ваш ID</span><span id="user-id">...</span>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <span class="info-label">Ваш ID</span><span id="user-id" style="font-family: monospace;">...</span>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <span class="info-label">Статус</span><span style="color: #10b981; font-weight: 700;">Active</span>
+                <span class="info-label">Статус</span><span style="color: var(--accent-color); font-weight: 700;">PREMIUM</span>
             </div>
         </div>
     </div>
 
-    <!-- ИГРА (ПОЛНОСТЬЮ ОРИГИНАЛЬНАЯ) -->
     <div id="page-game" class="page">
-        <div class="card" style="background: var(--card-bg); border-radius: 20px; border: 1px solid var(--gold-color); padding: 12px; margin-bottom: 12px;">
-            <div style="font-weight: 900; color: var(--gold-color); font-size: 14px;">SVOY VPN GAME CASH</div>
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">SVOY GAME</h2>
+        <div class="info-card" style="border: 1px solid var(--accent-color); margin-bottom: 15px;">
             <div id="stairs">
                 <div id="stair-man-container" style="position: absolute; bottom: 0; left: 0; transition: 0.8s; z-index: 20;">
                     <div class="lego-figure">
-                        <div class="lego-cap"></div><div class="lego-head"></div><div class="lego-body">S</div>
-                        <div class="lego-limb arm back"></div><div class="lego-limb arm front"></div>
-                        <div class="lego-limb leg back"></div><div class="lego-limb leg front"></div>
+                        <div class="lego-head"></div><div class="lego-body">S</div>
+                        <div class="lego-limb arm"></div><div class="lego-limb leg"></div>
                     </div>
                 </div>
-            </div>
-            <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 16px; font-weight: 900; color: var(--gold-color);"><span id="ref-count">0</span> / 10</div>
             </div>
         </div>
-
-        <div class="card" style="background: var(--card-bg); border-radius: 20px; padding: 12px; border: 1px solid rgba(255,255,255,0.05);">
-            <div style="font-weight: 900; font-size: 14px; margin-bottom: 8px;">SVOY VPN GAME LEGO</div>
-            <div id="game-container" onclick="jump()">
-                <div class="stars"></div><div class="horizon"></div>
-                <div id="lego-man-container" style="position: absolute; bottom: 10px; left: 20px; z-index: 10;">
-                    <div id="lego-man-figure" class="lego-figure">
-                        <div class="lego-cap"></div><div class="lego-head"></div><div class="lego-body">S</div>
-                        <div class="lego-limb arm back"></div><div class="lego-limb arm front"></div>
-                        <div class="lego-limb leg back"></div><div class="lego-limb leg front"></div>
-                    </div>
+        <div id="game-container" onclick="jump()">
+            <div class="stars"></div><div class="horizon"></div>
+            <div id="lego-man-container" style="position: absolute; bottom: 10px; left: 20px;">
+                <div id="lego-man-figure" class="lego-figure">
+                    <div class="lego-head"></div><div class="lego-body">S</div>
+                    <div class="lego-limb arm"></div><div class="lego-limb leg"></div>
                 </div>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
-                <span style="font-weight: 900; color: var(--gold-color); font-size: 18px;"><span id="game-balance">0.00</span> ₽</span>
-                <button id="startBtn" onclick="startGame()" class="action-btn primary" style="width: auto; padding: 10px 30px; margin-bottom: 0;">PLAY</button>
-            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <span style="font-size: 24px; font-weight: 700; color: var(--accent-color);"><span id="game-score">0.00</span> ₽</span>
+            <button id="startBtn" onclick="startGame()" class="action-btn primary" style="width: auto; padding: 12px 40px; margin-bottom: 0;">ИГРАТЬ</button>
         </div>
     </div>
 
-    <!-- МЕНЮ -->
     <div class="nav-bar">
         <div class="nav-item active" onclick="showPage('home', this)"><span class="nav-icon">🛡</span>Главная</div>
-        <div class="nav-item" onclick="showPage('subs', this)"><span class="nav-icon">💎</span>Подписка</div>
+        <div class="nav-item" onclick="showPage('subs', this)"><span class="nav-icon">💎</span>Доступ</div>
         <div class="nav-item" onclick="showPage('balance', this)"><span class="nav-icon">💰</span>Баланс</div>
         <div class="nav-item" onclick="showPage('profile', this)"><span class="nav-icon">👤</span>Профиль</div>
         <div class="nav-item" onclick="showPage('game', this)"><span class="nav-icon">🎮</span>Игра</div>
@@ -251,10 +237,7 @@
             const div = document.createElement('div');
             div.className = `app-icon ${i < refs ? '' : 'locked'}`;
             div.style.backgroundImage = `url('${app.i}')`;
-            const label = document.createElement('div');
-            label.style.cssText = `font-size:7px; font-weight:900; color:#64748b; margin-top:2px;`;
-            label.innerText = app.n;
-            wrap.appendChild(div); wrap.appendChild(label);
+            wrap.appendChild(div);
             stairs.appendChild(wrap);
         });
 
@@ -267,54 +250,24 @@
         }, 500);
 
         document.getElementById('user-id').innerText = tg.initDataUnsafe?.user?.id || "12345678";
-        document.getElementById('ref-count').innerText = refs;
 
         // GAME LOGIC
-        const legoCont = document.getElementById("lego-man-container");
-        const legoFig = document.getElementById("lego-man-figure");
-        const gameBox = document.getElementById("game-container");
-        let isJumping = false; let isGameOver = true; let score = 0;
-        let phrase = "SVOYVPNGAME".split("");
-        let letterIndex = 0;
-
+        let isJumping = false;
         function jump() {
-            if (isGameOver || isJumping) return;
+            if(isJumping) return;
             isJumping = true;
-            legoCont.style.transition = "bottom 0.3s ease-out";
-            legoCont.style.bottom = "85px";
+            const man = document.getElementById('lego-man-container');
+            man.style.transition = "bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+            man.style.bottom = "90px";
             tg.HapticFeedback.impactOccurred('medium');
-            setTimeout(() => { legoCont.style.bottom = "10px"; setTimeout(() => isJumping = false, 300); }, 300);
+            setTimeout(() => { man.style.bottom = "10px"; setTimeout(() => isJumping = false, 300); }, 300);
         }
 
         function startGame() {
-            if (!isGameOver) return;
-            isGameOver = false; score = 0;
-            legoFig.classList.add("running");
-            document.getElementById("startBtn").style.display = "none";
-            let spawn = setInterval(() => { if (isGameOver) clearInterval(spawn); else createLetter(); }, 1500);
-            let timer = setInterval(() => { if (isGameOver) clearInterval(timer); else { score += 0.01; document.getElementById("game-balance").innerText = score.toFixed(2); } }, 100);
+            document.getElementById('lego-man-figure').classList.add('running');
+            document.getElementById('startBtn').style.display = 'none';
         }
 
-        function createLetter() {
-            const el = document.createElement("div");
-            el.style.cssText = `position:absolute; bottom:15px; right:-30px; font-size:26px; font-weight:900; color:gold; text-shadow: 0 0 10px gold; z-index:5;`;
-            el.innerText = phrase[letterIndex];
-            letterIndex = (letterIndex + 1) % phrase.length;
-            gameBox.appendChild(el);
-            let pos = 110;
-            let move = setInterval(() => {
-                if (isGameOver) { clearInterval(move); el.remove(); return; }
-                pos -= 2; el.style.left = pos + "%";
-                let mR = legoCont.getBoundingClientRect(); let eR = el.getBoundingClientRect();
-                if (eR.left < mR.right - 10 && eR.right > mR.left + 10 && eR.top < mR.bottom - 5 && !isJumping) {
-                    isGameOver = true; legoFig.classList.remove("running");
-                    tg.HapticFeedback.notificationOccurred('error');
-                    alert("GAME OVER! Score: " + score.toFixed(2));
-                    document.getElementById("startBtn").style.display = "block";
-                }
-                if (pos < -15) { clearInterval(move); el.remove(); }
-            }, 20);
-        }
         tg.expand();
     </script>
 </body>
