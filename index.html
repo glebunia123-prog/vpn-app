@@ -26,72 +26,62 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- LOGO & SHOVEL --- */
-        .logo-area { 
-            height: 150px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            position: relative;
-            margin-top: 40px;
+        /* --- SAND LOGO ANIMATION --- */
+        .logo-container {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        .shovel-svg {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-120px);
-            z-index: 100;
-            animation: shovelPourS 4s forwards cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes shovelPourS {
-            0% { transform: translate(-150px, -50px) rotate(0deg); opacity: 0; }
-            20% { transform: translate(-120px, 0px) rotate(0deg); opacity: 1; }
-            30% { transform: translate(-120px, 0px) rotate(-50deg); } /* Наклон над S */
-            80% { transform: translate(-120px, 0px) rotate(-50deg); opacity: 1; }
-            100% { transform: translate(-120px, -30px) rotate(-50deg); opacity: 0; }
-        }
-
-        .sand-svg-logo {
-            width: 260px;
+        .sand-svg {
+            width: 280px;
             overflow: visible;
+            filter: url(#sand-filter);
         }
 
-        .sand-path {
+        .letter-path {
             fill: none;
             stroke: var(--accent-color);
-            stroke-width: 10;
+            stroke-width: 12;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 300;
-            stroke-dashoffset: 300;
-            animation: drawLetter 1.5s forwards;
-            filter: drop-shadow(0 0 2px rgba(194, 163, 121, 0.5));
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            animation: sandDraw 2s forwards, sandWind 3s infinite ease-in-out 2s;
         }
 
-        .s-path { animation-delay: 1s; }
-        .v-path { animation-delay: 1.8s; }
-        .o-path { animation-delay: 2.4s; }
-        .y-path { animation-delay: 3s; }
+        .s-path { animation-delay: 0.5s, 2.5s; }
+        .v-path { animation-delay: 1.5s, 3.5s; }
+        .o-path { animation-delay: 2.5s, 4.5s; }
+        .y-path { animation-delay: 3.5s, 5.5s; }
 
-        @keyframes drawLetter {
+        @keyframes sandDraw {
             to { stroke-dashoffset: 0; }
         }
 
-        /* --- LAYOUT ADJUSTMENTS --- */
+        @keyframes sandWind {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.9; }
+            50% { transform: translate(1px, -1px) scale(1.02); opacity: 1; }
+        }
+
+        /* --- LAYOUT (PUSHED DOWN) --- */
         .home-content {
             display: flex;
             flex-direction: column;
             height: 100%;
         }
-        .spacer { flex-grow: 1; }
+        
+        .bottom-section {
+            margin-top: auto;
+            padding-bottom: 80px;
+        }
 
         .info-grid {
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 15px; 
-            margin-top: auto; /* Прижимаем к низу */
             margin-bottom: 20px;
         }
 
@@ -128,39 +118,44 @@
 </head>
 <body>
 
+    <!-- SAND FILTER -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="sand-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+        </filter>
+    </svg>
+
     <div id="page-home" class="page active">
         <div class="home-content">
-            <div class="logo-area">
-                <div class="shovel-svg">
-                    <svg width="50" height="50" viewBox="0 0 24 24">
-                        <path d="M17 4l-3 3" stroke="#5c4033" stroke-width="2"/>
-                        <path d="M14 7l-8 8 3 3 8-8-3-3z" fill="#444"/>
-                        <path d="M6 15l-2 5 5-2 8-8-3-3-8 8z" fill="#666"/>
-                    </svg>
-                </div>
-                <svg class="sand-svg-logo" viewBox="0 0 200 80">
-                    <path class="sand-path s-path" d="M40,25 c-15,0 -15,15 0,15 s15,15 0,15" />
-                    <path class="sand-path v-path" d="M65,25 l12,30 l12,-30" />
-                    <path class="sand-path o-path" d="M115,40 a12,15 0 1,0 24,0 a12,15 0 1,0 -24,0" />
-                    <path class="sand-path y-path" d="M160,25 l12,15 l12,-15 M172,40 l0,15" />
+            <div class="logo-container">
+                <svg class="sand-svg" viewBox="0 0 200 80">
+                    <!-- S -->
+                    <path class="letter-path s-path" d="M40,25 c-15,0 -15,15 0,15 s15,15 0,15" />
+                    <!-- V -->
+                    <path class="letter-path v-path" d="M65,25 l12,30 l12,-30" />
+                    <!-- O -->
+                    <path class="letter-path o-path" d="M115,40 a12,15 0 1,0 24,0 a12,15 0 1,0 -24,0" />
+                    <!-- Y -->
+                    <path class="letter-path y-path" d="M160,25 l12,15 l12,-15 M172,40 l0,15" />
                 </svg>
             </div>
 
-            <div class="spacer"></div>
+            <div class="bottom-section">
+                <div class="info-grid">
+                    <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
+                        <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Подписка до</div>
+                        <div style="font-size: 14px; font-weight: 600;">12.06.2026</div>
+                    </div>
+                    <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
+                        <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Устройств</div>
+                        <div style="font-size: 14px; font-weight: 600;">1 / 3</div>
+                    </div>
+                </div>
 
-            <div class="info-grid">
-                <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
-                    <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Подписка до</div>
-                    <div style="font-size: 14px; font-weight: 600;">12.06.2026</div>
-                </div>
-                <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
-                    <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Устройств</div>
-                    <div style="font-size: 14px; font-weight: 600;">1 / 3</div>
-                </div>
+                <button class="bubble-btn primary">Продлить доступ</button>
+                <button class="bubble-btn">Подключить устройство</button>
             </div>
-
-            <button class="bubble-btn primary">Продлить доступ</button>
-            <button class="bubble-btn" style="margin-bottom: 85px;">Подключить устройство</button>
         </div>
     </div>
 
