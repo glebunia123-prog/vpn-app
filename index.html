@@ -26,95 +26,107 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- SAND LOGO & WAVE ANIMATION --- */
-        .logo-container {
-            height: 280px;
+        /* --- NEW LOGO AREA (NO CLIPPING) --- */
+        .logo-wrap {
+            height: 320px;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            margin-top: 20px;
-            overflow: visible; /* Убираем рамки/обрезку */
-        }
-
-        .sand-svg {
-            width: 320px;
             overflow: visible;
-            filter: url(#sand-wave-filter);
-            transform: translateX(-10px); /* Центровка */
+            margin-top: 10px;
         }
 
-        .letter-path {
+        .sand-svg-main {
+            width: 340px;
+            height: 120px;
+            overflow: visible;
+            filter: drop-shadow(0 0 5px rgba(194, 163, 121, 0.3));
+        }
+
+        .letter {
             fill: none;
             stroke: var(--accent-color);
-            stroke-width: 15;
+            stroke-width: 16;
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
-            opacity: 1; /* Убираем прозрачность */
-            animation: sandDraw 2.5s forwards;
+            animation: drawSand 3s forwards, waveWind 6s infinite ease-in-out 3s;
         }
 
-        .s-path { animation-delay: 0.5s; }
-        .v-path { animation-delay: 2.5s; }
-        .o-path { animation-delay: 4.5s; }
-        .y-path { animation-delay: 6.5s; }
+        .s-path { animation-delay: 0.5s, 3.5s; }
+        .v-path { animation-delay: 2.5s, 5.5s; }
+        .o-path { animation-delay: 4.5s, 7.5s; }
+        .y-path { animation-delay: 6.5s, 9.5s; }
 
-        @keyframes sandDraw {
-            to { stroke-dashoffset: 0; }
+        @keyframes drawSand {
+            0% { stroke-dashoffset: 1000; opacity: 0; }
+            10% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
         }
 
-        /* --- DISNEY STAR (ENHANCED) --- */
-        .star-container {
+        /* Эффект волны на ветру */
+        @keyframes waveWind {
+            0%, 100% { transform: translate(0, 0) skewX(0deg); }
+            25% { transform: translate(3px, -2px) skewX(2deg); }
+            75% { transform: translate(-2px, 2px) skewX(-2deg); }
+        }
+
+        /* --- DISNEY STAR (MAX REALISM) --- */
+        .star-path-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 100;
+            pointer-events: none;
         }
 
-        .disney-star {
+        .disney-spark {
             position: absolute;
-            width: 4px; height: 4px;
+            width: 6px; height: 6px;
             background: #fff;
             border-radius: 50%;
-            /* Искрящийся шлейф */
-            box-shadow: 
-                0 0 10px 2px #fff, 
-                0 0 20px 5px var(--accent-color),
-                -5px 2px 10px rgba(255,255,255,0.4),
-                -12px 5px 15px rgba(194, 163, 121, 0.3);
+            box-shadow: 0 0 15px 4px #fff, 0 0 30px 10px var(--accent-color);
             opacity: 0;
-            offset-path: path("M -20 180 Q 160 -120 340 180");
-            animation: starFlight 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards 9.5s;
+            offset-path: path("M -50 220 Q 170 -80 390 220");
+            animation: starFly 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 10s;
         }
 
-        @keyframes starFlight {
+        /* Шлейф звезды */
+        .disney-spark::after {
+            content: '';
+            position: absolute;
+            width: 40px; height: 2px;
+            background: linear-gradient(to left, #fff, transparent);
+            right: 5px; top: 2px;
+            filter: blur(1px);
+        }
+
+        @keyframes starFly {
             0% { opacity: 0; offset-distance: 0%; }
             10% { opacity: 1; }
             90% { opacity: 1; }
             100% { opacity: 0; offset-distance: 100%; }
         }
 
-        /* --- BUBBLE BUTTONS --- */
+        /* --- BUTTONS --- */
+        .bottom-box { margin-top: auto; padding-bottom: 80px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
             margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             transition: 0.3s; display: flex; align-items: center; justify-content: center;
-            animation: bubbleBreath 4s infinite ease-in-out;
+            animation: bubblePulse 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
 
-        @keyframes bubbleBreath {
+        @keyframes bubblePulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
+            50% { transform: scale(1.05); }
         }
-
-        /* --- LAYOUT --- */
-        .home-content { display: flex; flex-direction: column; height: 100%; }
-        .bottom-section { margin-top: auto; padding-bottom: 80px; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
 
         /* --- PROFILE & NAV (UNCHANGED) --- */
         .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
@@ -140,40 +152,34 @@
 </head>
 <body>
 
-    <!-- SAND WAVE FILTER -->
+    <!-- SAND TEXTURE FILTER -->
     <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="sand-wave-filter" x="-50%" y="-50%" width="200%" height="200%">
-            <!-- Эффект волны на ветру -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.03" numOctaves="2" seed="1">
-                <animate attributeName="baseFrequency" dur="8s" values="0.01 0.03; 0.02 0.05; 0.01 0.03" repeatCount="indefinite" />
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" scale="12" />
-            <!-- Песочная текстура -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="grain" />
-            <feComposite in="SourceGraphic" in2="grain" operator="arithmetic" k1="0.4" k2="0.6" />
+        <filter id="sand-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" result="noise" />
+            <feComposite in="SourceGraphic" in2="noise" operator="arithmetic" k1="0.5" k2="0.5" />
         </filter>
     </svg>
 
     <div id="page-home" class="page active">
-        <div class="home-content">
-            <div class="logo-container">
-                <div class="star-container">
-                    <div class="disney-star"></div>
+        <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
+            <div class="logo-wrap">
+                <div class="star-path-container">
+                    <div class="disney-spark"></div>
                 </div>
                 
-                <svg class="sand-svg" viewBox="0 0 220 100">
+                <svg class="sand-svg-main" viewBox="0 0 220 100" style="filter: url(#sand-grain);">
                     <!-- S -->
-                    <path class="letter-path s-path" d="M40,30 c-20,0 -20,20 0,20 s20,20 0,20" />
+                    <path class="letter s-path" d="M40,30 c-20,0 -20,20 0,20 s20,20 0,20" />
                     <!-- V -->
-                    <path class="letter-path v-path" d="M70,30 l15,40 l15,-40" />
+                    <path class="letter v-path" d="M70,30 l15,40 l15,-40" />
                     <!-- O -->
-                    <path class="letter-path o-path" d="M120,50 a15,20 0 1,0 30,0 a15,20 0 1,0 -30,0" />
+                    <path class="letter o-path" d="M120,50 a15,20 0 1,0 30,0 a15,20 0 1,0 -30,0" />
                     <!-- Y -->
-                    <path class="letter-path y-path" d="M170,30 l15,20 l15,-20 M185,50 l0,20" />
+                    <path class="letter y-path" d="M170,30 l15,20 l15,-20 M185,50 l0,20" />
                 </svg>
             </div>
 
-            <div class="bottom-section">
+            <div class="bottom-box">
                 <div class="info-grid">
                     <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
                         <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Подписка до</div>
