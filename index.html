@@ -7,28 +7,26 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: #0a0a0a; /* Глубокий черный */
-            --card-bg: #141414; /* Графитовый */
-            --accent-color: #d4af37; /* Благородное золото/беж */
-            --accent-soft: rgba(212, 175, 55, 0.1);
+            --bg-color: #0a0a0a;
+            --card-bg: #141414;
+            --accent-color: #d4af37;
             --text-main: #e5e5e5;
             --text-gray: #737373;
-            --lego-yellow: #d4af37;
-            --cap-color: #262626;
+            --nav-bg: #111111;
         }
 
         body {
-            font-family: "SF Pro Display", -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0; padding: 0;
             overflow: hidden; user-select: none;
         }
 
-        .page { display: none; padding: 20px; height: calc(100vh - 85px); overflow-y: auto; box-sizing: border-box; }
+        .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- HOME PAGE (PREMIUM STYLE) --- */
+        /* --- HOME PAGE --- */
         .home-header { text-align: center; margin-top: 10px; margin-bottom: 30px; }
         .logo-svoy { font-size: 32px; font-weight: 200; letter-spacing: 8px; text-transform: uppercase; }
         .logo-svoy span { font-weight: 800; color: var(--accent-color); }
@@ -39,60 +37,65 @@
             background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
             border: 1px solid #262626;
             display: flex; align-items: center; justify-content: center;
-            font-size: 55px; color: #404040; cursor: pointer; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 55px; color: #404040; cursor: pointer; transition: 0.6s;
             box-shadow: 20px 20px 60px #050505, -5px -5px 20px #1a1a1a;
         }
-        .power-btn.active { 
-            color: var(--accent-color); 
-            border-color: var(--accent-color); 
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
-            text-shadow: 0 0 20px var(--accent-color);
-        }
+        .power-btn.active { color: var(--accent-color); border-color: var(--accent-color); box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); }
 
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .info-card { 
-            background: var(--card-bg); padding: 18px; border-radius: 20px; 
-            border: 1px solid #262626; transition: 0.3s;
-        }
+        .info-card { background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626; }
         .info-label { font-size: 10px; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
-        .info-value { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
-
-        .traffic-card { background: var(--card-bg); padding: 20px; border-radius: 24px; border: 1px solid #262626; margin-bottom: 20px; }
-        .progress-container { height: 4px; background: #262626; border-radius: 2px; margin: 12px 0; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 35%; border-radius: 2px; box-shadow: 0 0 10px var(--accent-color); }
+        .info-value { font-size: 14px; font-weight: 600; }
 
         .action-btn { 
             width: 100%; padding: 16px; border-radius: 18px; border: 1px solid #262626; 
             background: #141414; color: white; font-weight: 500; font-size: 13px;
-            margin-bottom: 12px; cursor: pointer; transition: 0.3s;
-            letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: 12px; cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
         }
         .action-btn.primary { background: var(--accent-color); color: black; border: none; font-weight: 700; }
 
-        /* --- GAME (ADAPTED TO BEIGE/DARK) --- */
-        #game-container { width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; position: relative; overflow: hidden; border: 1px solid #262626; }
-        .stars { position: absolute; width: 200%; height: 100%; background-image: radial-gradient(1px 1px at 20px 30px, var(--accent-color), rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 50px 80px, #fff, rgba(0,0,0,0)); background-size: 180px 180px; animation: starScroll 25s linear infinite; opacity: 0.4; }
-        @keyframes starScroll { from { left: 0; } to { left: -100%; } }
-        .horizon { position: absolute; bottom: 0; width: 100%; height: 1px; background: var(--accent-color); opacity: 0.3; }
-
-        .lego-figure { position: relative; width: 30px; height: 50px; display: inline-block; }
-        .lego-head { position: absolute; top: 5px; left: 7px; width: 14px; height: 14px; background: var(--accent-color); border-radius: 4px; z-index: 10; }
-        .lego-body { position: absolute; top: 18px; left: 4px; width: 20px; height: 22px; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 4px; z-index: 5; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: var(--accent-color); }
-        .lego-limb { position: absolute; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 3px; }
-        .arm { width: 5px; height: 14px; top: 20px; left: 12px; z-index: 6; }
-        .leg { width: 8px; height: 16px; top: 38px; left: 10px; z-index: 6; }
-        .running .leg { animation: runCycle 0.4s infinite alternate ease-in-out; }
-        @keyframes runCycle { from { transform: rotate(-25deg); } to { transform: rotate(25deg); } }
-
-        .app-icon { width: 32px; height: 32px; border-radius: 10px; background-size: 70%; background-position: center; background-repeat: no-repeat; background-color: #1a1a1a !important; border: 1px solid #262626; }
-        .app-icon.locked { opacity: 0.2; filter: grayscale(1); }
-        #stairs { display: flex; align-items: flex-end; height: 130px; margin: 15px 0; position: relative; justify-content: space-between; }
-
-        /* --- NAV BAR --- */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; display: flex; padding: 12px 0 30px 0; border-top: 1px solid #1a1a1a; }
-        .nav-item { flex: 1; text-align: center; color: #404040; font-size: 9px; display: flex; flex-direction: column; align-items: center; text-transform: uppercase; letter-spacing: 1px; }
+        /* --- NAVIGATION (EVO STYLE) --- */
+        .navigation {
+            position: fixed; bottom: 20px; left: 50%;
+            transform: translateX(-50%);
+            width: 90%; height: 70px;
+            background: var(--nav-bg);
+            border-radius: 35px;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 0 10px; box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .nav-item {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center;
+            width: 60px; height: 100%;
+            color: var(--text-gray);
+            transition: 0.3s; z-index: 2;
+        }
         .nav-item.active { color: var(--accent-color); }
-        .nav-icon { font-size: 20px; margin-bottom: 5px; }
+        .nav-item span { font-size: 9px; margin-top: 4px; font-weight: 500; }
+        
+        /* Индикатор (Кружок) */
+        .nav-indicator {
+            position: absolute; top: 50%; left: 10px;
+            transform: translateY(-50%);
+            width: 50px; height: 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+        }
+
+        .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
+
+        /* --- GAME --- */
+        #game-container { width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; position: relative; overflow: hidden; border: 1px solid #262626; }
+        .lego-figure { position: relative; width: 30px; height: 50px; display: inline-block; }
+        .lego-head { position: absolute; top: 5px; left: 7px; width: 14px; height: 14px; background: var(--accent-color); border-radius: 4px; }
+        .lego-body { position: absolute; top: 18px; left: 4px; width: 20px; height: 22px; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: var(--accent-color); }
     </style>
 </head>
 <body>
@@ -114,17 +117,7 @@
                 <div class="info-value">1 / 3</div>
             </div>
         </div>
-        <div class="traffic-card">
-            <div style="display: flex; justify-content: space-between;">
-                <div class="info-label">Использовано трафика</div>
-                <div class="info-value" style="font-size: 12px; color: var(--accent-color);">4.2 ГБ / ∞</div>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar"></div>
-            </div>
-        </div>
-        <button class="action-btn primary" onclick="showPage('subs', document.querySelectorAll('.nav-item')[1])">Продлить доступ</button>
-        <button class="action-btn">Подключить устройство</button>
+        <button class="action-btn primary">Продлить доступ</button>
     </div>
 
     <div id="page-subs" class="page">
@@ -132,29 +125,19 @@
         <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
             <span>1 МЕСЯЦ</span><span style="color: var(--accent-color); font-weight: 700;">220₽</span>
         </div>
-        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-color: var(--accent-color);">
-            <span>3 МЕСЯЦА</span><span style="color: var(--accent-color); font-weight: 700;">560₽</span>
-        </div>
-        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span>12 МЕСЯЦЕВ</span><span style="color: var(--accent-color); font-weight: 700;">1480₽</span>
-        </div>
     </div>
 
     <div id="page-balance" class="page">
         <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">БАЛАНС</h2>
-        <div class="info-card" style="text-align: center; padding: 50px 0; border-style: dashed;">
+        <div class="info-card" style="text-align: center; padding: 50px 0;">
             <div style="font-size: 42px; font-weight: 700; color: var(--accent-color);">0.00 ₽</div>
             <div class="info-label">Доступно к выводу</div>
         </div>
-        <button class="action-btn primary" style="margin-top: 25px;">Вывести средства</button>
     </div>
 
     <div id="page-profile" class="page">
         <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ПРОФИЛЬ</h2>
-        <div class="info-card" style="margin-bottom: 15px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                <span class="info-label">Ваш ID</span><span id="user-id" style="font-family: monospace;">...</span>
-            </div>
+        <div class="info-card">
             <div style="display: flex; justify-content: space-between;">
                 <span class="info-label">Статус</span><span style="color: var(--accent-color); font-weight: 700;">PREMIUM</span>
             </div>
@@ -163,48 +146,59 @@
 
     <div id="page-game" class="page">
         <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">SVOY GAME</h2>
-        <div class="info-card" style="border: 1px solid var(--accent-color); margin-bottom: 15px;">
-            <div id="stairs">
-                <div id="stair-man-container" style="position: absolute; bottom: 0; left: 0; transition: 0.8s; z-index: 20;">
-                    <div class="lego-figure">
-                        <div class="lego-head"></div><div class="lego-body">S</div>
-                        <div class="lego-limb arm"></div><div class="lego-limb leg"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div id="game-container" onclick="jump()">
-            <div class="stars"></div><div class="horizon"></div>
             <div id="lego-man-container" style="position: absolute; bottom: 10px; left: 20px;">
                 <div id="lego-man-figure" class="lego-figure">
                     <div class="lego-head"></div><div class="lego-body">S</div>
-                    <div class="lego-limb arm"></div><div class="lego-limb leg"></div>
                 </div>
             </div>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-            <span style="font-size: 24px; font-weight: 700; color: var(--accent-color);"><span id="game-score">0.00</span> ₽</span>
-            <button id="startBtn" onclick="startGame()" class="action-btn primary" style="width: auto; padding: 12px 40px; margin-bottom: 0;">ИГРАТЬ</button>
-        </div>
     </div>
 
-    <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('home', this)"><span class="nav-icon">🛡</span>Главная</div>
-        <div class="nav-item" onclick="showPage('subs', this)"><span class="nav-icon">💎</span>Доступ</div>
-        <div class="nav-item" onclick="showPage('balance', this)"><span class="nav-icon">💰</span>Баланс</div>
-        <div class="nav-item" onclick="showPage('profile', this)"><span class="nav-icon">👤</span>Профиль</div>
-        <div class="nav-item" onclick="showPage('game', this)"><span class="nav-icon">🎮</span>Игра</div>
+    <!-- МЕНЮ (EVO STYLE) -->
+    <div class="navigation">
+        <div class="nav-indicator" id="navIndicator"></div>
+        
+        <div class="nav-item active" onclick="showPage('home', this, 0)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Главная</span>
+        </div>
+        
+        <div class="nav-item" onclick="showPage('subs', this, 1)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>Подписка</span>
+        </div>
+        
+        <div class="nav-item" onclick="showPage('balance', this, 2)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>Баланс</span>
+        </div>
+        
+        <div class="nav-item" onclick="showPage('profile', this, 3)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Профиль</span>
+        </div>
+        
+        <div class="nav-item" onclick="showPage('game', this, 4)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+            <span>Игра</span>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        const params = new URLSearchParams(window.location.search);
         
-        function showPage(pageId, el) {
+        function showPage(pageId, el, index) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
             el.classList.add('active');
+            
+            // Двигаем индикатор
+            const indicator = document.getElementById('navIndicator');
+            const step = (document.querySelector('.navigation').offsetWidth - 20) / 5;
+            indicator.style.left = (10 + (step * index) + (step/2 - 25)) + 'px';
+            
             tg.HapticFeedback.impactOccurred('light');
         }
 
@@ -214,59 +208,11 @@
             tg.HapticFeedback.notificationOccurred(btn.classList.contains('active') ? 'success' : 'warning');
         }
 
-        const appList = [
-            {n:'YT', i:'https://cdn-icons-png.flaticon.com/512/1384/1384060.png'},
-            {n:'IG', i:'https://cdn-icons-png.flaticon.com/512/2111/2111463.png'},
-            {n:'TG', i:'https://cdn-icons-png.flaticon.com/512/2111/2111646.png'},
-            {n:'TK', i:'https://cdn-icons-png.flaticon.com/512/3046/3046121.png'},
-            {n:'NF', i:'https://cdn-icons-png.flaticon.com/512/732/732228.png'},
-            {n:'SP', i:'https://cdn-icons-png.flaticon.com/512/174/174872.png'},
-            {n:'WA', i:'https://cdn-icons-png.flaticon.com/512/733/733585.png'},
-            {n:'X', i:'https://cdn-icons-png.flaticon.com/512/5968/5968830.png'},
-            {n:'GPT', i:'https://cdn-icons-png.flaticon.com/512/12222/12222588.png'},
-            {n:'🎁', i:'https://cdn-icons-png.flaticon.com/512/679/679821.png'}
-        ];
-
-        const refs = Math.min(parseInt(params.get('ref')) || 0, 10);
-        const stairs = document.getElementById('stairs');
-        
-        appList.forEach((app, i) => {
-            const wrap = document.createElement('div');
-            wrap.className = 'app-icon-wrap';
-            wrap.style.bottom = (i * 10) + 'px';
-            const div = document.createElement('div');
-            div.className = `app-icon ${i < refs ? '' : 'locked'}`;
-            div.style.backgroundImage = `url('${app.i}')`;
-            wrap.appendChild(div);
-            stairs.appendChild(wrap);
-        });
-
-        setTimeout(() => {
-            const man = document.getElementById('stair-man-container');
-            const iconsList = document.querySelectorAll('.app-icon');
-            const target = iconsList[Math.max(0, refs - 1)];
-            man.style.left = target.parentElement.offsetLeft + 'px';
-            man.style.bottom = (parseInt(target.parentElement.style.bottom) + 35) + 'px';
-        }, 500);
-
-        document.getElementById('user-id').innerText = tg.initDataUnsafe?.user?.id || "12345678";
-
-        // GAME LOGIC
-        let isJumping = false;
-        function jump() {
-            if(isJumping) return;
-            isJumping = true;
-            const man = document.getElementById('lego-man-container');
-            man.style.transition = "bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
-            man.style.bottom = "90px";
-            tg.HapticFeedback.impactOccurred('medium');
-            setTimeout(() => { man.style.bottom = "10px"; setTimeout(() => isJumping = false, 300); }, 300);
-        }
-
-        function startGame() {
-            document.getElementById('lego-man-figure').classList.add('running');
-            document.getElementById('startBtn').style.display = 'none';
-        }
+        // Инициализация позиции индикатора
+        window.onload = () => {
+            const step = (document.querySelector('.navigation').offsetWidth - 20) / 5;
+            document.getElementById('navIndicator').style.left = (10 + (step * 0) + (step/2 - 25)) + 'px';
+        };
 
         tg.expand();
     </script>
