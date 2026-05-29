@@ -28,15 +28,16 @@
 
         /* --- SAND LOGO ANIMATION --- */
         .logo-container {
-            height: 250px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 20px;
+            position: relative;
+            margin-top: 10px;
         }
 
         .sand-svg {
-            width: 280px;
+            width: 320px; /* Увеличил размер */
             overflow: visible;
             filter: url(#sand-filter);
         }
@@ -44,29 +45,56 @@
         .letter-path {
             fill: none;
             stroke: var(--accent-color);
-            stroke-width: 12;
+            stroke-width: 14; /* Толще линии */
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 500;
-            stroke-dashoffset: 500;
-            animation: sandDraw 2s forwards, sandWind 3s infinite ease-in-out 2s;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: sandDraw 2.5s forwards, sandWindComplex 5s infinite ease-in-out 2.5s;
         }
 
-        .s-path { animation-delay: 0.5s, 2.5s; }
-        .v-path { animation-delay: 1.5s, 3.5s; }
-        .o-path { animation-delay: 2.5s, 4.5s; }
-        .y-path { animation-delay: 3.5s, 5.5s; }
+        .s-path { animation-delay: 0.5s, 3s; }
+        .v-path { animation-delay: 2.5s, 5s; }
+        .o-path { animation-delay: 4.5s, 7s; }
+        .y-path { animation-delay: 6.5s, 9s; }
 
         @keyframes sandDraw {
             to { stroke-dashoffset: 0; }
         }
 
-        @keyframes sandWind {
-            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.9; }
-            50% { transform: translate(1px, -1px) scale(1.02); opacity: 1; }
+        /* Эффект изгиба и колыхания на ветру */
+        @keyframes sandWindComplex {
+            0%, 100% { transform: translate(0, 0) skew(0deg) scale(1); }
+            33% { transform: translate(2px, -1px) skew(1deg) scale(1.01); }
+            66% { transform: translate(-1px, 1px) skew(-1deg) scale(0.99); }
         }
 
-        /* --- LAYOUT (PUSHED DOWN) --- */
+        /* --- DISNEY STAR --- */
+        .disney-star {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px 2px #fff, 0 0 30px 5px var(--accent-color);
+            opacity: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .star-trail {
+            animation: starArc 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards 9s;
+        }
+
+        @keyframes starArc {
+            0% { opacity: 0; transform: translate(-160px, 40px) scale(0); }
+            10% { opacity: 1; transform: translate(-140px, 10px) scale(1); }
+            50% { transform: translate(0px, -80px) scale(1.2); }
+            90% { opacity: 1; transform: translate(140px, 10px) scale(1); }
+            100% { opacity: 0; transform: translate(160px, 40px) scale(0); }
+        }
+
+        /* --- LAYOUT --- */
         .home-content {
             display: flex;
             flex-direction: column;
@@ -121,14 +149,17 @@
     <!-- SAND FILTER -->
     <svg style="position: absolute; width: 0; height: 0;">
         <filter id="sand-filter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
         </filter>
     </svg>
 
     <div id="page-home" class="page active">
         <div class="home-content">
             <div class="logo-container">
+                <!-- Звезда Disney -->
+                <div class="disney-star star-trail"></div>
+                
                 <svg class="sand-svg" viewBox="0 0 200 80">
                     <!-- S -->
                     <path class="letter-path s-path" d="M40,25 c-15,0 -15,15 0,15 s15,15 0,15" />
