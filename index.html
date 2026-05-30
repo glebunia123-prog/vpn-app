@@ -15,61 +15,77 @@
             --nav-bg: #111111;
         }
 
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0; padding: 0;
+            height: 100vh; width: 100vw;
             overflow: hidden; user-select: none;
         }
 
-        .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
+        /* ФОН НА ВСЮ СТРАНИЦУ */
+        .page { 
+            display: none; 
+            padding: 20px; 
+            height: 100vh; 
+            width: 100%;
+            overflow-y: auto; 
+            padding-bottom: 100px;
+            background-color: var(--bg-color);
+        }
         .page.active { display: block; }
 
-        /* ПУНКТ 1 & 2: БОЛЬШИЕ БУКВЫ И НАСЫПАНИЕ */
-        .logo-stage { height: 300px; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
-        .sand-canvas-svg { width: 380px; height: 160px; overflow: visible; }
+        /* АНИМАЦИЯ НАСЫПАНИЯ (ДОЛЬШЕ) */
+        .logo-stage { height: 280px; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .sand-canvas-svg { width: 340px; height: 140px; overflow: visible; }
         .sand-letter {
-            fill: none; stroke: var(--accent-color); stroke-width: 20;
+            fill: none; stroke: var(--accent-color); stroke-width: 16;
             stroke-linecap: round; stroke-linejoin: round;
             stroke-dasharray: 1000; stroke-dashoffset: 1000;
-            animation: drawSand 3s forwards, shake 5s infinite ease-in-out;
+            animation: drawSand 5s ease-out forwards, shake 5s infinite ease-in-out;
         }
         @keyframes drawSand { to { stroke-dashoffset: 0; } }
-        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(1.5deg); } 75% { transform: rotate(-1.5deg); } }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(1deg); } 75% { transform: rotate(-1deg); } }
 
-        /* ПУНКТ 3: ПУЛЬСИРУЮЩИЕ КНОПКИ */
+        /* КНОПКИ БЕЗ СМАЙЛИКОВ */
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
-            margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: 0.3s; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 12px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             animation: pulse 3s infinite ease-in-out;
+            border: 1px solid rgba(194, 163, 121, 0.1);
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        /* iOS STYLE */
+        /* iOS КАРТОЧКИ */
         .ios-card { background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; overflow: hidden; }
-        .ios-row { padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        
-        /* ПУНКТ 7: ШКАЛА ТРАФИКА */
-        .progress-bar { width: 100%; height: 6px; background: #262626; border-radius: 3px; margin-top: 8px; overflow: hidden; }
-        .progress-fill { width: 45%; height: 100%; background: var(--accent-color); }
+        .ios-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .ios-row:last-child { border-bottom: none; }
 
-        /* ПУНКТ 4: НАВИГАЦИЯ EVO */
-        .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(194, 163, 121, 0.1); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; width: 20%; color: var(--text-gray); z-index: 2; }
+        /* НАВИГАЦИЯ EVO */
+        .navigation { 
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            width: 92%; height: 70px; background: var(--nav-bg); 
+            border-radius: 35px; display: flex; justify-content: space-around; 
+            align-items: center; border: 1px solid rgba(194, 163, 121, 0.15); z-index: 1000;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; width: 20%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
         .nav-item.active { color: var(--accent-color); }
-        .nav-indicator { position: absolute; width: 50px; height: 50px; background: rgba(194, 163, 121, 0.15); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
-        .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
+        .nav-item span { font-size: 10px; margin-top: 4px; font-weight: 500; }
+        .nav-indicator { position: absolute; width: 48px; height: 48px; background: rgba(194, 163, 121, 0.15); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
+        .nav-icon-svg { width: 24px; height: 24px; fill: currentColor; }
 
-        /* ПРОФИЛЬ */
-        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
-        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent-color); overflow: hidden; margin-bottom: 10px; }
-        .accordion-content { display: none; padding: 15px; background: #1a1a1a; }
-        .accordion.open .accordion-content { display: block; }
+        /* АККОРДЕОН */
+        .accordion-content { display: none; padding: 0 16px 16px 16px; background: var(--card-bg); }
+        .ios-card.open .accordion-content { display: block; }
+        .arrow { width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
+        .ios-card.open .arrow { transform: rotate(-135deg); }
     </style>
 </head>
 <body>
@@ -84,64 +100,80 @@
                 <path class="sand-letter" d="M185,30 l15,20 l15,-20 M200,50 l0,20" />
             </svg>
         </div>
-        <button class="bubble-btn primary">🚀 Продлить доступ</button>
-        <button class="bubble-btn">📱 Подключить устройство</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+            <div class="ios-card" style="margin:0; padding:15px;">
+                <div style="font-size: 10px; color: var(--text-gray);">ПОДПИСКА ДО</div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--accent-color);">12.06.2026</div>
+            </div>
+            <div class="ios-card" style="margin:0; padding:15px;">
+                <div style="font-size: 10px; color: var(--text-gray);">УСТРОЙСТВ</div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--accent-color);">1 / 3</div>
+            </div>
+        </div>
+        <button class="bubble-btn primary">Продлить доступ</button>
+        <button class="bubble-btn">Подключить устройство</button>
     </div>
 
-    <!-- ПОДПИСКА -->
+    <!-- ПОДПИСКА (БЕЗ ИЗМЕНЕНИЙ) -->
     <div id="page-subs" class="page">
         <div class="ios-card">
-            <div class="ios-row"><span>Статус</span><span style="color: #34C759;">● Активна</span></div>
-            <div style="padding: 20px; text-align: center;">
+            <div class="ios-row"><span>Статус</span><span style="color: #34C759; font-weight: 600;">● Активна</span></div>
+            <div style="padding: 30px; text-align: center;">
                 <div style="font-size: 48px; font-weight: 800; color: var(--accent-color);">23:59:59</div>
-                <div style="font-size: 12px; color: var(--text-gray);">ОСТАЛОСЬ ВРЕМЕНИ</div>
+                <div style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">ОСТАЛОСЬ ВРЕМЕНИ</div>
             </div>
         </div>
         <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <button class="bubble-btn primary" style="margin:0; flex:1; animation: pulse 2s infinite;">Продлить</button>
-            <button class="bubble-btn" style="margin:0; flex:1; animation: none;">Тарифы</button>
-        </div>
-        <div class="ios-card">
-            <div class="ios-row" style="flex-direction: column; align-items: flex-start;">
-                <div style="display: flex; justify-content: space-between; width: 100%;">
-                    <span>Трафик</span><span>1.2 GB / ∞</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill"></div></div>
-            </div>
+            <button class="bubble-btn primary" style="margin:0; flex:1;">Продлить</button>
+            <button class="bubble-btn" style="margin:0; flex:1; animation:none;">Тарифы</button>
         </div>
     </div>
 
     <!-- БАЛАНС -->
     <div id="page-balance" class="page">
         <div class="ios-card" style="padding: 20px;">
-            <div style="font-size: 12px; color: var(--text-gray);">БАЛАНС</div>
+            <div style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">БАЛАНС</div>
             <div style="font-size: 36px; font-weight: 700; margin: 10px 0;">0.00 ₽</div>
             <div style="display: flex; gap: 10px;">
-                <button class="bubble-btn primary" style="padding: 10px; font-size: 12px;">Пополнить</button>
-                <button class="bubble-btn" style="padding: 10px; font-size: 12px;">Промокод</button>
+                <button class="bubble-btn primary" style="padding: 12px; font-size: 12px; margin:0;">Пополнить</button>
+                <button class="bubble-btn" style="padding: 12px; font-size: 12px; margin:0; animation:none;">Промокод</button>
             </div>
         </div>
+
+        <div class="ios-card" style="padding: 20px; text-align: center;">
+            <div style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">БАЛАНС НА ВЫВОД</div>
+            <div style="font-size: 32px; font-weight: 700; color: var(--accent-color); margin: 15px 0;">0.00 ₽</div>
+            <div style="display: flex; gap: 10px;">
+                <button class="bubble-btn" style="margin:0; flex:1; animation:none;">Вывод</button>
+                <button class="bubble-btn" style="margin:0; flex:1; animation:none;">Статистика</button>
+            </div>
+        </div>
+
         <div class="ios-card" id="history-acc">
             <div class="ios-row" onclick="document.getElementById('history-acc').classList.toggle('open')">
-                <span>История операций</span><span>▼</span>
+                <span>История операций</span><div class="arrow"></div>
             </div>
-            <div class="accordion-content">Пока операций нет</div>
+            <div class="accordion-content"><div style="color: var(--text-gray); font-size: 13px; text-align: center; padding: 10px;">Операций пока нет</div></div>
         </div>
     </div>
 
     <!-- ПРОФИЛЬ -->
     <div id="page-profile" class="page">
         <div class="profile-header">
-            <div class="profile-avatar" id="user-photo"></div>
-            <div id="display-name" style="font-size: 20px; font-weight: 700;">Пользователь</div>
-            <div id="username-text" style="color: var(--text-gray);">@username</div>
+            <div class="profile-avatar" id="user-photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div id="display-name" style="font-size: 22px; font-weight: 700;">Пользователь</div>
+            <div id="username-text" style="color: var(--text-gray); font-size: 14px;">@username</div>
         </div>
-        <div class="ios-card accordion" id="profile-acc">
+        <div class="ios-card" id="profile-acc">
             <div class="ios-row" onclick="document.getElementById('profile-acc').classList.toggle('open')">
-                <span>Информация об аккаунте</span><span>▼</span>
+                <span>Информация об аккаунте</span><div class="arrow"></div>
             </div>
             <div class="accordion-content">
-                <div class="ios-row"><span>ID</span><span id="info-id">...</span></div>
+                <div class="ios-row" style="padding: 10px 0;"><span>ID</span><span id="info-id" style="color: var(--accent-color);">...</span></div>
+                <div class="ios-row" style="padding: 10px 0;"><span>Имя</span><span id="info-name">...</span></div>
+                <div class="ios-row" style="padding: 10px 0;"><span>Username</span><span id="info-user">...</span></div>
             </div>
         </div>
     </div>
@@ -173,22 +205,31 @@
 
     <script>
         const tg = window.Telegram.WebApp;
+        tg.expand();
+
         function showPage(pageId, el, index) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
             el.classList.add('active');
-            const step = document.querySelector('.navigation').offsetWidth / 5;
-            document.getElementById('navIndicator').style.left = (step * index + (step/2 - 25)) + 'px';
+            
+            const navWidth = document.querySelector('.navigation').offsetWidth;
+            const step = navWidth / 5;
+            document.getElementById('navIndicator').style.left = (step * index + (step/2 - 24)) + 'px';
             tg.HapticFeedback.impactOccurred('light');
         }
+
         window.onload = () => {
             const user = tg.initDataUnsafe?.user;
-            if(user) {
+            if (user) {
                 document.getElementById('display-name').innerText = user.first_name;
                 document.getElementById('info-id').innerText = user.id;
+                document.getElementById('info-name').innerText = user.first_name;
+                document.getElementById('info-user').innerText = user.username ? '@' + user.username : 'нет';
+                if (user.photo_url) document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
             }
-            showPage('home', document.querySelector('.nav-item'), 0);
+            const navWidth = document.querySelector('.navigation').offsetWidth;
+            document.getElementById('navIndicator').style.left = (navWidth / 10 - 24) + 'px';
         };
     </script>
 </body>
