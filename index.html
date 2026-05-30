@@ -26,107 +26,86 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- PREMIUM 3D LOGO --- */
-        .logo-container {
-            height: 280px;
+        /* --- NEW LOGO AREA --- */
+        .logo-stage {
+            height: 350px;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            perspective: 1000px;
+            overflow: visible;
         }
 
-        .premium-text {
-            font-family: "Times New Roman", Times, serif; /* Строгий дорогой шрифт */
-            font-size: 72px;
-            font-weight: 700;
-            letter-spacing: 8px;
-            color: var(--accent-color);
-            display: flex;
-            position: relative;
-            z-index: 5;
+        .sand-canvas-svg {
+            width: 360px;
+            height: 150px;
+            overflow: visible;
         }
 
-        .premium-text span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px) rotateX(-90deg);
-            animation: revealLetter 1s forwards, wave 4s infinite ease-in-out;
-            /* 3D Эффект объема */
-            text-shadow: 
-                0 1px 0 #9e835d, 
-                0 2px 0 #8a7251, 
-                0 3px 0 #756145, 
-                0 4px 0 #615039,
-                0 10px 20px rgba(0,0,0,0.8);
-            position: relative;
+        .sand-letter {
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 18;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+            animation: drawSandLetter 3s forwards, sandWave 5s infinite ease-in-out 3s;
         }
 
-        /* Эффект зернистости/песка внутри букв */
-        .premium-text span::after {
-            content: attr(data-text);
+        .s-path { animation-delay: 0.5s, 3.5s; }
+        .v-path { animation-delay: 2.5s, 5.5s; }
+        .o-path { animation-delay: 4.5s, 7.5s; }
+        .y-path { animation-delay: 6.5s, 9.5s; }
+
+        @keyframes drawSandLetter {
+            0% { stroke-dashoffset: 1000; opacity: 0; }
+            10% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+
+        @keyframes sandWave {
+            0%, 100% { transform: scale(1) rotate(0deg) translateY(0); }
+            33% { transform: scale(1.02) rotate(1deg) translateY(-2px); }
+            66% { transform: scale(0.98) rotate(-1deg) translateY(2px); }
+        }
+
+        /* --- DISNEY STAR WITH SPARKLE TRAIL --- */
+        .disney-magic {
             position: absolute;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            color: transparent;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 150px;
-            -webkit-background-clip: text;
-            opacity: 0.4;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            animation: sandGrain 0.2s infinite;
-        }
-
-        @keyframes revealLetter {
-            to { opacity: 1; transform: translateY(0) rotateX(0deg); }
-        }
-
-        @keyframes wave {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
-        }
-
-        @keyframes sandGrain {
-            from { background-position: 0 0; }
-            to { background-position: 10px 10px; }
-        }
-
-        /* Задержки для букв */
-        .premium-text span:nth-child(1) { animation-delay: 0.5s, 1.5s; }
-        .premium-text span:nth-child(2) { animation-delay: 1.0s, 2.0s; }
-        .premium-text span:nth-child(3) { animation-delay: 1.5s, 2.5s; }
-        .premium-text span:nth-child(4) { animation-delay: 2.0s, 3.0s; }
-
-        /* --- DISNEY STAR --- */
-        .star-arc {
-            position: absolute;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
-            pointer-events: none;
-            z-index: 10;
         }
 
         .magic-star {
             position: absolute;
-            width: 6px; height: 6px;
+            width: 8px; height: 8px;
             background: #fff;
             border-radius: 50%;
             box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
             opacity: 0;
-            offset-path: path("M -50 200 Q 180 -150 410 200");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 4s;
+            offset-path: path("M -60 250 Q 180 -150 420 250");
+            animation: starFlightMagic 4s cubic-bezier(0.4, 0, 0.2, 1) forwards 10s;
         }
 
+        /* Искры шлейфа */
         .magic-star::before {
-            content: '';
+            content: '✨';
             position: absolute;
-            width: 60px; height: 2px;
-            background: linear-gradient(to left, #fff, transparent);
-            right: 5px; top: 2px;
-            filter: blur(1px);
+            font-size: 12px;
+            left: -10px;
+            top: -5px;
+            animation: sparkleRotate 1s infinite linear;
         }
 
-        @keyframes starFlight {
+        @keyframes sparkleRotate {
+            from { transform: rotate(0deg) scale(1); opacity: 1; }
+            to { transform: rotate(360deg) scale(0.5); opacity: 0; }
+        }
+
+        @keyframes starFlightMagic {
             0% { opacity: 0; offset-distance: 0%; }
             10% { opacity: 1; }
             90% { opacity: 1; }
@@ -136,6 +115,7 @@
         /* --- BUTTONS --- */
         .bottom-section { margin-top: auto; padding-bottom: 80px; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
@@ -145,9 +125,26 @@
             animation: bubbleBreath 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
-        @keyframes bubbleBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- NAV & PROFILE (UNCHANGED) --- */
+        @keyframes bubbleBreath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* --- PROFILE & NAV (RESTORED) --- */
+        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .profile-username { font-size: 14px; color: var(--text-gray); }
+        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
+        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .accordion-arrow { width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
+        .accordion.open .accordion-arrow { transform: rotate(-135deg); }
+        .accordion-content { display: none; padding: 0 18px 18px 18px; }
+        .accordion.open .accordion-content { display: block; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
+
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
         .nav-item.active { color: var(--accent-color); }
@@ -160,17 +157,21 @@
 
     <div id="page-home" class="page active">
         <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
-            <div class="logo-container">
-                <div class="star-arc">
+            <div class="logo-stage">
+                <div class="disney-magic">
                     <div class="magic-star"></div>
                 </div>
                 
-                <div class="premium-text">
-                    <span data-text="S">S</span>
-                    <span data-text="V">V</span>
-                    <span data-text="O">O</span>
-                    <span data-text="Y">Y</span>
-                </div>
+                <svg class="sand-canvas-svg" viewBox="0 0 240 100">
+                    <!-- S -->
+                    <path class="sand-letter s-path" d="M40,30 c-20,0 -20,20 0,20 s20,20 0,20" />
+                    <!-- V -->
+                    <path class="sand-letter v-path" d="M75,30 l15,40 l15,-40" />
+                    <!-- O -->
+                    <path class="sand-letter o-path" d="M130,50 a15,20 0 1,0 30,0 a15,20 0 1,0 -30,0" />
+                    <!-- Y -->
+                    <path class="sand-letter y-path" d="M185,30 l15,20 l15,-20 M200,50 l0,20" />
+                </svg>
             </div>
 
             <div class="bottom-section">
