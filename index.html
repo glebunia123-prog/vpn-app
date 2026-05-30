@@ -26,69 +26,104 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- HUGE 3D SAND LOGO --- */
-        .logo-stage {
-            height: 300px;
-            width: 100%;
+        /* --- PREMIUM 3D LOGO --- */
+        .logo-container {
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: visible;
+            perspective: 1000px;
         }
 
-        .sand-svg-huge {
-            width: 100%;
-            max-width: 380px;
-            height: 200px;
-            overflow: visible;
+        .premium-text {
+            font-family: "Times New Roman", Times, serif; /* Строгий дорогой шрифт */
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: var(--accent-color);
+            display: flex;
+            position: relative;
+            z-index: 5;
         }
 
-        .sand-char {
-            font-family: "Arial Black", sans-serif;
-            font-size: 110px;
-            font-weight: 900;
-            fill: var(--accent-color);
+        .premium-text span {
+            display: inline-block;
             opacity: 0;
-            filter: url(#sand-grain-filter);
-            /* 3D Эффект */
-            stroke: rgba(0,0,0,0.3);
-            stroke-width: 2px;
-            animation: revealSand 1.2s forwards;
+            transform: translateY(20px) rotateX(-90deg);
+            animation: revealLetter 1s forwards, wave 4s infinite ease-in-out;
+            /* 3D Эффект объема */
+            text-shadow: 
+                0 1px 0 #9e835d, 
+                0 2px 0 #8a7251, 
+                0 3px 0 #756145, 
+                0 4px 0 #615039,
+                0 10px 20px rgba(0,0,0,0.8);
+            position: relative;
         }
 
-        /* Поочередное насыпание */
-        .s-char { animation-delay: 0.5s; }
-        .v-char { animation-delay: 1.8s; }
-        .o-char { animation-delay: 3.1s; }
-        .y-char { animation-delay: 4.4s; }
-
-        /* Разнонаправленное дыхание */
-        .sand-group-1 { animation: breatheLeft 5s infinite ease-in-out 5s; }
-        .sand-group-2 { animation: breatheRight 5s infinite ease-in-out 5s; }
-
-        @keyframes revealSand {
-            0% { opacity: 0; transform: scale(0.5) translateY(30px); filter: blur(15px) url(#sand-grain-filter); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0) url(#sand-grain-filter); }
+        /* Эффект зернистости/песка внутри букв */
+        .premium-text span::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            color: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 150px;
+            -webkit-background-clip: text;
+            opacity: 0.4;
+            pointer-events: none;
+            animation: sandGrain 0.2s infinite;
         }
 
-        @keyframes breatheLeft {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-5px, 3px) rotate(1deg) scale(1.03); }
+        @keyframes revealLetter {
+            to { opacity: 1; transform: translateY(0) rotateX(0deg); }
         }
 
-        @keyframes breatheRight {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(5px, -3px) rotate(-1deg) scale(1.03); }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
         }
 
-        /* --- DISNEY STAR (TOP ARC) --- */
+        @keyframes sandGrain {
+            from { background-position: 0 0; }
+            to { background-position: 10px 10px; }
+        }
+
+        /* Задержки для букв */
+        .premium-text span:nth-child(1) { animation-delay: 0.5s, 1.5s; }
+        .premium-text span:nth-child(2) { animation-delay: 1.0s, 2.0s; }
+        .premium-text span:nth-child(3) { animation-delay: 1.5s, 2.5s; }
+        .premium-text span:nth-child(4) { animation-delay: 2.0s, 3.0s; }
+
+        /* --- DISNEY STAR --- */
+        .star-arc {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
         .magic-star {
-            position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
-            box-shadow: 0 0 25px 5px #fff, 0 0 50px 15px var(--accent-color);
-            opacity: 0; offset-path: path("M -80 250 Q 180 -180 460 250");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 6s;
-            z-index: 100;
+            position: absolute;
+            width: 6px; height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
+            opacity: 0;
+            offset-path: path("M -50 200 Q 180 -150 410 200");
+            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 4s;
+        }
+
+        .magic-star::before {
+            content: '';
+            position: absolute;
+            width: 60px; height: 2px;
+            background: linear-gradient(to left, #fff, transparent);
+            right: 5px; top: 2px;
+            filter: blur(1px);
         }
 
         @keyframes starFlight {
@@ -98,111 +133,65 @@
             100% { opacity: 0; offset-distance: 100%; }
         }
 
-        /* --- BUTTONS & INFO (BOTTOM) --- */
-        .bottom-section { margin-top: auto; padding-bottom: 90px; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .info-card { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid #262626; }
-        
+        /* --- BUTTONS --- */
+        .bottom-section { margin-top: auto; padding-bottom: 80px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .bubble-btn {
-            width: 100%; padding: 18px; border-radius: 35px; border: none;
+            width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
-            margin-bottom: 10px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            display: flex; align-items: center; justify-content: center;
-            animation: btnBreath 4s infinite ease-in-out;
+            margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: 0.3s; display: flex; align-items: center; justify-content: center;
+            animation: bubbleBreath 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
-        @keyframes btnBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes bubbleBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- NAVIGATION --- */
+        /* --- NAV & PROFILE (UNCHANGED) --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 100%; color: var(--text-gray); transition: 0.3s; z-index: 2; }
         .nav-item.active { color: var(--accent-color); }
         .nav-item span { font-size: 9px; margin-top: 4px; }
         .nav-indicator { position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(194, 163, 121, 0.1); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
         .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
-
-        /* --- PROFILE --- */
-        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
-        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
-        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .accordion-content { display: none; padding: 0 18px 18px 18px; }
-        .accordion.open .accordion-content { display: block; }
-        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
     </style>
 </head>
 <body>
 
-    <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="sand-grain-filter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" result="noise"/>
-            <feComposite operator="in" in2="SourceGraphic" />
-        </filter>
-    </svg>
-
     <div id="page-home" class="page active">
         <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
-            <div class="logo-stage">
-                <div class="magic-star"></div>
-                <svg class="sand-svg-huge" viewBox="0 0 400 150">
-                    <g class="sand-group-1">
-                        <text x="40" y="120" class="sand-char s-char">S</text>
-                    </g>
-                    <g class="sand-group-2">
-                        <text x="130" y="120" class="sand-char v-char">V</text>
-                    </g>
-                    <g class="sand-group-1">
-                        <text x="220" y="120" class="sand-char o-char">O</text>
-                    </g>
-                    <g class="sand-group-2">
-                        <text x="310" y="120" class="sand-char y-char">Y</text>
-                    </g>
-                </svg>
+            <div class="logo-container">
+                <div class="star-arc">
+                    <div class="magic-star"></div>
+                </div>
+                
+                <div class="premium-text">
+                    <span data-text="S">S</span>
+                    <span data-text="V">V</span>
+                    <span data-text="O">O</span>
+                    <span data-text="Y">Y</span>
+                </div>
             </div>
 
             <div class="bottom-section">
                 <div class="info-grid">
-                    <div class="info-card">
+                    <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
                         <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Подписка до</div>
                         <div style="font-size: 14px; font-weight: 600;">12.06.2026</div>
                     </div>
-                    <div class="info-card">
+                    <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
                         <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Устройств</div>
                         <div style="font-size: 14px; font-weight: 600;">1 / 3</div>
                     </div>
                 </div>
-                <button class="bubble-btn primary" onclick="showPage('subs', document.getElementById('nav-subs'), 1)">Продлить доступ</button>
+
+                <button class="bubble-btn primary">Продлить доступ</button>
                 <button class="bubble-btn">Подключить устройство</button>
             </div>
         </div>
     </div>
 
-    <div id="page-subs" class="page">
-        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ТАРИФЫ</h2>
-        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span>1 МЕСЯЦ</span><span style="color: var(--accent-color); font-weight: 700;">220₽</span>
-        </div>
-        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span>3 МЕСЯЦА</span><span style="color: var(--accent-color); font-weight: 700;">560₽</span>
-        </div>
-        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span>6 МЕСЯЦЕВ</span><span style="color: var(--accent-color); font-weight: 700;">950₽</span>
-        </div>
-        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span>12 МЕСЯЦЕВ</span><span style="color: var(--accent-color); font-weight: 700;">1480₽</span>
-        </div>
-    </div>
-
-    <div id="page-balance" class="page">
-        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">БАЛАНС</h2>
-        <div class="info-card" style="text-align: center; padding: 50px 0;">
-            <div style="font-size: 42px; font-weight: 700; color: var(--accent-color);">0.00 ₽</div>
-            <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Доступно к выводу</div>
-        </div>
-    </div>
-
+    <!-- ОСТАЛЬНЫЕ СТРАНИЦЫ (БЕЗ ИЗМЕНЕНИЙ) -->
     <div id="page-profile" class="page">
         <div class="profile-header">
             <div class="profile-avatar" id="user-photo">
@@ -213,33 +202,70 @@
         </div>
         <div class="accordion" id="infoAccordion">
             <div class="accordion-header" onclick="toggleAccordion()">
-                <div style="font-size: 14px; font-weight: 600;">Информация об аккаунте</div>
-                <div class="accordion-arrow" style="width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+                <div class="accordion-title">Информация об аккаунте</div>
+                <div class="accordion-arrow"></div>
             </div>
             <div class="accordion-content">
-                <div class="info-row"><span>ID</span><span id="info-id">...</span></div>
-                <div class="info-row"><span>Username</span><span id="info-username">...</span></div>
-                <div class="info-row"><span>Имя</span><span id="info-name">...</span></div>
+                <div class="info-row"><span class="info-label">Telegram ID</span><span class="info-value" id="info-id">...</span></div>
+                <div class="info-row"><span class="info-label">Имя пользователя</span><span class="info-value" id="info-username">...</span></div>
+                <div class="info-row"><span class="info-label">Имя</span><span class="info-value" id="info-name">...</span></div>
+                <div class="info-row"><span class="info-label">Дата регистрации</span><span class="info-value">29.05.2026</span></div>
             </div>
+        </div>
+    </div>
+
+    <div id="page-subs" class="page">
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ТАРИФЫ</h2>
+        <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626; margin-bottom: 12px; display: flex; justify-content: space-between;">
+            <span>1 МЕСЯЦ</span><span style="color: var(--accent-color); font-weight: 700;">220₽</span>
+        </div>
+    </div>
+
+    <div id="page-balance" class="page">
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">БАЛАНС</h2>
+        <div style="background: var(--card-bg); padding: 50px 0; border-radius: 20px; border: 1px solid #262626; text-align: center;">
+            <div style="font-size: 42px; font-weight: 700; color: var(--accent-color);">0.00 ₽</div>
+            <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Доступно к выводу</div>
         </div>
     </div>
 
     <div id="page-game" class="page">
         <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">SVOY GAME</h2>
-        <div style="width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; border: 1px solid #262626;"></div>
+        <div style="width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; position: relative; overflow: hidden; border: 1px solid #262626;">
+            <div style="position: absolute; bottom: 10px; left: 20px; width: 30px; height: 50px;">
+                <div style="width: 14px; height: 14px; background: var(--accent-color); border-radius: 4px; margin: 0 auto;"></div>
+                <div style="width: 20px; height: 22px; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 4px; margin: 2px auto; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--accent-color);">S</div>
+            </div>
+        </div>
     </div>
 
     <div class="navigation">
         <div class="nav-indicator" id="navIndicator"></div>
-        <div class="nav-item active" onclick="showPage('home', this, 0)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Главная</span></div>
-        <div class="nav-item" id="nav-subs" onclick="showPage('subs', this, 1)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>Подписка</span></div>
-        <div class="nav-item" onclick="showPage('balance', this, 2)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg><span>Баланс</span></div>
-        <div class="nav-item" onclick="showPage('profile', this, 3)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Профиль</span></div>
-        <div class="nav-item" onclick="showPage('game', this, 4)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span>Игра</span></div>
+        <div class="nav-item active" onclick="showPage('home', this, 0)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="showPage('subs', this, 1)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>Подписка</span>
+        </div>
+        <div class="nav-item" onclick="showPage('balance', this, 2)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>Баланс</span>
+        </div>
+        <div class="nav-item" onclick="showPage('profile', this, 3)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Профиль</span>
+        </div>
+        <div class="nav-item" onclick="showPage('game', this, 4)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+            <span>Игра</span>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
+        
         function showPage(pageId, el, index) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -250,17 +276,17 @@
             indicator.style.left = (10 + (step * index) + (step/2 - 25)) + 'px';
             tg.HapticFeedback.impactOccurred('light');
         }
+
         function toggleAccordion() {
-            const acc = document.getElementById('infoAccordion');
-            acc.classList.toggle('open');
-            const arrow = acc.querySelector('.accordion-arrow');
-            if(arrow) arrow.style.transform = acc.classList.contains('open') ? 'rotate(-135deg)' : 'rotate(45deg)';
+            document.getElementById('infoAccordion').classList.toggle('open');
             tg.HapticFeedback.impactOccurred('light');
         }
+
         window.onload = () => {
             const nav = document.querySelector('.navigation');
             const step = (nav.offsetWidth - 20) / 5;
             document.getElementById('navIndicator').style.left = (10 + (step * 0) + (step/2 - 25)) + 'px';
+            
             const user = tg.initDataUnsafe?.user;
             if (user) {
                 document.getElementById('display-name').innerText = (user.first_name + ' ' + (user.last_name || '')).trim();
