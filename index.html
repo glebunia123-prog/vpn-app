@@ -26,9 +26,9 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- HUGE BUBBLE SAND LOGO --- */
+        /* --- HUGE SAND LOGO --- */
         .logo-stage {
-            height: 280px;
+            height: 350px;
             width: 100%;
             display: flex;
             align-items: center;
@@ -39,64 +39,59 @@
 
         .sand-svg-huge {
             width: 100%;
-            max-width: 350px;
-            height: auto;
+            height: 220px;
             overflow: visible;
+            filter: url(#sand-grain-rough); /* Шершавость */
         }
 
         .sand-char {
-            font-family: "Arial Round", "Arial Black", sans-serif;
-            font-size: 90px;
+            font-family: "Arial Black", sans-serif;
+            font-size: 130px;
             font-weight: 900;
             fill: var(--accent-color);
             opacity: 0;
-            filter: url(#sand-grain-ultra);
             animation: revealSand 1.5s forwards;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* Поочередное появление */
+        /* Поочередное насыпание */
         .s-char { animation-delay: 0.5s; }
-        .v-char { animation-delay: 1.8s; }
-        .o-char { animation-delay: 3.1s; }
-        .y-char { animation-delay: 4.4s; }
+        .v-char { animation-delay: 2.0s; }
+        .o-char { animation-delay: 3.5s; }
+        .y-char { animation-delay: 5.0s; }
 
         /* Разнонаправленное дыхание */
-        .sand-group-1 { animation: breatheLeft 5s infinite ease-in-out 5s; transform-origin: center; }
-        .sand-group-2 { animation: breatheRight 5s infinite ease-in-out 5s; transform-origin: center; }
+        .group-s { animation: breatheS 4s infinite ease-in-out 6.5s; transform-origin: center; }
+        .group-v { animation: breatheV 4s infinite ease-in-out 6.5s; transform-origin: center; }
+        .group-o { animation: breatheO 4s infinite ease-in-out 6.5s; transform-origin: center; }
+        .group-y { animation: breatheY 4s infinite ease-in-out 6.5s; transform-origin: center; }
 
         @keyframes revealSand {
-            0% { opacity: 0; transform: scale(0.3) rotate(-10deg); filter: blur(20px); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
+            0% { opacity: 0; transform: scale(0.2) translateY(50px); filter: blur(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
-        @keyframes breatheLeft {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-6px, 3px) scale(1.06); }
-        }
+        @keyframes breatheS { 0%, 100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(-10px, 5px) scale(1.05) rotate(-2deg); } }
+        @keyframes breatheV { 0%, 100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(10px, -5px) scale(1.05) rotate(2deg); } }
+        @keyframes breatheO { 0%, 100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(-5px, -8px) scale(1.05) rotate(1deg); } }
+        @keyframes breatheY { 0%, 100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(8px, 8px) scale(1.05) rotate(-1deg); } }
 
-        @keyframes breatheRight {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(6px, -3px) scale(1.06); }
-        }
-
-        /* --- DISNEY STAR --- */
-        .magic-star {
+        /* --- DISNEY STAR (BOTTOM ARC) --- */
+        .magic-star-bottom {
             position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
-            box-shadow: 0 0 25px 5px #fff, 0 0 50px 15px var(--accent-color);
-            opacity: 0; offset-path: path("M -60 250 Q 170 -150 420 250");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 6.5s;
+            box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
+            opacity: 0; offset-path: path("M -50 300 Q 180 450 410 300"); /* Дуга внизу */
+            animation: starFlightBottom 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 8s;
             z-index: 100;
         }
 
-        @keyframes starFlight {
+        @keyframes starFlightBottom {
             0% { opacity: 0; offset-distance: 0%; }
             10% { opacity: 1; }
             90% { opacity: 1; }
             100% { opacity: 0; offset-distance: 100%; }
         }
 
-        /* --- BUTTONS & INFO (BOTTOM) --- */
+        /* --- BUTTONS & INFO --- */
         .bottom-section { margin-top: auto; padding-bottom: 90px; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
         .info-card { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid #262626; }
@@ -110,7 +105,7 @@
             animation: btnBreath 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
-        @keyframes btnBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+        @keyframes btnBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
         /* --- NAVIGATION --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
@@ -134,8 +129,8 @@
 <body>
 
     <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="sand-grain-ultra">
-            <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="5" result="noise"/>
+        <filter id="sand-grain-rough">
+            <feTurbulence type="fractalNoise" baseFrequency="0.98" numOctaves="10" result="noise"/>
             <feComposite operator="in" in2="SourceGraphic" />
         </filter>
     </svg>
@@ -144,11 +139,12 @@
     <div id="page-home" class="page active">
         <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
             <div class="logo-stage">
-                <div class="magic-star"></div>
+                <div class="magic-star-bottom"></div>
                 <svg class="sand-svg-huge" viewBox="0 0 400 150">
-                    <g class="sand-group-1">
-                        <text x="50%" y="110" text-anchor="middle" class="sand-char s-char">SVOY</text>
-                    </g>
+                    <g class="group-s"><text x="30" y="120" class="sand-char s-char">S</text></g>
+                    <g class="group-v"><text x="120" y="120" class="sand-char v-char">V</text></g>
+                    <g class="group-o"><text x="210" y="120" class="sand-char o-char">O</text></g>
+                    <g class="group-y"><text x="310" y="120" class="sand-char y-char">Y</text></g>
                 </svg>
             </div>
 
