@@ -28,7 +28,8 @@
 
         /* --- HUGE BUBBLE SAND LOGO --- */
         .logo-stage {
-            height: 300px;
+            height: 320px;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -37,71 +38,70 @@
         }
 
         .sand-svg-huge {
-            width: 100%;
-            height: 180px;
+            width: 380px; /* Максимальный размер */
+            height: 200px;
             overflow: visible;
-            filter: url(#ultra-sand-grain);
         }
 
         .sand-char {
-            font-family: "Arial Round", "Arial", sans-serif; /* Bubble style */
-            font-size: 110px;
+            font-family: "Arial Black", sans-serif; /* Bubble style */
+            font-size: 120px;
             font-weight: 900;
             fill: var(--accent-color);
             opacity: 0;
-            display: inline-block;
+            filter: url(#sand-grain-ultra); /* Сильная зернистость */
             animation: revealSand 1.5s forwards;
         }
 
         /* Поочередное появление */
         .s-char { animation-delay: 0.5s; }
-        .v-char { animation-delay: 1.5s; }
-        .o-char { animation-delay: 2.5s; }
-        .y-char { animation-delay: 3.5s; }
+        .v-char { animation-delay: 2.0s; }
+        .o-char { animation-delay: 3.5s; }
+        .y-char { animation-delay: 5.0s; }
 
-        /* Разнонаправленное дыхание */
-        .sand-group-1 { animation: breatheLeft 4s infinite ease-in-out 4s; }
-        .sand-group-2 { animation: breatheRight 4s infinite ease-in-out 4s; }
+        /* Разнонаправленное дыхание и изгиб */
+        .sand-group-1 { animation: breatheLeft 5s infinite ease-in-out 5s; }
+        .sand-group-2 { animation: breatheRight 5s infinite ease-in-out 5s; }
 
         @keyframes revealSand {
-            0% { opacity: 0; transform: scale(0.5) translateY(20px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+            0% { opacity: 0; transform: scale(0.4) rotate(-5deg); filter: blur(15px) url(#sand-grain-ultra); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0) url(#sand-grain-ultra); }
         }
 
         @keyframes breatheLeft {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-5px, 3px) scale(1.05); }
+            0%, 100% { transform: translate(0, 0) skewX(0deg); }
+            50% { transform: translate(-8px, 4px) skewX(2deg) scale(1.05); }
         }
 
         @keyframes breatheRight {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(5px, -3px) scale(1.05); }
+            0%, 100% { transform: translate(0, 0) skewX(0deg); }
+            50% { transform: translate(8px, -4px) skewX(-2deg) scale(1.05); }
         }
 
         /* --- DISNEY STAR --- */
         .magic-star {
-            position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%;
-            box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
-            opacity: 0; offset-path: path("M -60 250 Q 180 -150 420 250");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 6s;
+            position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 25px 5px #fff, 0 0 50px 15px var(--accent-color);
+            opacity: 0; offset-path: path("M -80 280 Q 180 -180 460 280");
+            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 7s;
             z-index: 100;
         }
 
         /* --- BUTTONS & INFO (BOTTOM) --- */
-        .bottom-section { margin-top: auto; padding-bottom: 85px; }
+        .bottom-section { margin-top: auto; padding-bottom: 90px; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
         .info-card { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid #262626; }
         
         .bubble-btn {
-            width: 100%; padding: 18px; border-radius: 30px; border: none;
+            width: 100%; padding: 18px; border-radius: 35px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
-            margin-bottom: 10px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             display: flex; align-items: center; justify-content: center;
             animation: btnBreath 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
-        @keyframes btnBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        @keyframes btnBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 
         /* --- NAVIGATION --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
@@ -111,24 +111,29 @@
         .nav-indicator { position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(194, 163, 121, 0.1); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
         .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
 
-        /* --- PROFILE --- */
+        /* --- PROFILE (RESTORED) --- */
         .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .profile-username { font-size: 14px; color: var(--text-gray); }
         .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
         .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .accordion.open .accordion-content { display: block; }
+        .accordion-arrow { width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
+        .accordion.open .accordion-arrow { transform: rotate(-135deg); }
         .accordion-content { display: none; padding: 0 18px 18px 18px; }
+        .accordion.open .accordion-content { display: block; }
         .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
     </style>
 </head>
 <body>
 
+    <!-- ULTRA SAND GRAIN FILTER -->
     <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="ultra-sand-grain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="10" result="noise"/>
+        <filter id="sand-grain-ultra">
+            <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="5" result="noise"/>
             <feComposite operator="in" in2="SourceGraphic" />
-            <feBlend mode="multiply" in2="SourceGraphic" />
+            <feColorMatrix type="saturate" values="2"/>
         </filter>
     </svg>
 
@@ -139,16 +144,16 @@
                 <div class="magic-star"></div>
                 <svg class="sand-svg-huge" viewBox="0 0 400 150">
                     <g class="sand-group-1">
-                        <text x="50" y="120" class="sand-char s-char">S</text>
+                        <text x="40" y="120" class="sand-char s-char">S</text>
                     </g>
                     <g class="sand-group-2">
                         <text x="130" y="120" class="sand-char v-char">V</text>
                     </g>
                     <g class="sand-group-1">
-                        <text x="210" y="120" class="sand-char o-char">O</text>
+                        <text x="220" y="120" class="sand-char o-char">O</text>
                     </g>
                     <g class="sand-group-2">
-                        <text x="300" y="120" class="sand-char y-char">Y</text>
+                        <text x="310" y="120" class="sand-char y-char">Y</text>
                     </g>
                 </svg>
             </div>
@@ -208,7 +213,7 @@
         <div class="accordion" id="infoAccordion">
             <div class="accordion-header" onclick="toggleAccordion()">
                 <div style="font-size: 14px; font-weight: 600;">Информация об аккаунте</div>
-                <div style="width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg);"></div>
+                <div class="accordion-arrow" style="width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
             <div class="accordion-content">
                 <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">ID</span><span id="info-id">...</span></div>
@@ -247,7 +252,10 @@
             tg.HapticFeedback.impactOccurred('light');
         }
         function toggleAccordion() {
-            document.getElementById('infoAccordion').classList.toggle('open');
+            const acc = document.getElementById('infoAccordion');
+            acc.classList.toggle('open');
+            const arrow = acc.querySelector('.accordion-arrow');
+            arrow.style.transform = acc.classList.contains('open') ? 'rotate(-135deg)' : 'rotate(45deg)';
             tg.HapticFeedback.impactOccurred('light');
         }
         window.onload = () => {
