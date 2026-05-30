@@ -28,7 +28,7 @@
 
         /* --- HUGE BUBBLE SAND LOGO --- */
         .logo-stage {
-            height: 320px;
+            height: 280px;
             width: 100%;
             display: flex;
             align-items: center;
@@ -38,53 +38,62 @@
         }
 
         .sand-svg-huge {
-            width: 380px; /* Максимальный размер */
-            height: 200px;
+            width: 100%;
+            max-width: 350px;
+            height: auto;
             overflow: visible;
         }
 
         .sand-char {
-            font-family: "Arial Black", sans-serif; /* Bubble style */
-            font-size: 120px;
+            font-family: "Arial Round", "Arial Black", sans-serif;
+            font-size: 90px;
             font-weight: 900;
             fill: var(--accent-color);
             opacity: 0;
-            filter: url(#sand-grain-ultra); /* Сильная зернистость */
+            filter: url(#sand-grain-ultra);
             animation: revealSand 1.5s forwards;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         /* Поочередное появление */
         .s-char { animation-delay: 0.5s; }
-        .v-char { animation-delay: 2.0s; }
-        .o-char { animation-delay: 3.5s; }
-        .y-char { animation-delay: 5.0s; }
+        .v-char { animation-delay: 1.8s; }
+        .o-char { animation-delay: 3.1s; }
+        .y-char { animation-delay: 4.4s; }
 
-        /* Разнонаправленное дыхание и изгиб */
-        .sand-group-1 { animation: breatheLeft 5s infinite ease-in-out 5s; }
-        .sand-group-2 { animation: breatheRight 5s infinite ease-in-out 5s; }
+        /* Разнонаправленное дыхание */
+        .sand-group-1 { animation: breatheLeft 5s infinite ease-in-out 5s; transform-origin: center; }
+        .sand-group-2 { animation: breatheRight 5s infinite ease-in-out 5s; transform-origin: center; }
 
         @keyframes revealSand {
-            0% { opacity: 0; transform: scale(0.4) rotate(-5deg); filter: blur(15px) url(#sand-grain-ultra); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0) url(#sand-grain-ultra); }
+            0% { opacity: 0; transform: scale(0.3) rotate(-10deg); filter: blur(20px); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
         }
 
         @keyframes breatheLeft {
-            0%, 100% { transform: translate(0, 0) skewX(0deg); }
-            50% { transform: translate(-8px, 4px) skewX(2deg) scale(1.05); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-6px, 3px) scale(1.06); }
         }
 
         @keyframes breatheRight {
-            0%, 100% { transform: translate(0, 0) skewX(0deg); }
-            50% { transform: translate(8px, -4px) skewX(-2deg) scale(1.05); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(6px, -3px) scale(1.06); }
         }
 
         /* --- DISNEY STAR --- */
         .magic-star {
             position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
             box-shadow: 0 0 25px 5px #fff, 0 0 50px 15px var(--accent-color);
-            opacity: 0; offset-path: path("M -80 280 Q 180 -180 460 280");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 7s;
+            opacity: 0; offset-path: path("M -60 250 Q 170 -150 420 250");
+            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 6.5s;
             z-index: 100;
+        }
+
+        @keyframes starFlight {
+            0% { opacity: 0; offset-distance: 0%; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; offset-distance: 100%; }
         }
 
         /* --- BUTTONS & INFO (BOTTOM) --- */
@@ -96,7 +105,7 @@
             width: 100%; padding: 18px; border-radius: 35px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
-            margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            margin-bottom: 10px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             display: flex; align-items: center; justify-content: center;
             animation: btnBreath 4s infinite ease-in-out;
         }
@@ -111,16 +120,12 @@
         .nav-indicator { position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(194, 163, 121, 0.1); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
         .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
 
-        /* --- PROFILE (RESTORED) --- */
+        /* --- PROFILE --- */
         .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .profile-username { font-size: 14px; color: var(--text-gray); }
         .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
         .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .accordion-arrow { width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
-        .accordion.open .accordion-arrow { transform: rotate(-135deg); }
         .accordion-content { display: none; padding: 0 18px 18px 18px; }
         .accordion.open .accordion-content { display: block; }
         .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
@@ -128,12 +133,10 @@
 </head>
 <body>
 
-    <!-- ULTRA SAND GRAIN FILTER -->
     <svg style="position: absolute; width: 0; height: 0;">
         <filter id="sand-grain-ultra">
             <feTurbulence type="fractalNoise" baseFrequency="0.99" numOctaves="5" result="noise"/>
             <feComposite operator="in" in2="SourceGraphic" />
-            <feColorMatrix type="saturate" values="2"/>
         </filter>
     </svg>
 
@@ -144,16 +147,7 @@
                 <div class="magic-star"></div>
                 <svg class="sand-svg-huge" viewBox="0 0 400 150">
                     <g class="sand-group-1">
-                        <text x="40" y="120" class="sand-char s-char">S</text>
-                    </g>
-                    <g class="sand-group-2">
-                        <text x="130" y="120" class="sand-char v-char">V</text>
-                    </g>
-                    <g class="sand-group-1">
-                        <text x="220" y="120" class="sand-char o-char">O</text>
-                    </g>
-                    <g class="sand-group-2">
-                        <text x="310" y="120" class="sand-char y-char">Y</text>
+                        <text x="50%" y="110" text-anchor="middle" class="sand-char s-char">SVOY</text>
                     </g>
                 </svg>
             </div>
@@ -216,9 +210,9 @@
                 <div class="accordion-arrow" style="width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
             <div class="accordion-content">
-                <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">ID</span><span id="info-id">...</span></div>
-                <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">Username</span><span id="info-username">...</span></div>
-                <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">Имя</span><span id="info-name">...</span></div>
+                <div class="info-row"><span>ID</span><span id="info-id">...</span></div>
+                <div class="info-row"><span>Username</span><span id="info-username">...</span></div>
+                <div class="info-row"><span>Имя</span><span id="info-name">...</span></div>
             </div>
         </div>
     </div>
@@ -255,7 +249,7 @@
             const acc = document.getElementById('infoAccordion');
             acc.classList.toggle('open');
             const arrow = acc.querySelector('.accordion-arrow');
-            arrow.style.transform = acc.classList.contains('open') ? 'rotate(-135deg)' : 'rotate(45deg)';
+            if(arrow) arrow.style.transform = acc.classList.contains('open') ? 'rotate(-135deg)' : 'rotate(45deg)';
             tg.HapticFeedback.impactOccurred('light');
         }
         window.onload = () => {
