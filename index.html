@@ -26,95 +26,82 @@
         .page { display: none; padding: 20px; height: calc(100vh - 90px); overflow-y: auto; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* --- PREMIUM SAND LOGO (SVG BASED FOR CACHE BUSTING) --- */
-        .logo-container {
+        /* --- HUGE BUBBLE SAND LOGO --- */
+        .logo-stage {
             height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-        }
-
-        .sand-svg {
-            width: 350px;
-            height: 150px;
             overflow: visible;
         }
 
-        .sand-text-path {
-            fill: var(--accent-color);
-            font-family: "Times New Roman", Times, serif;
-            font-size: 80px;
-            font-weight: 900;
-            filter: url(#sand-grain-filter);
-            opacity: 0;
-            animation: 
-                revealSand 1.5s forwards, 
-                swaySide 4s infinite ease-in-out 1.5s,
-                pulseVolume 3s infinite ease-in-out;
+        .sand-svg-huge {
+            width: 100%;
+            height: 180px;
+            overflow: visible;
+            filter: url(#ultra-sand-grain);
         }
+
+        .sand-char {
+            font-family: "Arial Round", "Arial", sans-serif; /* Bubble style */
+            font-size: 110px;
+            font-weight: 900;
+            fill: var(--accent-color);
+            opacity: 0;
+            display: inline-block;
+            animation: revealSand 1.5s forwards;
+        }
+
+        /* Поочередное появление */
+        .s-char { animation-delay: 0.5s; }
+        .v-char { animation-delay: 1.5s; }
+        .o-char { animation-delay: 2.5s; }
+        .y-char { animation-delay: 3.5s; }
+
+        /* Разнонаправленное дыхание */
+        .sand-group-1 { animation: breatheLeft 4s infinite ease-in-out 4s; }
+        .sand-group-2 { animation: breatheRight 4s infinite ease-in-out 4s; }
 
         @keyframes revealSand {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            0% { opacity: 0; transform: scale(0.5) translateY(20px); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
-        @keyframes swaySide {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(8px); }
+        @keyframes breatheLeft {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-5px, 3px) scale(1.05); }
         }
 
-        @keyframes pulseVolume {
-            0%, 100% { filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)) url(#sand-grain-filter); }
-            50% { filter: drop-shadow(6px 6px 10px rgba(0,0,0,0.9)) url(#sand-grain-filter); transform: scale(1.02); }
+        @keyframes breatheRight {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5px, -3px) scale(1.05); }
         }
 
         /* --- DISNEY STAR --- */
-        .star-arc { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 10; }
         .magic-star {
-            position: absolute; width: 6px; height: 6px; background: #fff; border-radius: 50%;
+            position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%;
             box-shadow: 0 0 20px 5px #fff, 0 0 40px 10px var(--accent-color);
-            opacity: 0; offset-path: path("M -50 200 Q 180 -150 410 200");
-            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 4s;
-        }
-        .magic-star::before {
-            content: ''; position: absolute; width: 60px; height: 2px;
-            background: linear-gradient(to left, #fff, transparent); right: 5px; top: 2px; filter: blur(1px);
-        }
-        @keyframes starFlight {
-            0% { opacity: 0; offset-distance: 0%; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; offset-distance: 100%; }
+            opacity: 0; offset-path: path("M -60 250 Q 180 -150 420 250");
+            animation: starFlight 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 6s;
+            z-index: 100;
         }
 
-        /* --- PROFILE (RESTORED) --- */
-        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
-        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .profile-username { font-size: 14px; color: var(--text-gray); }
-        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
-        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .accordion-arrow { width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s; }
-        .accordion.open .accordion-arrow { transform: rotate(-135deg); }
-        .accordion-content { display: none; padding: 0 18px 18px 18px; }
-        .accordion.open .accordion-content { display: block; }
-        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
-
-        /* --- BUTTONS --- */
-        .bottom-section { margin-top: auto; padding-bottom: 80px; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        /* --- BUTTONS & INFO (BOTTOM) --- */
+        .bottom-section { margin-top: auto; padding-bottom: 85px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .info-card { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid #262626; }
+        
         .bubble-btn {
             width: 100%; padding: 18px; border-radius: 30px; border: none;
             background: linear-gradient(145deg, #1a1a1a, #141414);
             color: var(--text-main); font-weight: 600; font-size: 14px;
-            margin-bottom: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: 0.3s; display: flex; align-items: center; justify-content: center;
-            animation: bubbleBreath 4s infinite ease-in-out;
+            margin-bottom: 10px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            animation: btnBreath 4s infinite ease-in-out;
         }
         .bubble-btn.primary { background: var(--accent-color); color: #000; }
-        @keyframes bubbleBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes btnBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
         /* --- NAVIGATION --- */
         .navigation { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 70px; background: var(--nav-bg); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
@@ -123,47 +110,93 @@
         .nav-item span { font-size: 9px; margin-top: 4px; }
         .nav-indicator { position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(194, 163, 121, 0.1); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
         .nav-icon-svg { width: 22px; height: 22px; fill: currentColor; }
+
+        /* --- PROFILE --- */
+        .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #262626; border: 2px solid var(--accent-color); margin-bottom: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .accordion { background: var(--card-bg); border-radius: 20px; border: 1px solid #262626; overflow: hidden; margin-top: 20px; }
+        .accordion-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .accordion.open .accordion-content { display: block; }
+        .accordion-content { display: none; padding: 0 18px 18px 18px; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #262626; }
     </style>
 </head>
 <body>
 
-    <!-- SAND GRAIN FILTER -->
     <svg style="position: absolute; width: 0; height: 0;">
-        <filter id="sand-grain-filter" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
-            <feComposite in="SourceGraphic" in2="noise" operator="arithmetic" k1="0.5" k2="0.5" />
+        <filter id="ultra-sand-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="10" result="noise"/>
+            <feComposite operator="in" in2="SourceGraphic" />
+            <feBlend mode="multiply" in2="SourceGraphic" />
         </filter>
     </svg>
 
+    <!-- ГЛАВНАЯ -->
     <div id="page-home" class="page active">
         <div class="home-content" style="display: flex; flex-direction: column; height: 100%;">
-            <div class="logo-container">
-                <div class="star-arc">
-                    <div class="magic-star"></div>
-                </div>
-                <svg class="sand-svg" viewBox="0 0 400 120">
-                    <text x="50%" y="80" text-anchor="middle" class="sand-text-path">SVOY</text>
+            <div class="logo-stage">
+                <div class="magic-star"></div>
+                <svg class="sand-svg-huge" viewBox="0 0 400 150">
+                    <g class="sand-group-1">
+                        <text x="50" y="120" class="sand-char s-char">S</text>
+                    </g>
+                    <g class="sand-group-2">
+                        <text x="130" y="120" class="sand-char v-char">V</text>
+                    </g>
+                    <g class="sand-group-1">
+                        <text x="210" y="120" class="sand-char o-char">O</text>
+                    </g>
+                    <g class="sand-group-2">
+                        <text x="300" y="120" class="sand-char y-char">Y</text>
+                    </g>
                 </svg>
             </div>
 
             <div class="bottom-section">
                 <div class="info-grid">
-                    <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
+                    <div class="info-card">
                         <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Подписка до</div>
                         <div style="font-size: 14px; font-weight: 600;">12.06.2026</div>
                     </div>
-                    <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626;">
+                    <div class="info-card">
                         <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Устройств</div>
                         <div style="font-size: 14px; font-weight: 600;">1 / 3</div>
                     </div>
                 </div>
-                <button class="bubble-btn primary">Продлить доступ</button>
+                <button class="bubble-btn primary" onclick="showPage('subs', document.getElementById('nav-subs'), 1)">Продлить доступ</button>
                 <button class="bubble-btn">Подключить устройство</button>
             </div>
         </div>
     </div>
 
+    <!-- ПОДПИСКА -->
+    <div id="page-subs" class="page">
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ТАРИФЫ</h2>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>1 МЕСЯЦ</span><span style="color: var(--accent-color); font-weight: 700;">220₽</span>
+        </div>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>3 МЕСЯЦА</span><span style="color: var(--accent-color); font-weight: 700;">560₽</span>
+        </div>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>6 МЕСЯЦЕВ</span><span style="color: var(--accent-color); font-weight: 700;">950₽</span>
+        </div>
+        <div class="info-card" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>12 МЕСЯЦЕВ</span><span style="color: var(--accent-color); font-weight: 700;">1480₽</span>
+        </div>
+    </div>
+
+    <!-- БАЛАНС -->
+    <div id="page-balance" class="page">
+        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">БАЛАНС</h2>
+        <div class="info-card" style="text-align: center; padding: 50px 0;">
+            <div style="font-size: 42px; font-weight: 700; color: var(--accent-color);">0.00 ₽</div>
+            <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Доступно к выводу</div>
+        </div>
+    </div>
+
+    <!-- ПРОФИЛЬ -->
     <div id="page-profile" class="page">
         <div class="profile-header">
             <div class="profile-avatar" id="user-photo">
@@ -174,64 +207,31 @@
         </div>
         <div class="accordion" id="infoAccordion">
             <div class="accordion-header" onclick="toggleAccordion()">
-                <div class="accordion-title">Информация об аккаунте</div>
-                <div class="accordion-arrow"></div>
+                <div style="font-size: 14px; font-weight: 600;">Информация об аккаунте</div>
+                <div style="width: 10px; height: 10px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg);"></div>
             </div>
             <div class="accordion-content">
-                <div class="info-row"><span class="info-label">Telegram ID</span><span class="info-value" id="info-id">...</span></div>
-                <div class="info-row"><span class="info-label">Имя пользователя</span><span class="info-value" id="info-username">...</span></div>
-                <div class="info-row"><span class="info-label">Имя</span><span class="info-value" id="info-name">...</span></div>
-                <div class="info-row"><span class="info-label">Дата регистрации</span><span class="info-value">29.05.2026</span></div>
+                <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">ID</span><span id="info-id">...</span></div>
+                <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">Username</span><span id="info-username">...</span></div>
+                <div class="info-row"><span style="font-size: 10px; color: var(--text-gray);">Имя</span><span id="info-name">...</span></div>
             </div>
         </div>
     </div>
 
-    <!-- ОСТАЛЬНЫЕ СТРАНИЦЫ -->
-    <div id="page-subs" class="page">
-        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">ТАРИФЫ</h2>
-        <div style="background: var(--card-bg); padding: 18px; border-radius: 20px; border: 1px solid #262626; margin-bottom: 12px; display: flex; justify-content: space-between;">
-            <span>1 МЕСЯЦ</span><span style="color: var(--accent-color); font-weight: 700;">220₽</span>
-        </div>
-    </div>
-    <div id="page-balance" class="page">
-        <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">БАЛАНС</h2>
-        <div style="background: var(--card-bg); padding: 50px 0; border-radius: 20px; border: 1px solid #262626; text-align: center;">
-            <div style="font-size: 42px; font-weight: 700; color: var(--accent-color);">0.00 ₽</div>
-            <div style="font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Доступно к выводу</div>
-        </div>
-    </div>
+    <!-- ИГРА -->
     <div id="page-game" class="page">
         <h2 style="text-align: center; font-weight: 200; letter-spacing: 3px;">SVOY GAME</h2>
-        <div style="width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; position: relative; overflow: hidden; border: 1px solid #262626;">
-            <div style="position: absolute; bottom: 10px; left: 20px; width: 30px; height: 50px;">
-                <div style="width: 14px; height: 14px; background: var(--accent-color); border-radius: 4px; margin: 0 auto;"></div>
-                <div style="width: 20px; height: 22px; background: #1a1a1a; border: 1px solid var(--accent-color); border-radius: 4px; margin: 2px auto; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--accent-color);">S</div>
-            </div>
-        </div>
+        <div style="width: 100%; height: 160px; background: #0a0a0a; border-radius: 24px; border: 1px solid #262626;"></div>
     </div>
 
+    <!-- МЕНЮ -->
     <div class="navigation">
         <div class="nav-indicator" id="navIndicator"></div>
-        <div class="nav-item active" onclick="showPage('home', this, 0)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Главная</span>
-        </div>
-        <div class="nav-item" onclick="showPage('subs', this, 1)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            <span>Подписка</span>
-        </div>
-        <div class="nav-item" onclick="showPage('balance', this, 2)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-            <span>Баланс</span>
-        </div>
-        <div class="nav-item" onclick="showPage('profile', this, 3)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            <span>Профиль</span>
-        </div>
-        <div class="nav-item" onclick="showPage('game', this, 4)">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-            <span>Игра</span>
-        </div>
+        <div class="nav-item active" onclick="showPage('home', this, 0)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Главная</span></div>
+        <div class="nav-item" id="nav-subs" onclick="showPage('subs', this, 1)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>Подписка</span></div>
+        <div class="nav-item" onclick="showPage('balance', this, 2)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg><span>Баланс</span></div>
+        <div class="nav-item" onclick="showPage('profile', this, 3)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Профиль</span></div>
+        <div class="nav-item" onclick="showPage('game', this, 4)"><svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span>Игра</span></div>
     </div>
 
     <script>
