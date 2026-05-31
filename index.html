@@ -210,30 +210,55 @@
         }
 
         window.onload = () => {
-            const user = tg.initDataUnsafe?.user;
-            if (user) {
-                document.getElementById('display-name').innerText = user.first_name;
-                document.getElementById('info-id').innerText = user.id;
-                document.getElementById('username-text').innerText = user.username ? '@' + user.username : 'нет';
-            }
-            const nav = document.querySelector('.navigation');
-            const step = nav.offsetWidth / 5;
-            document.getElementById('navIndicator').style.left = (step/2 - 25) + 'px';
+    const user = tg.initDataUnsafe?.user;
+    const params = new URLSearchParams(window.location.search);
+    
+    // Если зашли через кнопку в сообщении - берем из ссылки
+    // Если через синюю кнопку - ставим 0 (пока не настроен API запрос к БД)
+    let refCount = params.get('ref');
+    
+    if (user) {
+        document.getElementById('display-name').innerText = user.first_name;
+        document.getElementById('info-id').innerText = user.id;
+        document.getElementById('username-text').innerText = user.username ? '@' + user.username : 'id' + user.id;
+        
+        if (user.photo_url) {
+            document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
+        }
+    }
 
-            function updateTimer() {
-                const now = new Date();
-                const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
-                let diff = Math.floor((endOfDay - now) / 1000);
-                if (diff < 0) diff = 0;
-                const h = Math.floor(diff / 3600).toString().padStart(2, '0');
-                const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
-                const s = (diff % 60).toString().padStart(2, '0');
-                const timerEl = document.getElementById('timer');
-                if (timerEl) timerEl.innerText = `${h}:${m}:${s}`;
-            }
-            setInterval(updateTimer, 1000);
-            updateTimer();
-        };
+    // Логика отображения баланса
+    const balanceAmount = refCount ? (parseInt(refCount) * 40) : 0;
+    const balanceElements = document.querySelectorAll('[id^="balance-amount"], .ios-card div[style*="32px"]');
+    
+    // Обновляем все места, где написан баланс 0.00 ₽
+    balanceElements.forEach(el => {
+        if (el.innerText.includes('₽')) {
+            el.innerText = balanceAmount + '.00 ₽';
+        }
+    });
+
+    // Инициализация индикатора навигации
+    const nav = document.querySelector('.navigation');
+    const step = nav.offsetWidth / 5;
+    document.getElementById('navIndicator').style.left = (step / 2 - 25) + 'px';
+
+    // Таймер
+    function updateTimer() {
+        const now = new Date();
+        const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+        let diff = Math.floor((endOfDay - now) / 1000);
+        if (diff < 0) diff = 0;
+        const h = Math.floor(diff / 3600).toString().padStart(2, '0');
+        const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+        const s = (diff % 60).toString().padStart(2, '0');
+        const timerEl = document.getElementById('timer');
+        if (timerEl) timerEl.innerText = `${h}:${m}:${s}`;
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+};
+
     </script>
 </body>
 </html>
