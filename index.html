@@ -14,6 +14,23 @@
             --text-gray: #666666;
         }
 
+        /* Анимация пульсации только для тарифов */
+        @keyframes plan-pulse-anim {
+            0% { transform: scale(1); box-shadow: 0 0 0px rgba(194, 163, 121, 0); }
+            50% { transform: scale(1.02); box-shadow: 0 0 15px rgba(194, 163, 121, 0.3); }
+            100% { transform: scale(1); box-shadow: 0 0 0px rgba(194, 163, 121, 0); }
+        }
+        .plan-pulse { animation: plan-pulse-anim 2s infinite ease-in-out; }
+
+        /* Стили для уровней */
+        .level-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 15px 0; }
+        .level-circle { 
+            width: 35px; height: 35px; border-radius: 50%; border: 2px solid #333; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 12px; font-weight: 700; color: var(--text-gray); transition: 0.3s;
+        }
+        .level-circle.active { border-color: var(--accent-color); color: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); }
+
         @keyframes flash-pulse {
             0% { transform: scale(1); box-shadow: 0 0 0px var(--accent-color); }
             50% { transform: scale(1.05); box-shadow: 0 0 15px var(--accent-color); border-color: #34C759; }
@@ -30,7 +47,6 @@
         .page { display: none; padding: 20px; height: 100vh; overflow-y: auto; padding-bottom: 120px; background: var(--bg-color); }
         .page.active { display: block; }
 
-        /* БУКВЫ */
         .logo-stage { height: 300px; display: flex; align-items: center; justify-content: center; }
         .sand-canvas-svg { width: 380px; height: 160px; overflow: visible; }
         .sand-letter {
@@ -41,7 +57,6 @@
         @keyframes draw { to { stroke-dashoffset: 0; } }
         @keyframes shake { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(1.5deg); } }
 
-        /* КНОПКИ */
         .btn-main { 
             background: var(--accent-color); color: #000; border: none; 
             padding: 20px; border-radius: 30px; font-weight: 700; font-size: 16px;
@@ -52,7 +67,6 @@
         .btn-main-dark { background: #1a1a1a; color: var(--text-main); border: 1px solid rgba(194, 163, 121, 0.3); }
         @keyframes pulse-large { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* НАВИГАЦИЯ */
         .navigation { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
             width: 92%; height: 70px; background: var(--card-bg); 
@@ -65,7 +79,6 @@
         .nav-indicator { position: absolute; width: 50px; height: 50px; background: rgba(194, 163, 121, 0.15); border-radius: 50%; transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); z-index: 1; }
         .nav-icon-svg { width: 24px; height: 24px; fill: currentColor; }
 
-        /* КАРТОЧКИ */
         .ios-card { background: var(--card-bg); border-radius: 18px; border: 1px solid rgba(194, 163, 121, 0.1); margin-bottom: 15px; overflow: hidden; }
         .ios-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .profile-avatar { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent-color); margin: 0 auto 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -103,14 +116,14 @@
             <div style="font-size: 18px; font-weight: 700; color: var(--accent-color);">ПОКУПКА ПОДПИСКИ</div>
         </div>
 
-        <div class="ios-card" onclick="selectPlan('std')" id="plan-std" style="border: 1px solid var(--accent-color);">
+        <div class="ios-card plan-pulse" onclick="selectPlan('std')" id="plan-std" style="border: 1px solid var(--accent-color);">
             <div class="ios-row">
                 <span>Тариф Стандартный</span>
                 <span id="dot-std" style="color: #34C759;">●</span>
             </div>
         </div>
 
-        <div class="ios-card" onclick="selectPlan('pre')" id="plan-pre">
+        <div class="ios-card plan-pulse" onclick="selectPlan('pre')" id="plan-pre">
             <div class="ios-row">
                 <span>Тариф Премиум</span>
                 <span id="dot-pre" style="color: var(--text-gray);">●</span>
@@ -246,6 +259,21 @@
                     МЕСТО ДЛЯ ВИДЕОРОЛИКА
                 </div>
             </div>
+        </div>
+
+        <!-- НОВОЕ ОКНО УРОВНЕЙ -->
+        <div class="ios-card" style="padding: 16px; margin-top: 15px;">
+            <div style="font-weight: 700; color: var(--accent-color); text-align: center; margin-bottom: 15px;">Твой уровень игры</div>
+            <div class="level-grid" id="level-grid">
+                <!-- Наполняется через JS -->
+            </div>
+            <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
+                <div style="font-size: 10px; color: var(--text-gray);">ЗАРАБОТАНО ЗА УРОВНИ</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--accent-color); margin-top: 5px;">0.00 ₽</div>
+            </div>
+        </div>
+        <div style="font-size: 10px; color: var(--text-gray); text-align: center; margin-top: 10px; padding: 0 20px;">
+            Отслеживай свой уровень и заработанные средства в удобном окне
         </div>
     </div>
 
@@ -419,6 +447,7 @@
             const user = tg.initDataUnsafe?.user;
             const params = new URLSearchParams(window.location.search);
             let refCount = params.get('ref');
+            let currentLvl = 1; // Можно получать из параметров
 
             if (user) {
                 document.getElementById('display-name').innerText = user.first_name;
@@ -429,6 +458,15 @@
                 if (user.photo_url) {
                     document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
                 }
+            }
+
+            // Генерация сетки уровней
+            const grid = document.getElementById('level-grid');
+            for(let i=1; i<=30; i++) {
+                const div = document.createElement('div');
+                div.className = `level-circle ${i <= currentLvl ? 'active' : ''}`;
+                div.innerText = i;
+                grid.appendChild(div);
             }
 
             const balanceAmount = refCount ? (parseInt(refCount) * 40) : 0;
