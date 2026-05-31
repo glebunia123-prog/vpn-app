@@ -82,17 +82,17 @@
         .ios-card { background: var(--card-bg); border-radius: 18px; border: 1px solid rgba(194, 163, 121, 0.1); margin-bottom: 15px; overflow: hidden; }
         .ios-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .profile-avatar { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent-color); margin: 0 auto 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        
         /* Стили для шкалы выигрыша */
-.win-slider-container { position: relative; height: 40px; margin: 20px 10px 40px 10px; background: #222; border-radius: 20px; display: flex; align-items: center; }
-#win-slider { width: 100%; cursor: pointer; opacity: 0; position: absolute; z-index: 10; height: 100%; }
-#slider-track { position: absolute; height: 4px; background: var(--accent-color); border-radius: 2px; width: 0%; }
-#slider-thumb { 
-    position: absolute; left: 0%; transform: translateX(-50%); width: 34px; height: 34px; 
-    background: var(--card-bg); border: 2px solid var(--accent-color); border-radius: 50%; 
-    display: flex; align-items: center; justify-content: center; color: var(--accent-color); 
-    font-weight: 900; font-size: 18px; box-shadow: 0 0 15px var(--accent-color); pointer-events: none; 
-}
-
+        .win-slider-container { position: relative; height: 40px; margin: 20px 10px 40px 10px; background: #222; border-radius: 20px; display: flex; align-items: center; }
+        #win-slider { width: 100%; cursor: pointer; opacity: 0; position: absolute; z-index: 10; height: 100%; }
+        #slider-track { position: absolute; height: 4px; background: var(--accent-color); border-radius: 2px; width: 0%; }
+        #slider-thumb { 
+            position: absolute; left: 0%; transform: translateX(-50%); width: 34px; height: 34px; 
+            background: var(--card-bg); border: 2px solid var(--accent-color); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: var(--accent-color); 
+            font-weight: 900; font-size: 18px; box-shadow: 0 0 15px var(--accent-color); pointer-events: none; 
+        }
     </style>
 </head>
 <body>
@@ -289,29 +289,28 @@
     </div>
 
     <!-- ИГРА -->
-<div id="page-game" class="page">
-    <div class="ios-card" style="padding: 20px; text-align: center; margin-top: 20px;">
-        <div style="font-weight: 700; color: var(--accent-color); margin-bottom: 25px; font-size: 18px;">Возможный выигрыш</div>
-            
-        <div class="win-slider-container">
-            <input type="range" id="win-slider" min="0" max="100" value="0">
-            <div id="slider-track"></div>
-            <div id="slider-thumb">S</div>
-        </div>
-
-        <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-            <div>
-                <div style="font-size: 11px; color: var(--text-gray);">Рефералы</div>
-                <div id="ref-val" style="font-size: 20px; font-weight: 800; color: var(--text-main);">0</div>
+    <div id="page-game" class="page">
+        <div class="ios-card" style="padding: 20px; text-align: center; margin-top: 20px;">
+            <div style="font-weight: 700; color: var(--accent-color); margin-bottom: 25px; font-size: 18px;">Возможный выигрыш</div>
+                
+            <div class="win-slider-container">
+                <input type="range" id="win-slider" min="0" max="100" value="0">
+                <div id="slider-track"></div>
+                <div id="slider-thumb">S</div>
             </div>
-            <div>
-                <div style="font-size: 11px; color: var(--text-gray);">Выигрыш</div>
-                <div id="win-val" style="font-size: 20px; font-weight: 800; color: var(--accent-color);">0 ₽</div>
+
+            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+                <div>
+                    <div style="font-size: 11px; color: var(--text-gray);">Рефералы</div>
+                    <div id="ref-val" style="font-size: 20px; font-weight: 800; color: var(--text-main);">0</div>
+                </div>
+                <div>
+                    <div style="font-size: 11px; color: var(--text-gray);">Выигрыш</div>
+                    <div id="win-val" style="font-size: 20px; font-weight: 800; color: var(--accent-color);">0 ₽</div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 
     <!-- МОДАЛЬНОЕ ОКНО ТАРИФОВ -->
     <div id="tariffs-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
@@ -477,7 +476,7 @@
             const user = tg.initDataUnsafe?.user;
             const params = new URLSearchParams(window.location.search);
             let refCount = params.get('ref');
-            let currentLvl = 1; // Можно получать из параметров
+            let currentLvl = 1; 
 
             if (user) {
                 document.getElementById('display-name').innerText = user.first_name;
@@ -508,34 +507,36 @@
             const step = nav.offsetWidth / 5;
             document.getElementById('navIndicator').style.left = (step / 2 - 25) + 'px';
 
+            // Логика слайдера выигрыша
+            const slider = document.getElementById('win-slider');
+            const track = document.getElementById('slider-track');
+            const thumb = document.getElementById('slider-thumb');
+            const refVal = document.getElementById('ref-val');
+            const winVal = document.getElementById('win-val');
+
+            if (slider) {
+                slider.oninput = function() {
+                    const val = parseInt(this.value);
+                    const percent = val + '%';
+                    track.style.width = percent;
+                    thumb.style.left = percent;
+                    refVal.innerText = val;
+                                
+                    let totalWin = 0;
+                    for (let i = 1; i <= val; i++) {
+                        const level = Math.ceil(i / 10);
+                        if (level === 1) totalWin += 40;      
+                        else if (level === 2) totalWin += 45; 
+                        else if (level === 3) totalWin += 50; 
+                        else if (level === 4) totalWin += 55; 
+                        else totalWin += 60;                  
+                    }
+                    winVal.innerText = totalWin + ' ₽';
+                    if (val % 5 === 0) tg.HapticFeedback.selectionChanged();
+                };
+            }
+
             function updateTimer() {
-                // Логика слайдера выигрыша
-const slider = document.getElementById('win-slider');
-const track = document.getElementById('slider-track');
-const thumb = document.getElementById('slider-thumb');
-const refVal = document.getElementById('ref-val');
-const winVal = document.getElementById('win-val');
-
-slider.oninput = function() {
-    const val = parseInt(this.value);
-    const percent = val + '%';
-    track.style.width = percent;
-    thumb.style.left = percent;
-    refVal.innerText = val;
-                
-    let totalWin = 0;
-    for (let i = 1; i <= val; i++) {
-        const level = Math.ceil(i / 10);
-        if (level === 1) totalWin += 40;      // 1 ур: 400р за 10
-        else if (level === 2) totalWin += 45; // 2 ур: 450р за 10
-        else if (level === 3) totalWin += 50; // 3 ур: 500р за 10
-        else if (level === 4) totalWin += 55; // 4 ур: 550р за 10
-        else totalWin += 60;                  // 5-10 ур: 600р за 10
-    }
-    winVal.innerText = totalWin + ' ₽';
-    if (val % 5 === 0) tg.HapticFeedback.selectionChanged();
-};
-
                 const now = new Date();
                 const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
                 let diff = Math.floor((endOfDay - now) / 1000);
