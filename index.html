@@ -163,23 +163,24 @@
     </div>
 
     <!-- ВКЛАДКА: ИНФОРМАЦИЯ ПРОФИЛЯ -->
-    <div class="ios-card" id="prof-info-acc">
-        <div class="ios-row" onclick="document.getElementById('prof-info-acc').classList.toggle('open')">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background: #1a1a1a; padding: 5px; border-radius: 8px; display: flex;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--text-gray)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                </div>
-                <span style="font-weight: 500;">Информация профиля</span>
+<div class="ios-card" id="prof-info-acc">
+    <div class="ios-row" onclick="document.getElementById('prof-info-acc').classList.toggle('open')" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(194, 163, 121, 0.7)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
-            <div style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+            <span style="font-weight: 500; color: #888888; font-size: 15px; line-height: 1;">Информация профиля</span>
         </div>
-        <div class="accordion-content" style="display: none; padding: 0 16px 16px 16px;">
-            <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>Имя</span><span id="info-name-val" style="color: var(--accent-color);">...</span></div>
-            <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>User</span><span id="info-user-val" style="color: var(--accent-color);">...</span></div>
-            <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>Регистрация</span><span style="color: var(--accent-color);">29.05.2026</span></div>
-            <div class="ios-row" style="padding: 10px 0; border-bottom: none;"><span>Подписка до</span><span style="color: var(--accent-color);">12.06.2026</span></div>
-        </div>
+        <div style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
     </div>
+    <div class="accordion-content" style="display: none; padding: 0 16px 16px 16px;">
+        <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>Имя</span><span id="info-name-val" style="color: var(--accent-color);">...</span></div>
+        <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>User</span><span id="info-user-val" style="color: var(--accent-color);">...</span></div>
+        <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>Регистрация</span><span style="color: var(--accent-color);">29.05.2026</span></div>
+        <div class="ios-row" style="padding: 10px 0; border-bottom: none;"><span>Подписка до</span><span style="color: var(--accent-color);">12.06.2026</span></div>
+    </div>
+</div>
+
 
     <!-- ВКЛАДКА: SVOY VPN GAME -->
     <div class="ios-card" id="game-ref-acc">
