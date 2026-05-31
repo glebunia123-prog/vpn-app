@@ -14,9 +14,9 @@
             --text-gray: #666666;
         }
 
-        /* ИСПРАВЛЕНО: Стили вынесены из :root, теперь они работают */
+        /* Стили для аккордеона */
         .ios-card.open .accordion-content { display: block !important; }
-        .ios-card.open .ios-row div { transform: rotate(-135deg) !important; }
+        .ios-card.open .arrow { transform: rotate(-135deg) !important; }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg-color); color: var(--text-main); margin: 0; font-family: -apple-system, system-ui, sans-serif; overflow: hidden; }
@@ -62,7 +62,7 @@
         /* КАРТОЧКИ */
         .ios-card { background: var(--card-bg); border-radius: 18px; border: 1px solid rgba(194, 163, 121, 0.1); margin-bottom: 15px; overflow: hidden; }
         .ios-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .profile-avatar { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent-color); margin: 0 auto 10px; overflow: hidden; }
+        .profile-avatar { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent-color); margin: 0 auto 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -140,7 +140,7 @@
         <div class="ios-card" id="history-acc">
             <div class="ios-row" onclick="document.getElementById('history-acc').classList.toggle('open')">
                 <span>История операций</span>
-                <div style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+                <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
             <div class="accordion-content" style="display: none; padding: 15px; background: #0d0d0d;">
                 <div style="color: var(--text-gray); font-size: 13px; text-align: center;">Операций пока нет</div>
@@ -149,72 +149,49 @@
     </div>
 
     <!-- ПРОФИЛЬ -->
-<div id="page-profile" class="page">
-    <div class="profile-header" style="position: relative; padding-top: 20px; text-align: center;">
-        <!-- Логотип S над фото -->
-        <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); color: var(--accent-color); font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(194, 163, 121, 0.5);">S</div>
-        <div class="profile-avatar" id="user-photo" style="margin: 0 auto 10px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        </div>
-        <div style="margin-bottom: 20px;">
-            <div id="display-name" style="font-size: 22px; font-weight: 700;">Пользователь</div>
-            <div id="username-text" style="color: var(--text-gray); font-size: 14px;">@username</div>
-        </div>
-    </div>
-
-    <!-- ВКЛАДКА: ИНФОРМАЦИЯ ПРОФИЛЯ -->
-    <div class="ios-card" id="prof-info-acc">
-        <div class="ios-row" onclick="document.getElementById('prof-info-acc').classList.toggle('open')" style="display: flex; align-items: center; justify-content: space-between; height: 56px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(194, 163, 121, 0.7)" style="display: block;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <span style="font-weight: 500; color: #888888; font-size: 15px; display: inline-block; vertical-align: middle;">Информация профиля</span>
+    <div id="page-profile" class="page">
+        <div class="profile-header" style="position: relative; padding-top: 20px; text-align: center;">
+            <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); color: var(--accent-color); font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(194, 163, 121, 0.5);">S</div>
+            <div class="profile-avatar" id="user-photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="1.5" style="width: 40px; height: 40px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
-            <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
-        </div>
-        <div class="accordion-content" style="display: none; padding: 0 16px 16px 16px;">
-            <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>Имя</span><span id="info-name-val" style="color: var(--accent-color);">...</span></div>
-            <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>User</span><span id="info-user-val" style="color: var(--accent-color);">...</span></div>
-            <div class="ios-row" style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);"><span>Регистрация</span><span style="color: var(--accent-color);">29.05.2026</span></div>
-            <div class="ios-row" style="padding: 10px 0; border-bottom: none;"><span>Подписка до</span><span style="color: var(--accent-color);">12.06.2026</span></div>
-        </div>
-    </div>
-
-    <!-- ВКЛАДКА: SVOY VPN GAME -->
-    <div class="ios-card" id="game-ref-acc">
-        <div class="ios-row" onclick="document.getElementById('game-ref-acc').classList.toggle('open')" style="display: flex; align-items: center; justify-content: space-between; height: 56px;">
-            <span style="font-weight: 600; color: var(--accent-color);">SVOY VPN GAME (реф.программа)</span>
-            <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--accent-color); border-bottom: 2px solid var(--accent-color); transform: rotate(45deg); transition: 0.3s;"></div>
-        </div>
-        <div class="accordion-content" style="display: none; padding: 16px;">
-            <div style="font-size: 14px; line-height: 1.5; text-align: center;">
-                Только в <b>SVOY VPN</b> ты можешь заработать реальные деньги за пару действий, смотри мультик ниже и запоминай, что тебе нужно сделать для того чтобы начать зарабатывать на своих рефералах <br> <span style="font-size: 20px;">↓</span>
+            <div style="margin-bottom: 20px;">
+                <div id="display-name" style="font-size: 22px; font-weight: 700;">Пользователь</div>
+                <div id="username-text" style="color: var(--text-gray); font-size: 14px;">@username</div>
             </div>
-            <div style="height: 200px; margin-top: 20px; background: #0d0d0d; border-radius: 12px; border: 1px dashed rgba(194, 163, 121, 0.3); display: flex; align-items: center; justify-content: center; color: var(--text-gray); font-size: 12px;">
-                МЕСТО ДЛЯ ВИДЕОРОЛИКА
+        </div>
+
+        <div class="ios-card" id="prof-info-acc">
+            <div class="ios-row" onclick="document.getElementById('prof-info-acc').classList.toggle('open')" style="height: 56px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(194, 163, 121, 0.7)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    <span style="font-weight: 500; color: #888888; font-size: 15px;">Информация профиля</span>
+                </div>
+                <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+            </div>
+            <div class="accordion-content" style="display: none; padding: 0 16px 16px 16px;">
+                <div class="ios-row" style="padding: 10px 0;"><span>Имя</span><span id="info-name-val" style="color: var(--accent-color);">...</span></div>
+                <div class="ios-row" style="padding: 10px 0;"><span>User</span><span id="info-user-val" style="color: var(--accent-color);">...</span></div>
+                <div class="ios-row" style="padding: 10px 0;"><span>Регистрация</span><span style="color: var(--accent-color);">29.05.2026</span></div>
+                <div class="ios-row" style="padding: 10px 0; border-bottom: none;"><span>Подписка до</span><span style="color: var(--accent-color);">12.06.2026</span></div>
+            </div>
+        </div>
+
+        <div class="ios-card" id="game-ref-acc">
+            <div class="ios-row" onclick="document.getElementById('game-ref-acc').classList.toggle('open')" style="height: 56px;">
+                <span style="font-weight: 600; color: var(--accent-color);">SVOY VPN GAME (реф.программа)</span>
+                <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--accent-color); border-bottom: 2px solid var(--accent-color); transform: rotate(45deg); transition: 0.3s;"></div>
+            </div>
+            <div class="accordion-content" style="display: none; padding: 16px;">
+                <div style="font-size: 14px; line-height: 1.5; text-align: center;">
+                    Только в <b>SVOY VPN</b> ты можешь заработать реальные деньги за пару действий, смотри мультик ниже и запоминай, что тебе нужно сделать для того чтобы начать зарабатывать на своих рефералах <br> <span style="font-size: 20px;">↓</span>
+                </div>
+                <div style="height: 200px; margin-top: 20px; background: #0d0d0d; border-radius: 12px; border: 1px dashed rgba(194, 163, 121, 0.3); display: flex; align-items: center; justify-content: center; color: var(--text-gray); font-size: 12px;">
+                    МЕСТО ДЛЯ ВИДЕОРОЛИКА
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-
-    <!-- ВКЛАДКА: SVOY VPN GAME -->
-    <div class="ios-card" id="game-ref-acc">
-        <div class="ios-row" onclick="document.getElementById('game-ref-acc').classList.toggle('open')">
-            <span style="font-weight: 600; color: var(--accent-color);">SVOY VPN GAME (реф.программа)</span>
-            <div style="width: 8px; height: 8px; border-right: 2px solid var(--accent-color); border-bottom: 2px solid var(--accent-color); transform: rotate(45deg); transition: 0.3s;"></div>
-        </div>
-        <div class="accordion-content" style="display: none; padding: 16px;">
-            <div style="font-size: 14px; line-height: 1.5; text-align: center;">
-                Только в <b>SVOY VPN</b> ты можешь заработать реальные деньги за пару действий, смотри мультик ниже и запоминай, что тебе нужно сделать для того чтобы начать зарабатывать на своих рефералах <br> <span style="font-size: 20px;">↓</span>
-            </div>
-            <!-- Место под видеоролик -->
-            <div style="height: 200px; margin-top: 20px; background: #0d0d0d; border-radius: 12px; border: 1px dashed rgba(194, 163, 121, 0.3); display: flex; align-items: center; justify-content: center; color: var(--text-gray); font-size: 12px;">
-                МЕСТО ДЛЯ ВИДЕОРОЛИКА
-            </div>
-        </div>
-    </div>
-</div>
 
     <!-- ИГРА -->
     <div id="page-game" class="page">
@@ -266,44 +243,4 @@
 
         window.onload = () => {
             const user = tg.initDataUnsafe?.user;
-            const params = new URLSearchParams(window.location.search);
-            let refCount = params.get('ref');
-            if (user) {
-                document.getElementById('info-name-val').innerText = user.first_name;
-                document.getElementById('info-user-val').innerText = user.username ? '@' + user.username : 'нет';
-               }
-
-            if (user) {
-                document.getElementById('display-name').innerText = user.first_name;
-                document.getElementById('username-text').innerText = user.username ? '@' + user.username : 'id' + user.id;
-                if (user.photo_url) {
-                    document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
-                }
-            }
-
-            const balanceAmount = refCount ? (parseInt(refCount) * 40) : 0;
-            document.querySelectorAll('.balance-val').forEach(el => {
-                el.innerText = balanceAmount + '.00 ₽';
-            });
-
-            const nav = document.querySelector('.navigation');
-            const step = nav.offsetWidth / 5;
-            document.getElementById('navIndicator').style.left = (step / 2 - 25) + 'px';
-
-            function updateTimer() {
-                const now = new Date();
-                const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
-                let diff = Math.floor((endOfDay - now) / 1000);
-                if (diff < 0) diff = 0;
-                const h = Math.floor(diff / 3600).toString().padStart(2, '0');
-                const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
-                const s = (diff % 60).toString().padStart(2, '0');
-                const timerEl = document.getElementById('timer');
-                if (timerEl) timerEl.innerText = `${h}:${m}:${s}`;
-            }
-            setInterval(updateTimer, 1000);
-            updateTimer();
-        };
-    </script>
-</body>
-</html>
+            
