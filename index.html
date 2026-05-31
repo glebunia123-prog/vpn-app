@@ -118,37 +118,38 @@
     </div>
 
     <!-- БАЛАНС -->
-    <div id="page-balance" class="page">
-        <div class="ios-card" style="padding: 20px;">
-            <div style="font-size: 10px; color: var(--text-gray);">БАЛАНС</div>
-            <div style="font-size: 32px; font-weight: 700; margin: 10px 0;">0.00 ₽</div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-main" style="padding: 12px; font-size: 12px; margin:0; flex:1;">Пополнить</button>
-                <button class="btn-main btn-main-dark" style="padding: 12px; font-size: 12px; margin:0; flex:1; animation:none;">Промокод</button>
-            </div>
-        </div>
-
-        <!-- ВКЛАДКА ВЫИГРАННЫХ СРЕДСТВ -->
-        <div class="ios-card" style="padding: 20px; text-align: center;">
-            <div style="font-size: 10px; color: var(--text-gray);">БАЛАНС НА ВЫВОД</div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--accent-color); margin: 15px 0;">0.00 ₽</div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-main btn-main-dark" style="margin:0; flex:1; animation:none;">Вывод</button>
-                <button class="btn-main btn-main-dark" style="margin:0; flex:1; animation:none;">Статистика</button>
-            </div>
-        </div>
-
-        <!-- ИСТОРИЯ ОПЕРАЦИЙ -->
-        <div class="ios-card" id="history-acc">
-            <div class="ios-row" onclick="document.getElementById('history-acc').classList.toggle('open')">
-                <span>История операций</span>
-                <div style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
-            </div>
-            <div class="accordion-content" style="display: none; padding: 15px; background: #0d0d0d;">
-                <div style="color: var(--text-gray); font-size: 13px; text-align: center;">Операций пока нет</div>
-            </div>
+<div id="page-balance" class="page">
+    <div class="ios-card" style="padding: 20px;">
+        <div style="font-size: 10px; color: var(--text-gray);">БАЛАНС</div>
+        <div style="font-size: 32px; font-weight: 700; margin: 10px 0;">0.00 ₽</div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-main" style="padding: 12px; font-size: 12px; margin:0; flex:1;">Пополнить</button>
+            <button class="btn-main btn-main-dark" style="padding: 12px; font-size: 12px; margin:0; flex:1; animation:none;">Промокод</button>
         </div>
     </div>
+
+    <!-- ВКЛАДКА ВЫИГРАННЫХ СРЕДСТВ -->
+    <div class="ios-card" style="padding: 20px;">
+        <div style="font-size: 10px; color: var(--text-gray); text-align: left;">БАЛАНС НА ВЫВОД</div>
+        <div style="font-size: 32px; font-weight: 700; color: var(--accent-color); margin: 10px 0; text-align: left;">0.00 ₽</div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-main" style="padding: 12px; font-size: 12px; margin:0; flex:1;">Вывод</button>
+            <button class="btn-main btn-main-dark" style="padding: 12px; font-size: 12px; margin:0; flex:1; animation:none;">Статистика</button>
+        </div>
+    </div>
+
+    <!-- ИСТОРИЯ ОПЕРАЦИЙ -->
+    <div class="ios-card" id="history-acc">
+        <div class="ios-row" onclick="document.getElementById('history-acc').classList.toggle('open')">
+            <span>История операций</span>
+            <div style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+        </div>
+        <div class="accordion-content" style="display: none; padding: 15px; background: #0d0d0d;">
+            <div style="color: var(--text-gray); font-size: 13px; text-align: center;">Операций пока нет</div>
+        </div>
+    </div>
+</div>
+
 
     <!-- ПРОФИЛЬ -->
     <div id="page-profile" class="page">
