@@ -162,10 +162,10 @@
         </div>
 
         <div class="ios-card" id="prof-info-acc">
-            <div class="ios-row" onclick="document.getElementById('prof-info-acc').classList.toggle('open')" style="height: 56px;">
+            <div class="ios-row" onclick="document.getElementById('prof-info-acc').classList.toggle('open')" style="height: 56px; display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(194, 163, 121, 0.7)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    <span style="font-weight: 500; color: #888888; font-size: 15px;">Информация профиля</span>
+                    <span style="font-weight: 500; color: #888888; font-size: 15px; line-height: 20px;">Информация профиля</span>
                 </div>
                 <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
@@ -243,4 +243,43 @@
 
         window.onload = () => {
             const user = tg.initDataUnsafe?.user;
-            
+            const params = new URLSearchParams(window.location.search);
+            let refCount = params.get('ref');
+
+            if (user) {
+                document.getElementById('display-name').innerText = user.first_name;
+                document.getElementById('username-text').innerText = user.username ? '@' + user.username : 'id' + user.id;
+                document.getElementById('info-name-val').innerText = user.first_name;
+                document.getElementById('info-user-val').innerText = user.username ? '@' + user.username : 'нет';
+                
+                if (user.photo_url) {
+                    document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
+                }
+            }
+
+            const balanceAmount = refCount ? (parseInt(refCount) * 40) : 0;
+            document.querySelectorAll('.balance-val').forEach(el => {
+                el.innerText = balanceAmount + '.00 ₽';
+            });
+
+            const nav = document.querySelector('.navigation');
+            const step = nav.offsetWidth / 5;
+            document.getElementById('navIndicator').style.left = (step / 2 - 25) + 'px';
+
+            function updateTimer() {
+                const now = new Date();
+                const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+                let diff = Math.floor((endOfDay - now) / 1000);
+                if (diff < 0) diff = 0;
+                const h = Math.floor(diff / 3600).toString().padStart(2, '0');
+                const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+                const s = (diff % 60).toString().padStart(2, '0');
+                const timerEl = document.getElementById('timer');
+                if (timerEl) timerEl.innerText = `${h}:${m}:${s}`;
+            }
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        };
+    </script>
+</body>
+</html>
