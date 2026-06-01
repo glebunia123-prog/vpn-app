@@ -93,6 +93,13 @@
             display: flex; align-items: center; justify-content: center; color: var(--accent-color); 
             font-weight: 900; font-size: 18px; box-shadow: 0 0 15px var(--accent-color); pointer-events: none; 
         }
+
+        /* Новые стили для пульсации текста */
+        @keyframes text-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        .text-pulse-anim { animation: text-pulse 1.5s infinite ease-in-out; }
     </style>
 </head>
 <body>
@@ -291,12 +298,13 @@
     <!-- ИГРА -->
     <div id="page-game" class="page">
         <div class="ios-card" style="padding: 20px; text-align: center; margin-top: 20px;">
-            <div style="font-weight: 700; color: var(--accent-color); margin-bottom: 25px; font-size: 18px;">Возможный выигрыш</div>
+            <div style="font-weight: 800; color: var(--accent-color); margin-bottom: 15px; font-size: 22px; letter-spacing: 1px;">SVOY GAME</div>
+            <div style="font-weight: 700; color: var(--text-gray); margin-bottom: 25px; font-size: 16px;">Возможный выигрыш</div>
                 
-            <div class="win-slider-container">
+            <div class="win-slider-container" style="height: 60px; margin-bottom: 50px;">
                 <input type="range" id="win-slider" min="0" max="100" value="0">
                 <div id="slider-track"></div>
-                <div id="slider-thumb">S</div>
+                <div id="slider-thumb" style="width: 44px; height: 44px; font-size: 22px;">S</div>
             </div>
 
             <div style="display: flex; justify-content: space-around; margin-top: 20px;">
@@ -308,6 +316,32 @@
                     <div style="font-size: 11px; color: var(--text-gray);">Выигрыш</div>
                     <div id="win-val" style="font-size: 20px; font-weight: 800; color: var(--accent-color);">0 ₽</div>
                 </div>
+            </div>
+
+            <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">Дополнительный выигрыш</div>
+                <div style="display: flex; justify-content: space-between; padding: 0 10px;">
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 50-1000р</div>
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 100-1500р</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА УСЛОВИЯ -->
+        <div class="ios-card" id="game-rules-acc">
+            <div class="ios-row" onclick="document.getElementById('game-rules-acc').classList.toggle('open')" style="height: 56px;">
+                <span style="font-weight: 600; color: var(--text-main);">Условия SVOY GAME</span>
+                <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+            </div>
+            <div class="accordion-content" style="display: none; padding: 16px; font-size: 13px; line-height: 1.6; color: var(--text-gray);">
+                <div style="color: var(--text-main); margin-bottom: 10px; font-weight: 600;">Прочитайте условия нашей встроенной реферальной игры и ознакомьтесь с условиями:</div>
+                <div>За 1 пройденный уровень ваш выигрыш составит 400 рублей</div>
+                <div>За 2 450 рублей</div>
+                <div>За 3 500 рублей</div>
+                <div>За 4 550 рублей</div>
+                <div>За 5 600 рублей</div>
+                <div style="margin-top: 10px;">За пройденные уровни с 5 и выше вы получаете фиксированно 600 рублей и в зависимости от того какие тарифы будут приобретены у ваших рефералов будут дополнительные бонусы (за подписку на 6 месяцев бонус 60 рублей за каждого реферала) (за подписку на 12 месяцев бонус 100 рублей за каждого реферала)</div>
+                <div style="margin-top: 10px; color: var(--accent-color); font-weight: 600;">Ваш выигрыш зачисляется вам только за тех рефералов которые приобретают подписку из любого тарифа</div>
             </div>
         </div>
     </div>
