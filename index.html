@@ -111,6 +111,11 @@
         }
         .rules-list li:last-child { border-bottom: none; }
         .rules-list b { color: var(--accent-color); }
+
+        /* Стили для способов вывода */
+        .payout-methods { display: flex; justify-content: space-around; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .payout-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .payout-item span { font-size: 9px; color: var(--text-gray); font-weight: 600; }
     </style>
 </head>
 <body>
@@ -375,6 +380,43 @@
 
                 <div style="margin-top: 15px; color: var(--accent-color); font-weight: 700; text-align: center; border: 1px dashed var(--accent-color); padding: 10px; border-radius: 8px;">
                     Ваш выигрыш зачисляется только за рефералов, которые приобрели любую подписку!
+                </div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА ИНФОРМАЦИЯ О ВЫВОДЕ -->
+        <div class="ios-card" id="payout-info-acc">
+            <div class="ios-row" onclick="document.getElementById('payout-info-acc').classList.toggle('open')" style="height: 56px;">
+                <span style="font-weight: 600; color: var(--text-main);">Информация о выводе</span>
+                <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+            </div>
+            <div class="accordion-content" style="display: none; padding: 20px; font-size: 13px; line-height: 1.6; color: var(--text-gray); background: #0d0d0d;">
+                <div style="color: var(--text-main); margin-bottom: 15px;">
+                    После достижения каждого уровня вы можете нажать на кнопку вывод на странице баланса и вы увидите контакт нашего менеджера в Telegram напишите ему - <b>Вывод</b> он ответит вам в порядке очереди (в течении 15 минут) и спросит удобный для вас способ вывода своих заработанных средств.
+                </div>
+                <div style="color: var(--text-main); margin-bottom: 15px;">
+                    Выберите удобный для вас способ и дайте ответ после этого он попросит нужную информацию по каждому способу и после того как вы ее предоставите можете ожидать поступление средств после поступления менеджер пришлет вам контакт нашей группы с отзывами нашего сервиса и по желанию можете оставить нам отзыв)
+                </div>
+                
+                <div style="font-weight: 700; color: var(--accent-color); text-align: center; margin-top: 20px;">Способы вывода</div>
+                
+                <div class="payout-methods">
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                        <span>Карта</span>
+                    </div>
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        <span>USDT</span>
+                    </div>
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8z"/></svg>
+                        <span>Wallet</span>
+                    </div>
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <span>Звезды</span>
+                    </div>
                 </div>
             </div>
         </div>
