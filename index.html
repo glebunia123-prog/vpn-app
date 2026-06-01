@@ -335,9 +335,9 @@
 
             <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
                 <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">Дополнительный выигрыш</div>
-                <div style="display: flex; justify-content: space-between; padding: 0 10px;">
-                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 50реф.-1000₽</div>
-                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 100реф.-1500₽</div>
+                <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 50 рефералов-1000₽</div>
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 100 рефералов-1500₽</div>
                 </div>
             </div>
         </div>
@@ -353,6 +353,8 @@
                     Прочитайте условия нашей встроенной реферальной игры и ознакомьтесь с условиями:
                 </div>
                 
+                <div style="color: var(--accent-color); font-weight: 700; margin-bottom: 10px; text-align: center;">Каждый уровень - это 8 рефералов с подпиской</div>
+
                 <ul class="rules-list">
                     <li><span>За 1 пройденный уровень</span> <b>400 ₽</b></li>
                     <li><span>За 2 уровень</span> <b>450 ₽</b></li>
@@ -590,14 +592,19 @@
                                 
                     let totalWin = 0;
                     for (let i = 1; i <= val; i++) {
-                        const level = Math.ceil(i / 10);
-                        if (level === 1) totalWin += 40;      
-                        else if (level === 2) totalWin += 45; 
-                        else if (level === 3) totalWin += 50; 
-                        else if (level === 4) totalWin += 55; 
-                        else totalWin += 60;                  
+                        const level = Math.ceil(i / 8); // Уровень = 8 рефералов
+                        if (level === 1) totalWin += 50;      
+                        else if (level === 2) totalWin += 56.25; 
+                        else if (level === 3) totalWin += 62.5; 
+                        else if (level === 4) totalWin += 68.75; 
+                        else totalWin += 75;                  
                     }
-                    winVal.innerText = totalWin + ' ₽';
+                    
+                    // Дополнительные бонусы
+                    if (val >= 50) totalWin += 1000;
+                    if (val >= 100) totalWin += 1500;
+
+                    winVal.innerText = Math.floor(totalWin) + ' ₽';
                     if (val % 5 === 0) tg.HapticFeedback.selectionChanged();
                 };
             }
