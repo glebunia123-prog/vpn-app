@@ -84,14 +84,14 @@
         .profile-avatar { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent-color); margin: 0 auto 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         
         /* Стили для шкалы выигрыша */
-        .win-slider-container { position: relative; height: 40px; margin: 20px 10px 40px 10px; background: #222; border-radius: 20px; display: flex; align-items: center; }
+        .win-slider-container { position: relative; height: 32px; margin: 20px 10px 35px 10px; background: #222; border-radius: 16px; display: flex; align-items: center; }
         #win-slider { width: 100%; cursor: pointer; opacity: 0; position: absolute; z-index: 10; height: 100%; }
         #slider-track { position: absolute; height: 4px; background: var(--accent-color); border-radius: 2px; width: 0%; }
         #slider-thumb { 
-            position: absolute; left: 0%; transform: translateX(-50%); width: 34px; height: 34px; 
+            position: absolute; left: 0%; transform: translateX(-50%); width: 30px; height: 30px; 
             background: var(--card-bg); border: 2px solid var(--accent-color); border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; color: var(--accent-color); 
-            font-weight: 900; font-size: 18px; box-shadow: 0 0 15px var(--accent-color); pointer-events: none; 
+            font-weight: 900; font-size: 16px; box-shadow: 0 0 12px var(--accent-color); pointer-events: none; 
         }
 
         /* Новые стили для пульсации текста */
@@ -301,10 +301,10 @@
             <div style="font-weight: 800; color: var(--accent-color); margin-bottom: 15px; font-size: 22px; letter-spacing: 1px;">SVOY GAME</div>
             <div style="font-weight: 700; color: var(--text-gray); margin-bottom: 25px; font-size: 16px;">Возможный выигрыш</div>
                 
-            <div class="win-slider-container" style="height: 60px; margin-bottom: 50px;">
+            <div class="win-slider-container">
                 <input type="range" id="win-slider" min="0" max="100" value="0">
                 <div id="slider-track"></div>
-                <div id="slider-thumb" style="width: 44px; height: 44px; font-size: 22px;">S</div>
+                <div id="slider-thumb">S</div>
             </div>
 
             <div style="display: flex; justify-content: space-around; margin-top: 20px;">
@@ -321,8 +321,8 @@
             <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
                 <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">Дополнительный выигрыш</div>
                 <div style="display: flex; justify-content: space-between; padding: 0 10px;">
-                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 50-1000р</div>
-                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 100-1500р</div>
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 50реф.-1000₽</div>
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 100реф.-1500₽</div>
                 </div>
             </div>
         </div>
@@ -336,10 +336,10 @@
             <div class="accordion-content" style="display: none; padding: 16px; font-size: 13px; line-height: 1.6; color: var(--text-gray);">
                 <div style="color: var(--text-main); margin-bottom: 10px; font-weight: 600;">Прочитайте условия нашей встроенной реферальной игры и ознакомьтесь с условиями:</div>
                 <div>За 1 пройденный уровень ваш выигрыш составит 400 рублей</div>
-                <div>За 2 450 рублей</div>
-                <div>За 3 500 рублей</div>
-                <div>За 4 550 рублей</div>
-                <div>За 5 600 рублей</div>
+                <div>За 2 уровень 450 рублей</div>
+                <div>За 3 уровень 500 рублей</div>
+                <div>За 4 уровень 550 рублей</div>
+                <div>За 5 уровень 600 рублей</div>
                 <div style="margin-top: 10px;">За пройденные уровни с 5 и выше вы получаете фиксированно 600 рублей и в зависимости от того какие тарифы будут приобретены у ваших рефералов будут дополнительные бонусы (за подписку на 6 месяцев бонус 60 рублей за каждого реферала) (за подписку на 12 месяцев бонус 100 рублей за каждого реферала)</div>
                 <div style="margin-top: 10px; color: var(--accent-color); font-weight: 600;">Ваш выигрыш зачисляется вам только за тех рефералов которые приобретают подписку из любого тарифа</div>
             </div>
