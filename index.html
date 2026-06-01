@@ -100,6 +100,17 @@
             50% { opacity: 0.7; transform: scale(1.05); }
         }
         .text-pulse-anim { animation: text-pulse 1.5s infinite ease-in-out; }
+
+        /* Стили для списка условий */
+        .rules-list { list-style: none; padding: 0; margin: 0; }
+        .rules-list li { 
+            padding: 10px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            display: flex; 
+            justify-content: space-between;
+        }
+        .rules-list li:last-child { border-bottom: none; }
+        .rules-list b { color: var(--accent-color); }
     </style>
 </head>
 <body>
@@ -270,11 +281,15 @@
                 <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--accent-color); border-bottom: 2px solid var(--accent-color); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
             <div class="accordion-content" style="display: none; padding: 16px;">
-                <div style="font-size: 14px; line-height: 1.5; text-align: center;">
+                <div style="font-size: 14px; line-height: 1.5; text-align: center; margin-bottom: 15px;">
                     Только в <b>SVOY VPN</b> ты можешь заработать реальные деньги за пару действий, смотри мультик ниже и запоминай, что тебе нужно сделать для того чтобы начать зарабатывать на своих рефералах <br> <span style="font-size: 20px;">↓</span>
                 </div>
-                <div style="height: 200px; margin-top: 20px; background: #0d0d0d; border-radius: 12px; border: 1px dashed rgba(194, 163, 121, 0.3); display: flex; align-items: center; justify-content: center; color: var(--text-gray); font-size: 12px;">
-                    МЕСТО ДЛЯ ВИДЕОРОЛИКА
+                <!-- ВИДЕОРОЛИК -->
+                <div style="width: 100%; height: 200px; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid rgba(194, 163, 121, 0.2);">
+                    <video style="width: 100%; height: 100%; object-fit: cover;" controls poster="https://via.placeholder.com/400x200/000/c2a379?text=SVOY+VPN+GUIDE">
+                        <source src="ВАША_ССЫЛКА_НА_ВИДЕО.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
                 </div>
             </div>
         </div>
@@ -333,15 +348,32 @@
                 <span style="font-weight: 600; color: var(--text-main);">Условия SVOY GAME</span>
                 <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
-            <div class="accordion-content" style="display: none; padding: 16px; font-size: 13px; line-height: 1.6; color: var(--text-gray);">
-                <div style="color: var(--text-main); margin-bottom: 10px; font-weight: 600;">Прочитайте условия нашей встроенной реферальной игры и ознакомьтесь с условиями:</div>
-                <div>За 1 пройденный уровень ваш выигрыш составит 400 рублей</div>
-                <div>За 2 уровень 450 рублей</div>
-                <div>За 3 уровень 500 рублей</div>
-                <div>За 4 уровень 550 рублей</div>
-                <div>За 5 уровень 600 рублей</div>
-                <div style="margin-top: 10px;">За пройденные уровни с 5 и выше вы получаете фиксированно 600 рублей и в зависимости от того какие тарифы будут приобретены у ваших рефералов будут дополнительные бонусы (за подписку на 6 месяцев бонус 60 рублей за каждого реферала) (за подписку на 12 месяцев бонус 100 рублей за каждого реферала)</div>
-                <div style="margin-top: 10px; color: var(--accent-color); font-weight: 600;">Ваш выигрыш зачисляется вам только за тех рефералов которые приобретают подписку из любого тарифа</div>
+            <div class="accordion-content" style="display: none; padding: 20px; font-size: 13px; line-height: 1.6; color: var(--text-gray); background: #0d0d0d;">
+                <div style="color: var(--text-main); margin-bottom: 15px; font-weight: 600; border-left: 3px solid var(--accent-color); padding-left: 10px;">
+                    Прочитайте условия нашей встроенной реферальной игры и ознакомьтесь с условиями:
+                </div>
+                
+                <ul class="rules-list">
+                    <li><span>За 1 пройденный уровень</span> <b>400 ₽</b></li>
+                    <li><span>За 2 уровень</span> <b>450 ₽</b></li>
+                    <li><span>За 3 уровень</span> <b>500 ₽</b></li>
+                    <li><span>За 4 уровень</span> <b>550 ₽</b></li>
+                    <li><span>За 5 уровень</span> <b>600 ₽</b></li>
+                </ul>
+
+                <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    За пройденные уровни с 5 и выше вы получаете фиксированно <b>600 рублей</b>. 
+                    <br><br>
+                    Дополнительные бонусы за тарифы рефералов:
+                    <div style="margin-top: 5px; color: var(--text-main);">
+                        • Подписка на 6 месяцев: <b>+60 ₽</b> за каждого<br>
+                        • Подписка на 12 месяцев: <b>+100 ₽</b> за каждого
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; color: var(--accent-color); font-weight: 700; text-align: center; border: 1px dashed var(--accent-color); padding: 10px; border-radius: 8px;">
+                    Ваш выигрыш зачисляется только за рефералов, которые приобрели любую подписку!
+                </div>
             </div>
         </div>
     </div>
