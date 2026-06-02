@@ -289,22 +289,29 @@
                 <div style="font-size: 14px; line-height: 1.5; text-align: center; margin-bottom: 15px;">
                     Только в <b>SVOY VPN</b> ты можешь заработать реальные деньги за пару действий, смотри мультик ниже и запоминай, что тебе нужно сделать для того чтобы начать зарабатывать на своих рефералах <br> <span style="font-size: 20px;">↓</span>
                 </div>
+                <!-- ВИДЕОРОЛИК -->
                 <div style="width: 100%; height: 200px; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid rgba(194, 163, 121, 0.2);">
-                    <video style="width: 100%; height: 100%; object-fit: cover;" controls playsinline muted>
-                        <source src="руководство.mp4.mp4" type="video/mp4">
+                    <video style="width: 100%; height: 100%; object-fit: cover;" controls poster="https://via.placeholder.com/400x200/000/c2a379?text=SVOY+VPN+GUIDE">
+                        <source src="ВАША_ССЫЛКА_НА_ВИДЕО.mp4" type="video/mp4">
                         Ваш браузер не поддерживает видео.
                     </video>
                 </div>
             </div>
         </div>
 
+        <!-- НОВОЕ ОКНО УРОВНЕЙ -->
         <div class="ios-card" style="padding: 16px; margin-top: 15px;">
             <div style="font-weight: 700; color: var(--accent-color); text-align: center; margin-bottom: 15px;">Твой уровень игры</div>
-            <div class="level-grid" id="level-grid"></div>
+            <div class="level-grid" id="level-grid">
+                <!-- Наполняется через JS -->
+            </div>
             <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
                 <div style="font-size: 10px; color: var(--text-gray);">ЗАРАБОТАНО ЗА УРОВНИ</div>
                 <div style="font-size: 24px; font-weight: 800; color: var(--accent-color); margin-top: 5px;">0.00 ₽</div>
             </div>
+        </div>
+        <div style="font-size: 10px; color: var(--text-gray); text-align: center; margin-top: 10px; padding: 0 20px;">
+            Отслеживай свой уровень и заработанные средства в удобном окне
         </div>
     </div>
 
@@ -313,11 +320,13 @@
         <div class="ios-card" style="padding: 20px; text-align: center; margin-top: 20px;">
             <div style="font-weight: 800; color: var(--accent-color); margin-bottom: 15px; font-size: 22px; letter-spacing: 1px;">SVOY GAME</div>
             <div style="font-weight: 700; color: var(--text-gray); margin-bottom: 25px; font-size: 16px;">Возможный выигрыш</div>
+                
             <div class="win-slider-container">
                 <input type="range" id="win-slider" min="0" max="100" value="0">
                 <div id="slider-track"></div>
                 <div id="slider-thumb">S</div>
             </div>
+
             <div style="display: flex; justify-content: space-around; margin-top: 20px;">
                 <div>
                     <div style="font-size: 11px; color: var(--text-gray);">Рефералы</div>
@@ -328,14 +337,29 @@
                     <div id="win-val" style="font-size: 20px; font-weight: 800; color: var(--accent-color);">0 ₽</div>
                 </div>
             </div>
+
+            <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">Дополнительный выигрыш</div>
+                <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 50 рефералов-1000₽</div>
+                    <div class="text-pulse-anim" style="color: var(--accent-color); font-weight: 700; font-size: 13px;">За 100 рефералов-1500₽</div>
+                </div>
+            </div>
         </div>
 
+        <!-- ВКЛАДКА УСЛОВИЯ -->
         <div class="ios-card" id="game-rules-acc">
             <div class="ios-row" onclick="document.getElementById('game-rules-acc').classList.toggle('open')" style="height: 56px;">
                 <span style="font-weight: 600; color: var(--text-main);">Условия SVOY GAME</span>
                 <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
             </div>
             <div class="accordion-content" style="display: none; padding: 20px; font-size: 13px; line-height: 1.6; color: var(--text-gray); background: #0d0d0d;">
+                <div style="color: var(--text-main); margin-bottom: 15px; font-weight: 600; border-left: 3px solid var(--accent-color); padding-left: 10px;">
+                    Прочитайте условия нашей встроенной реферальной игры и ознакомьтесь с условиями:
+                </div>
+                
+                <div style="color: var(--accent-color); font-weight: 700; margin-bottom: 10px; text-align: center;">Каждый уровень - это 8 рефералов с подпиской</div>
+
                 <ul class="rules-list">
                     <li><span>За 1 пройденный уровень</span> <b>400 ₽</b></li>
                     <li><span>За 2 уровень</span> <b>450 ₽</b></li>
@@ -343,6 +367,57 @@
                     <li><span>За 4 уровень</span> <b>550 ₽</b></li>
                     <li><span>За 5 уровень</span> <b>600 ₽</b></li>
                 </ul>
+
+                <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    За пройденные уровни с 5 и выше вы получаете фиксированно <b>600 рублей</b>. 
+                    <br><br>
+                    Дополнительные бонусы за тарифы рефералов:
+                    <div style="margin-top: 5px; color: var(--text-main);">
+                        • Подписка на 6 месяцев: <b>+60 ₽</b> за каждого<br>
+                        • Подписка на 12 месяцев: <b>+100 ₽</b> за каждого
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; color: var(--accent-color); font-weight: 700; text-align: center; border: 1px dashed var(--accent-color); padding: 10px; border-radius: 8px;">
+                    Ваш выигрыш зачисляется только за рефералов, которые приобрели любую подписку!
+                </div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА ИНФОРМАЦИЯ О ВЫВОДЕ -->
+        <div class="ios-card" id="payout-info-acc">
+            <div class="ios-row" onclick="document.getElementById('payout-info-acc').classList.toggle('open')" style="height: 56px;">
+                <span style="font-weight: 600; color: var(--text-main);">Информация о выводе</span>
+                <div class="arrow" style="width: 8px; height: 8px; border-right: 2px solid var(--text-gray); border-bottom: 2px solid var(--text-gray); transform: rotate(45deg); transition: 0.3s;"></div>
+            </div>
+            <div class="accordion-content" style="display: none; padding: 20px; font-size: 13px; line-height: 1.6; color: var(--text-gray); background: #0d0d0d;">
+                <div style="color: var(--text-main); margin-bottom: 15px;">
+                    После достижения каждого уровня вы можете нажать на кнопку вывод на странице баланса и вы увидите контакт нашего менеджера в Telegram напишите ему - <b>Вывод</b> он ответит вам в порядке очереди (в течении 15 минут) и спросит удобный для вас способ вывода своих заработанных средств.
+                </div>
+                <div style="color: var(--text-main); margin-bottom: 15px;">
+                    Выберите удобный для вас способ и дайте ответ после этого он попросит нужную информацию по каждому способу и после того как вы ее предоставите можете ожидать поступление средств после поступления менеджер пришлет вам контакт нашей группы с отзывами нашего сервиса и по желанию можете оставить нам отзыв)
+                </div>
+                
+                <div style="font-weight: 700; color: var(--accent-color); text-align: center; margin-top: 20px;">Способы вывода</div>
+                
+                <div class="payout-methods">
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                        <span>Карта</span>
+                    </div>
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        <span>USDT</span>
+                    </div>
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8z"/></svg>
+                        <span>Wallet</span>
+                    </div>
+                    <div class="payout-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <span>Звезды</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -353,6 +428,22 @@
             <div style="text-align: center; font-weight: 700; margin-bottom: 15px; color: var(--accent-color);">ВЫБОР ТАРИФА</div>
             <div class="ios-card" onclick="goToPay(1, 220)" style="padding:12px; margin-bottom:10px; border: 1px solid rgba(194, 163, 121, 0.2);">
                 <div style="display:flex; justify-content:space-between;"><b>1 месяц</b> <span>220 ₽</span></div>
+                <div style="font-size:11px; color:var(--text-gray);">Трафик: 350 ГБ</div>
+            </div>
+            <div class="ios-card" onclick="goToPay(3, 560)" style="padding:12px; margin-bottom:10px; border: 1px solid rgba(194, 163, 121, 0.2);">
+                <div style="display:flex; justify-content:space-between;"><b>3 месяца</b> <span>560 ₽</span></div>
+                <div style="font-size:11px; color:var(--text-gray);">Трафик: 450 ГБ</div>
+            </div>
+            <div class="ios-card" onclick="goToPay(6, 950)" style="padding:12px; margin-bottom:10px; border: 1px solid rgba(194, 163, 121, 0.2);">
+                <div style="display:flex; justify-content:space-between;"><b>6 месяцев</b> <span>950 ₽</span></div>
+                <div style="font-size:11px; color:var(--text-gray);">Трафик: 600 ГБ</div>
+            </div>
+            <div class="ios-card" onclick="goToPay(12, 1500)" style="padding:12px; margin-bottom:10px; border: 1px solid rgba(194, 163, 121, 0.2);">
+                <div style="display:flex; justify-content:space-between;"><b>12 месяцев</b> <span>1500 ₽</span></div>
+                <div style="font-size:11px; color:var(--text-gray);">Трафик: 900 ГБ</div>
+            </div>
+            <div style="font-size: 10px; color: var(--text-gray); text-align: center; margin: 10px 0; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                Размер трафика указывается на месяц для каждого тарифа
             </div>
             <button class="btn-main btn-main-dark" style="margin-top:10px; padding:12px;" onclick="closeTariffsModal()">Закрыть</button>
         </div>
@@ -364,11 +455,23 @@
             <div style="text-align: center; font-size: 16px; font-weight: 600; line-height: 1.4; margin-bottom: 20px; color: var(--text-main);">
                 Мы подготовили для тебя уникальный мультик, чтобы ты с улыбкой научился подключать наши сервера
             </div>
-            <div style="width: 100%; height: 180px; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid rgba(194, 163, 121, 0.3); margin-bottom: 20px;">
-                <video style="width: 100%; height: 100%; object-fit: cover;" controls playsinline muted>
-                    <source src="руководство.mp4.mp4" type="video/mp4">
-                    Ваш браузер не поддерживает видео.
-                </video>
+            <div style="width: 100%; height: 180px; background: #0d0d0d; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px dashed rgba(194, 163, 121, 0.3); margin-bottom: 20px;">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="var(--accent-color)" style="opacity: 0.8;"><path d="M8 5v14l11-7z"/></svg>
+                <div style="font-size: 10px; color: var(--text-gray); margin-top: 10px;">ВИДЕОИНСТРУКЦИЯ</div>
+            </div>
+            <div style="text-align: center; font-size: 13px; color: var(--text-gray); margin-bottom: 15px;">
+                А это на случай если ты хочешь узнать метод старым способом)
+            </div>
+            <div class="ios-card" style="padding: 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(194, 163, 121, 0.1);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="2"><path d="M12 19l7-7 3 3-10 10L2 15l3-3 7 7zM12 5l7 7 3-3L12 2 2 12l3 3 7-7z"/></svg>
+                    <b style="font-size: 14px; color: var(--accent-color);">Инструкция для Happ</b>
+                </div>
+                <div style="font-size: 12px; color: var(--text-gray); line-height: 1.4;">
+                    1. Скачайте приложение Happ<br>
+                    2. Скопируйте ключ из бота<br>
+                    3. Нажмите "+" в приложении и выберите "Import from Clipboard"
+                </div>
             </div>
             <button class="btn-main" style="margin-top: 20px; padding: 15px;" onclick="closeConnectModal()">Понятно</button>
         </div>
@@ -403,6 +506,8 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
+        let currentPrice = 220;
+
         function showPage(pId, el, idx) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -416,6 +521,50 @@
             tg.HapticFeedback.impactOccurred('light');
         }
 
+        function selectPlan(plan) {
+            document.getElementById('plan-std').style.border = '1px solid rgba(194, 163, 121, 0.1)';
+            document.getElementById('plan-pre').style.border = '1px solid rgba(194, 163, 121, 0.1)';
+            document.getElementById('dot-std').style.color = 'var(--text-gray)';
+            document.getElementById('dot-pre').style.color = 'var(--text-gray)';
+            
+            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('pulse-anim'));
+
+            if(plan === 'std') {
+                document.getElementById('plan-std').style.border = '1px solid var(--accent-color)';
+                document.getElementById('dot-std').style.color = '#34C759';
+                setTimeout(() => {
+                    document.getElementById('p-1').classList.add('pulse-anim');
+                    document.getElementById('p-3').classList.add('pulse-anim');
+                }, 10);
+            } else {
+                document.getElementById('plan-pre').style.border = '1px solid var(--accent-color)';
+                document.getElementById('dot-pre').style.color = '#34C759';
+                setTimeout(() => {
+                    document.getElementById('p-6').classList.add('pulse-anim');
+                    document.getElementById('p-12').classList.add('pulse-anim');
+                }, 10);
+            }
+            tg.HapticFeedback.impactOccurred('heavy');
+        }
+
+        function selectPeriod(m, price) {
+            document.querySelectorAll('.period-btn').forEach(b => b.style.border = '1px solid rgba(194, 163, 121, 0.1)');
+            document.getElementById('p-' + m).style.border = '1px solid var(--accent-color)';
+            currentPrice = price;
+            document.getElementById('total-price').innerText = price + ' ₽';
+            document.getElementById('pay-btn').innerText = 'Оплатить ' + price + ' ₽';
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function openTariffsModal() {
+            document.getElementById('tariffs-modal').style.display = 'flex';
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function closeTariffsModal() {
+            document.getElementById('tariffs-modal').style.display = 'none';
+        }
+
         function openConnectModal() {
             document.getElementById('connect-modal').style.display = 'flex';
             tg.HapticFeedback.impactOccurred('medium');
@@ -426,23 +575,49 @@
             tg.HapticFeedback.impactOccurred('light');
         }
 
+        function goToPay(m, price) {
+            closeTariffsModal();
+            showPage('pay', null, 0);
+            selectPeriod(m, price);
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
         window.onload = () => {
             const user = tg.initDataUnsafe?.user;
+            const params = new URLSearchParams(window.location.search);
+            let refCount = params.get('ref');
+            let currentLvl = 1; 
+
             if (user) {
                 document.getElementById('display-name').innerText = user.first_name;
+                document.getElementById('username-text').innerText = user.username ? '@' + user.username : 'id' + user.id;
+                document.getElementById('info-name-val').innerText = user.first_name;
+                document.getElementById('info-user-val').innerText = user.username ? '@' + user.username : 'нет';
+                
                 if (user.photo_url) {
                     document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
                 }
             }
 
+            // Генерация сетки уровней
             const grid = document.getElementById('level-grid');
             for(let i=1; i<=30; i++) {
                 const div = document.createElement('div');
-                div.className = `level-circle ${i <= 1 ? 'active' : ''}`;
+                div.className = `level-circle ${i <= currentLvl ? 'active' : ''}`;
                 div.innerText = i;
                 grid.appendChild(div);
             }
 
+            const balanceAmount = refCount ? (parseInt(refCount) * 40) : 0;
+            document.querySelectorAll('.balance-val').forEach(el => {
+                el.innerText = balanceAmount + '.00 ₽';
+            });
+
+            const nav = document.querySelector('.navigation');
+            const step = nav.offsetWidth / 5;
+            document.getElementById('navIndicator').style.left = (step / 2 - 25) + 'px';
+
+            // Логика слайдера выигрыша
             const slider = document.getElementById('win-slider');
             const track = document.getElementById('slider-track');
             const thumb = document.getElementById('slider-thumb');
@@ -456,9 +631,39 @@
                     track.style.width = percent;
                     thumb.style.left = percent;
                     refVal.innerText = val;
-                    winVal.innerText = (val * 50) + ' ₽';
+                                
+                    let totalWin = 0;
+                    for (let i = 1; i <= val; i++) {
+                        const level = Math.ceil(i / 8); // Уровень = 8 рефералов
+                        if (level === 1) totalWin += 50;      
+                        else if (level === 2) totalWin += 56.25; 
+                        else if (level === 3) totalWin += 62.5; 
+                        else if (level === 4) totalWin += 68.75; 
+                        else totalWin += 75;                  
+                    }
+                    
+                    // Дополнительные бонусы
+                    if (val >= 50) totalWin += 1000;
+                    if (val >= 100) totalWin += 1500;
+
+                    winVal.innerText = Math.floor(totalWin) + ' ₽';
+                    if (val % 5 === 0) tg.HapticFeedback.selectionChanged();
                 };
             }
+
+            function updateTimer() {
+                const now = new Date();
+                const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+                let diff = Math.floor((endOfDay - now) / 1000);
+                if (diff < 0) diff = 0;
+                const h = Math.floor(diff / 3600).toString().padStart(2, '0');
+                const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+                const s = (diff % 60).toString().padStart(2, '0');
+                const timerEl = document.getElementById('timer');
+                if (timerEl) timerEl.innerText = `${h}:${m}:${s}`;
+            }
+            setInterval(updateTimer, 1000);
+            updateTimer();
         };
     </script>
 </body>
