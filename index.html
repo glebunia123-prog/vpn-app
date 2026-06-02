@@ -335,4 +335,125 @@
                     <li><span>За 2 уровень</span> <b>450 ₽</b></li>
                     <li><span>За 3 уровень</span> <b>500 ₽</b></li>
                     <li><span>За 4 уровень</span> <b>550 ₽</b></li>
-                    <li><span>За 5 уровень</span>
+                    <li><span>За 5 уровень</span> <b>600 ₽</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ТАРИФОВ -->
+    <div id="tariffs-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+        <div class="ios-card" style="width: 100%; max-height: 80vh; overflow-y: auto; background: var(--card-bg); padding: 20px;">
+            <div style="text-align: center; font-weight: 700; margin-bottom: 15px; color: var(--accent-color);">ВЫБОР ТАРИФА</div>
+            <div class="ios-card" onclick="goToPay(1, 220)" style="padding:12px; margin-bottom:10px; border: 1px solid rgba(194, 163, 121, 0.2);">
+                <div style="display:flex; justify-content:space-between;"><b>1 месяц</b> <span>220 ₽</span></div>
+            </div>
+            <button class="btn-main btn-main-dark" style="margin-top:10px; padding:12px;" onclick="closeTariffsModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ПОДКЛЮЧЕНИЯ -->
+    <div id="connect-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+        <div class="ios-card" style="width: 100%; max-height: 85vh; overflow-y: auto; background: var(--card-bg); padding: 20px; border: 1px solid var(--accent-color);">
+            <div style="text-align: center; font-size: 16px; font-weight: 600; line-height: 1.4; margin-bottom: 20px; color: var(--text-main);">
+                Мы подготовили для тебя уникальный мультик, чтобы ты с улыбкой научился подключать наши сервера
+            </div>
+            <div style="width: 100%; height: 180px; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid rgba(194, 163, 121, 0.3); margin-bottom: 20px;">
+                <video style="width: 100%; height: 100%; object-fit: cover;" controls playsinline>
+                    <source src="руководство.mp4.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+            </div>
+            <button class="btn-main" style="margin-top: 20px; padding: 15px;" onclick="closeConnectModal()">Понятно</button>
+        </div>
+    </div>
+
+    <!-- НАВИГАЦИЯ -->
+    <div class="navigation">
+        <div class="nav-indicator" id="navIndicator"></div>
+        <div class="nav-item active" onclick="showPage('home', this, 0)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="showPage('subs', this, 1)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg>
+            <span>Подписка</span>
+        </div>
+        <div class="nav-item" onclick="showPage('balance', this, 2)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8z"/></svg>
+            <span>Баланс</span>
+        </div>
+        <div class="nav-item" onclick="showPage('profile', this, 3)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Профиль</span>
+        </div>
+        <div class="nav-item" onclick="showPage('game', this, 4)">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2z"/></svg>
+            <span>Игра</span>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function showPage(pId, el, idx) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const targetPage = document.getElementById('page-' + pId);
+            if (targetPage) targetPage.classList.add('active');
+            if (el) el.classList.add('active');
+            
+            const nav = document.querySelector('.navigation');
+            const step = nav.offsetWidth / 5;
+            document.getElementById('navIndicator').style.left = (step * idx + (step/2 - 25)) + 'px';
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function openConnectModal() {
+            document.getElementById('connect-modal').style.display = 'flex';
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function closeConnectModal() {
+            document.getElementById('connect-modal').style.display = 'none';
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        window.onload = () => {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('display-name').innerText = user.first_name;
+                if (user.photo_url) {
+                    document.getElementById('user-photo').innerHTML = `<img src="${user.photo_url}" style="width:100%;height:100%;object-fit:cover;">`;
+                }
+            }
+
+            const grid = document.getElementById('level-grid');
+            for(let i=1; i<=30; i++) {
+                const div = document.createElement('div');
+                div.className = `level-circle ${i <= 1 ? 'active' : ''}`;
+                div.innerText = i;
+                grid.appendChild(div);
+            }
+
+            const slider = document.getElementById('win-slider');
+            const track = document.getElementById('slider-track');
+            const thumb = document.getElementById('slider-thumb');
+            const refVal = document.getElementById('ref-val');
+            const winVal = document.getElementById('win-val');
+
+            if (slider) {
+                slider.oninput = function() {
+                    const val = parseInt(this.value);
+                    const percent = val + '%';
+                    track.style.width = percent;
+                    thumb.style.left = percent;
+                    refVal.innerText = val;
+                    winVal.innerText = (val * 50) + ' ₽';
+                };
+            }
+        };
+    </script>
+</body>
+</html>
